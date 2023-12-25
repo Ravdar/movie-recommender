@@ -4,6 +4,8 @@ from openai import OpenAI
 import time
 import ast
 import movieposters as mp
+import os
+import requests
 
 def main_view(request):
     client = OpenAI()
@@ -30,18 +32,24 @@ def main_view(request):
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
+            print(movies_list_str)
             response = ast.literal_eval(movies_list_str)
             print(f"Before imdb data {time.time() - start_time}")
             for movie in response:
                 movie_title = movie["Title"]
-                imdb_link = mp.get_imdb_link_from_title(movie_title)
-                poster_rating_lentgh = mp.get_poster_from_imdb_link(imdb_link)
-                print(poster_rating_lentgh)
-                poster_link = poster_rating_lentgh[0]
-                rating = poster_rating_lentgh[1]
-                length = poster_rating_lentgh[2]
+                imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
+                if imdb_link_and_local_poster[1] == "":
+                    poster_rating_lentgh = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
+                    poster_link = poster_rating_lentgh[0]
+                    rating = poster_rating_lentgh[1]
+                    length = poster_rating_lentgh[2]
+                else:
+                    poster_link = f"/media/posters/{movie_title}.jpg"
+                    rating_length = mp.get_rating_and_length_from_imdb_link(imdb_link_and_local_poster[0])
+                    rating = rating_length[0]
+                    length = rating_length[1]
                 movie["Poster"] = poster_link
-                movie["Link"] = imdb_link
+                movie["Link"] = imdb_link_and_local_poster[0]
                 movie["Rating"] = rating
                 movie["Length"] = length
             print(response)
