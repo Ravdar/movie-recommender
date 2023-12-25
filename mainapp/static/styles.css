@@ -1,0 +1,33 @@
+.main-div {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    background-color: rgb(28, 28, 54);
+    color: white;
+}
+
+.prompt-form {
+    width: 1000px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.movies {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.movie-div {
+    max-width: 265px;
+}
+
+.movie-poster {
+    height: 350px;
+    border-radius: 5px;
+}
