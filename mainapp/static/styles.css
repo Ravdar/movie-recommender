@@ -6,7 +6,8 @@
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    background-color: rgb(28, 28, 54);
+    /* background-color: rgb(28, 28, 54); */
+    background-color: black;
     color: white;
 }
 
