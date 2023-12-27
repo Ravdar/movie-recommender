@@ -184,16 +184,19 @@ class Command(BaseCommand):
         for movie in movies:
 
             try:
-                print(movie) 
-                movie_title = movie["Title"]         
-                imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
-                poster_rating_length = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
-                poster_link = poster_rating_length[0]
-                rating = poster_rating_length[1]
-                length = poster_rating_length[2]
-                streaming_platforms = check_platforms_for_a_movie(movie_title, movie["Year"])
-                new_db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, imdb_link=imdb_link_and_local_poster[0], rating=rating, netflix = streaming_platforms[0], amazon_prime= streaming_platforms[1], hulu= streaming_platforms[2], disney_plus= streaming_platforms[3], hbo_max= streaming_platforms[4], apple_tv= streaming_platforms[5], peacock= streaming_platforms[6], last_update=datetime.today().date())
-                new_db_movie.save()
+                movie_title = movie["Title"]  
+                db_movie = Movie.objects.filter(title=movie_title, year=movie["Year"])
+                if db_movie.exists():
+                    pass
+                else:
+                    imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
+                    poster_rating_length = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
+                    poster_link = poster_rating_length[0]
+                    rating = poster_rating_length[1]
+                    length = poster_rating_length[2]
+                    streaming_platforms = check_platforms_for_a_movie(movie_title, movie["Year"])
+                    new_db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, imdb_link=imdb_link_and_local_poster[0], rating=rating, netflix = streaming_platforms[0], amazon_prime= streaming_platforms[1], hulu= streaming_platforms[2], disney_plus= streaming_platforms[3], hbo_max= streaming_platforms[4], apple_tv= streaming_platforms[5], peacock= streaming_platforms[6], last_update=datetime.today().date())
+                    new_db_movie.save()
             except:
                 print(f"Error{movie}")
         

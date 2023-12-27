@@ -13,7 +13,13 @@
 
 <body>
     <div class="main-div">
-        <h1>Hello {{processing_time}}</h1>
+        <header class="main-header">
+            <div class="logotype">
+                <h2>Hello</h2>
+                <img class="logo" src="{% static 'logo.png' %}" alt="Logo">
+                {{processing_time}}
+            </div>
+        </header>
         <div class="movies">
             {% for movie in response %}
             <div class="movie-div">
@@ -21,6 +27,7 @@
                     <img class="movie-poster" src="{{ movie.Poster }}">
                 </a>
                 <a href="{{movie.Link}}"><span>{{movie.Title}}</span></a>
+                <span>{{movie.Year}}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24" fill="currentColor"
                     role="presentation">
@@ -31,6 +38,10 @@
                 </svg>
                 <span>{{movie.Rating}}</span>
                 <span>{{movie.Length}}</span>
+                <span>{{movie.Description}}</span>
+                {% for platform,url in movie.Platforms.items %}
+                <img class="streaming-icon" src="{{url}}">
+                {% endfor %}
             </div>
             {% endfor %}
         </div>
