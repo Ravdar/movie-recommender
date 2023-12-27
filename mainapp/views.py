@@ -35,11 +35,13 @@ def main_view(request):
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
             response = ast.literal_eval(movies_list_str)
+            print(response)
             print(f"Before imdb data {time.time() - start_time}")
             for movie in response:
                 movie_title = movie["Title"]
                 db_movie = Movie.objects.filter(title=movie_title, year=movie["Year"])
                 if db_movie.exists():
+                    print(db_movie)
                     db_movie = Movie.objects.get(title=movie_title, year=movie["Year"])
                     poster_link = db_movie.poster_url
                     length = db_movie.length
@@ -53,12 +55,14 @@ def main_view(request):
                     rating = poster_rating_length[1]
                     length = poster_rating_length[2]
                     streaming_platforms = check_platforms_for_a_movie(movie_title, movie["Year"])
-                    new_db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, imdb_link=imdb_link_and_local_poster[0], rating=rating, netflix = streaming_platforms[0], amazon_prime= streaming_platforms[1], hulu= streaming_platforms[2], disney_plus= streaming_platforms[3], hbo_max= streaming_platforms[4], apple_tv= streaming_platforms[5], peacock= streaming_platforms[6], last_update=datetime.today().date())
-                    new_db_movie.save()
+                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, imdb_link=imdb_link_and_local_poster[0], rating=rating, netflix = streaming_platforms[0], amazon_prime= streaming_platforms[1], hulu= streaming_platforms[2], disney_plus= streaming_platforms[3], hbo_max= streaming_platforms[4], apple_tv= streaming_platforms[5], peacock= streaming_platforms[6], last_update=datetime.today().date())
+                    db_movie.save()
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
                 movie["Length"] = length
+                movie["Platforms"] = db_movie.get_streaming_platforms()
+                movie["Description"] = movie["Short description"]
             processing_time = time.time() - start_time
             return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
@@ -77,7 +81,6 @@ def check_streaming(movie_title, year):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         platforms = soup.find_all("div", class_="buybox-row__offers")
-        print(platforms)
         for element in platforms[0]:
             image = element.find('img')
             if image:

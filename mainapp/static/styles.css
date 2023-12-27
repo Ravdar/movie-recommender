@@ -1,3 +1,13 @@
+a {
+    text-decoration: none;
+    color: white;
+}
+
+
+a:hover {
+    color: grey
+}
+
 .main-div {
     margin: 0;
     padding: 0;
@@ -16,6 +26,9 @@
     text-align: center;
     border-radius: 10px;
     padding: 5px;
+    border: 0.25px solid white;
+    background-color: black;
+    color: white;
 }
 
 .movies {
@@ -30,5 +43,27 @@
 
 .movie-poster {
     height: 350px;
+    border-radius: 5px;
+}
+
+.main-header {
+    border-bottom: 0.1px solid white;
+    display: flex;
+    padding-left: 100px;
+
+}
+
+.logotype {
+    display: flex;
+}
+
+.logo {
+    width: 60px;
+    height: 60px
+}
+
+.streaming-icon {
+    width: 30px;
+    height: 30px;
     border-radius: 5px;
 }
