@@ -8,20 +8,19 @@ import requests
 from bs4 import BeautifulSoup
 from .models import Movie
 from datetime import datetime
+from .utils import check_platforms_for_a_movie
 
 def main_view(request):
-    client = OpenAI()
+    client = OpenAI()   
     response = ""
     if request.method =="POST":
         start_time = time.time()
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
             file = client.files.create(file=open("C:\\Users\\Tomasz\\Desktop\\movie_recommender\\mainapp\\static\\already_seen_movies.txt", "rb"), purpose="assistants")
-            print(file)
-            print(file.id)
-            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Generate a Python list of dictionaries named "movies" with keys: "Title", "Year", "Short description". Recommend 5 movies based on the data provided. Do not include any introductory text such as "Here are some movie recommendations for you:". Also, make sure not to recommend any movies that are already watched. Provide only the raw list "movies".', model="gpt-3.5-turbo-1106", tools=[{"type": "retrieval"}], file_ids=[file.id])
+            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list. Also do not recommend movies attached in a file, these are already watched.', model="gpt-3.5-turbo-1106", tools=[{"type": "retrieval"}], file_ids=[file.id])
             thread = client.beta.threads.create()
-            prompt = prompt_form.cleaned_data['text']
+            prompt = prompt_form.cleaned_data['text'] + "Please remember to not write any additional text in a response, provide just a list."
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
             run = client.beta.threads.runs.create(thread_id=thread.id, assistant_id=assistant.id)
             while run.status == "queued" or run.status == "in_progress":
@@ -67,88 +66,15 @@ def main_view(request):
                 movie["Link"] = movie_link
                 movie["Length"] = length
                 movie["Platforms"] = db_movie.get_streaming_platforms()
-                movie["Description"] = movie["Short description"]
+                movie["Description"] = movie["Plot short description"]
             processing_time = time.time() - start_time
+            prompt_form = UserPrompt()
             return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
         prompt = "No prompt yet"
     return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response})
 
-def check_streaming(movie_title, year):
 
-    selected_platforms = []
-    url = f"https://www.justwatch.com/us/search?q={movie_title}%20{year}"
-
-    response = requests.get(url)
-
-    if response.status_code==200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        platforms = soup.find_all("div", class_="buybox-row__offers")
-        for element in platforms[0]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[1]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[2]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-    
-    return selected_platforms
-
-def check_platforms_for_a_movie(movie_title, year):
-    
-    platforms = check_streaming(movie_title, year)
-
-    if "Netflix" in platforms:
-        netflix = True
-    else: 
-        netflix = False
-
-    #Amazonvideo is not subscribe model, only rent or buy
-    if "Amazon Prime Video" in platforms or "Amazon Video" in platforms:
-        prime_video = True
-    else:
-        prime_video = False
-
-    if "Hulu" in platforms:
-        hulu = True
-    else:
-        hulu = False
-
-    if "Disney Plus" in platforms:
-        disney_plus = True
-    else:
-        disney_plus = False
-
-    if "Max" in platforms:
-        max = True
-    else:
-        max = False
-
-    if "Apple TV" in platforms:
-        apple_tv = True
-    else:
-        apple_tv = False
-
-    if "Peacock" in platforms:
-        peacock = True
-    else:
-        peacock = False
-
-    return [netflix, prime_video, hulu, disney_plus, max, apple_tv, peacock]
 
 
