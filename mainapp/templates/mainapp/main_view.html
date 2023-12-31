@@ -46,31 +46,48 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="button">5 more</button>
+            <button type="button" onclick="fillAndSubmitForm('5 more of this type, please.')">5 more</button>
         </div>
         <form id="my-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{prompt_form.media}}
             {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
-            <button type="button" onclick="fillAndSubmitForm()">Random choice</button>
+            <button type="button"
+                onclick="fillAndSubmitForm('Recommend me random movies, each as different from the other as it is possible: one blockbuster, other some niche movie, other from production other tha US, etc...')">Random
+                choice</button>
         </form>
     </div>
 </body>
 
 <script>
-    function fillAndSubmitForm() {
+    function fillAndSubmitForm(value) {
         var form = document.getElementById("my-form");
         var textField = form.elements["text"];
-        var value = "Recommend me random movies, each as different from the other as it is possible: one blockbuster, other some niche movie, other from production other tha US, etc..."
+        var value = value
 
         textField.value = value;
 
-        form.submit();
+        // Using the Fetch API to make an AJAX request
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+        })
+            .then(response => response.json())  // You can handle the response as needed
+            .then(data => {
+                // Optionally, handle the response data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // Reset the form field value
+        textField.value = "";
 
         textField.value = ""
 
 
     }
+
 </script>
 
 </html>
