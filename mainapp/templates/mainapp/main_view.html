@@ -20,37 +20,58 @@
                 {{processing_time}}
             </div>
         </header>
-        <div>
-            <div class="movies">
-                {% for movie in response %}
-                <div class="movie-div">
-                    <a href="{{ movie.Link }}">
-                        <img class="movie-poster" src="{{ movie.Poster }}">
-                    </a>
-                    <a href="{{movie.Link}}"><span>{{movie.Title}}</span></a>
-                    <span>{{movie.Year}}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24" fill="currentColor"
-                        role="presentation">
-                        <path
-                            d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
-                            fill="rgb(243,206,19)">
-                        </path>
-                    </svg>
-                    <span>{{movie.Rating}}</span>
-                    <span>{{movie.Length}}</span>
-                    <span>{{movie.Description}}</span>
-                    {% for platform,url in movie.Platforms.items %}
-                    <img class="streaming-icon" src="{{url}}">
-                    {% endfor %}
-                </div>
+        <div class="movies">
+            {% for movie in response %}
+            <div class="movie-div">
+                <a href="{{ movie.Link }}">
+                    <img class="movie-poster" src="{{ movie.Poster }}">
+                </a>
+                <a href="{{movie.Link}}"><span>{{movie.Title}}</span></a>
+                <span>{{movie.Year}}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24" fill="currentColor"
+                    role="presentation">
+                    <path
+                        d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
+                        fill="rgb(243,206,19)">
+                    </path>
+                </svg>
+                <span>{{movie.Rating}}</span>
+                <span>{{movie.Length}}</span>
+                <span>{{movie.Description}}</span>
+                {% for platform,url in movie.Platforms.items %}
+                <img class="streaming-icon" src="{{url}}">
                 {% endfor %}
             </div>
-            <button type="button">5 more</button>
+            {% endfor %}
         </div>
         <form id="my-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{prompt_form.media}}
+            <div class="movies">{{prompt_form.platforms}}
+                {{ prompt_form.gpt_4.label_tag }}
+                {{prompt_form.gpt_4}}
+
+                {{ prompt_form.netflix.label_tag }}
+                {{ prompt_form.netflix }}
+
+                {{ prompt_form.amazon_prime.label_tag }}
+                {{ prompt_form.amazon_prime }}
+
+                {{ prompt_form.disney_plus.label_tag }}
+                {{ prompt_form.disney_plus }}
+
+                {{ prompt_form.hulu.label_tag }}
+                {{ prompt_form.hulu }}
+
+                {{ prompt_form.hbo_max.label_tag }}
+                {{ prompt_form.hbo_max }}
+
+                {{ prompt_form.apple_tv.label_tag }}
+                {{ prompt_form.apple_tv }}
+
+                {{ prompt_form.peacock.label_tag }}
+                {{ prompt_form.peacock }}</div>
             {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
             <button type="button" onclick="fillAndSubmitForm()">Random choice</button>
         </form>
