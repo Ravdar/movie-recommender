@@ -2,6 +2,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import requests
 import re
+from urllib.parse import quote
 
 # user_id = "ur68322908"
 
@@ -73,29 +74,18 @@ def check_streaming(movie_title, year):
 
     if response.status_code==200:
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        platforms = soup.find_all("div", class_="buybox-row__offers")
-        for element in platforms[0]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[1]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[2]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-    
+        
+        first_result = soup.find("section", class_="buybox__content inline")
+        if first_result:
+            platforms = first_result.find_all("div", class_="buybox-row__offers")
+            for platform in platforms:
+                for element in platform:
+                    image = element.find('img')
+                    if image:
+                        if type(image) != int:
+                            platform_name = image.get('alt', 'No alt attribute')
+                            selected_platforms.append(platform_name)
+        
     return selected_platforms
 
 
@@ -130,7 +120,7 @@ def check_platforms_for_a_movie(movie_title, year):
     else:
         max = False
 
-    if "Apple TV" in platforms:
+    if "Apple TV" in platforms or "Apple TV Plus":
         apple_tv = True
     else:
         apple_tv = False
