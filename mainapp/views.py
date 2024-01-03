@@ -18,7 +18,7 @@ def main_view(request):
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
             file = client.files.create(file=open("C:\\Users\\Tomasz\\Desktop\\movie_recommender\\mainapp\\static\\already_seen_movies.txt", "rb"), purpose="assistants")
-            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list. Also do not recommend movies attached in a file, these are already watched.', model="gpt-3.5-turbo-1106", tools=[{"type": "retrieval"}], file_ids=[file.id])
+            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list. Also do not recommend movies attached in a file, these are already watched.', model="gpt-4-1106-preview", tools=[{"type": "retrieval"}], file_ids=[file.id])
             thread = client.beta.threads.create()
             prompt = prompt_form.cleaned_data['text'] + "Please remember to not write any additional text in a response, provide just a list."
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
