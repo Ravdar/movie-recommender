@@ -67,3 +67,43 @@ a:hover {
     height: 30px;
     border-radius: 5px;
 }
+
+.searchbar-tools {
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.searchbar-platforms {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.image-butt {
+    background-color: transparent;
+    /* Make the button background transparent */
+    border: none;
+    /* Remove the default button border */
+    padding: 0;
+    /* Remove any default padding */
+    cursor: pointer;
+    /* Add a pointer cursor on hover */
+}
+
+.random-butt {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+    margin-left: 5px;
+}
+
+.random-butt :hover {
+    height: 50px;
+    width: 50px;
+    transition: 0.5s;
+}

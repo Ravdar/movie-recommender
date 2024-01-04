@@ -18,7 +18,7 @@ def main_view(request):
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
             file = client.files.create(file=open("C:\\Users\\Tomasz\\Desktop\\movie_recommender\\mainapp\\static\\already_seen_movies.txt", "rb"), purpose="assistants")
-            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list. Also do not recommend movies attached in a file, these are already watched.', model="gpt-4-1106-preview", tools=[{"type": "retrieval"}], file_ids=[file.id])
+            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list. Also do not recommend movies attached in a file, these are already watched.', model="gpt-3.5-turbo-1106", tools=[{"type": "retrieval"}], file_ids=[file.id])
             thread = client.beta.threads.create()
             prompt = prompt_form.cleaned_data['text'] + "Please remember to not write any additional text in a response, provide just a list."
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
@@ -53,7 +53,7 @@ def main_view(request):
                     rating = db_movie.rating
                 else:
                     imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
-                    movie_link = imdb_link_and_local_poster
+                    movie_link = imdb_link_and_local_poster[0]
                     poster_rating_length = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
                     poster_link = poster_rating_length[0]
                     rating = poster_rating_length[1]
@@ -64,6 +64,7 @@ def main_view(request):
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
+                print(movie_link)
                 movie["Length"] = length
                 movie["Platforms"] = db_movie.get_streaming_platforms()
                 movie["Description"] = movie["Plot short description"]

@@ -68,6 +68,8 @@ def check_streaming(movie_title, year):
     """Returns available streaming platforms list for a particular movie"""
 
     selected_platforms = []
+    movie_title = movie_title.replace(" ", "%20")
+    movie_title = movie_title.replace("&", "%26")
     url = f"https://www.justwatch.com/us/search?q={movie_title}%20{year}"
 
     response = requests.get(url)
@@ -86,6 +88,7 @@ def check_streaming(movie_title, year):
                             platform_name = image.get('alt', 'No alt attribute')
                             selected_platforms.append(platform_name)
         
+
     return selected_platforms
 
 

@@ -48,37 +48,58 @@
         <form id="my-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{prompt_form.media}}
-            <div class="movies">{{prompt_form.platforms}}
-                {{ prompt_form.gpt_4.label_tag }}
-                {{prompt_form.gpt_4}}
+            <div class="movies">
+                <div class="searchbar-tools">{{prompt_form.platforms}}
 
-                {{ prompt_form.netflix.label_tag }}
-                {{ prompt_form.netflix }}
+                    <div>
+                        <img id="toggleImage"
+                            onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
+                            class="searchbar-platforms" src="{% static 'already_seen_button.png' %}" alt="Already seen">
+                        {{prompt_form.without_seen}}
+                        <img onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
+                            class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
 
-                {{ prompt_form.amazon_prime.label_tag }}
-                {{ prompt_form.amazon_prime }}
+                        {{prompt_form.only_watchlist}}
+                        <img onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
+                            class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
+                        {{prompt_form.gpt_4}}
+                    </div>
 
-                {{ prompt_form.disney_plus.label_tag }}
-                {{ prompt_form.disney_plus }}
+                    <div>
+                        <img class="searchbar-platforms" src="{% static 'netflix.webp' %}" alt="Netflix">
+                        {{ prompt_form.netflix }}
 
-                {{ prompt_form.hulu.label_tag }}
-                {{ prompt_form.hulu }}
+                        <img class="searchbar-platforms" src="{% static 'amazon_prime.webp' %}"
+                            alt="Amazon Prime Video">
+                        {{ prompt_form.amazon_prime }}
 
-                {{ prompt_form.hbo_max.label_tag }}
-                {{ prompt_form.hbo_max }}
+                        <img class="searchbar-platforms" src="{% static 'disney_plus.webp' %}" alt="Disney Plus">
+                        {{ prompt_form.disney_plus }}
 
-                {{ prompt_form.apple_tv.label_tag }}
-                {{ prompt_form.apple_tv }}
+                        <img class="searchbar-platforms" src="{% static 'hulu.webp' %}" alt="Hulu">
+                        {{ prompt_form.hulu }}
 
-                {{ prompt_form.peacock.label_tag }}
-                {{ prompt_form.peacock }}</div>
+                        <img class="searchbar-platforms" src="{% static 'hbo_max.webp' %}" alt="HBO Max">
+                        {{ prompt_form.hbo_max }}
+
+                        <img class="searchbar-platforms" src="{% static 'apple_tv.webp' %}" alt="Apple TV">
+                        {{ prompt_form.apple_tv }}
+
+                        <img class="searchbar-platforms" src="{% static 'peacock.webp' %}" alt="Peacock">
+                        {{ prompt_form.peacock }}
+                    </div>
+                </div>
+            </div>
             {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
-            <button type="button" onclick="fillAndSubmitForm()">Random choice</button>
+            <button class="image-butt" type="button" onclick="fillAndSubmitForm()"><img class="random-butt"
+                    src="{% static 'random_button.png' %}" alt="Random"></button>
         </form>
     </div>
 </body>
 
 <script>
+
+    var staticBaseUrl = "{% static '' %}";
     function fillAndSubmitForm() {
         var form = document.getElementById("my-form");
         var textField = form.elements["text"];
@@ -92,6 +113,29 @@
 
 
     }
+
+    var currentImageIndex = 0;
+
+    // Variable to keep track of the current image index
+
+    function toggleImageF(platform, img_off, img_on) {
+
+        var imageElement = platform;
+
+        // Array containing the paths of the two images
+        var imagePaths = [
+            staticBaseUrl + img_off,
+            staticBaseUrl + img_on
+        ];
+        // Increment the index or reset to 0 if at the end
+        currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
+
+        // Update the src attribute of the image element
+        imageElement.src = imagePaths[currentImageIndex];
+
+        console.log(imagePaths);
+    }
+
 </script>
 
 </html>
