@@ -52,41 +52,47 @@
                 <div class="searchbar-tools">{{prompt_form.platforms}}
 
                     <div>
-                        <img id="toggleImage"
+                        <img id="toggleImage" clicked="0"
                             onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
                             class="searchbar-platforms" src="{% static 'already_seen_button.png' %}" alt="Already seen">
-                        {{prompt_form.without_seen}}
-                        <img onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
+                        {{ prompt_form.without_seen|add_class:"searchbar-checkbox"}}
+                        <img clicked="0" onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
                             class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
-
-                        {{prompt_form.only_watchlist}}
-                        <img onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
+                        {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}
+                        <img clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
                             class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
-                        {{prompt_form.gpt_4}}
+                        {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}
                     </div>
 
                     <div>
-                        <img class="searchbar-platforms" src="{% static 'netflix.webp' %}" alt="Netflix">
-                        {{ prompt_form.netflix }}
+                        <img onclick='toggleImageF(this, "netflix_off.webp", "netflix.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'netflix_off.webp' %}" alt="Netflix">
+                        {{ prompt_form.netflix|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'amazon_prime.webp' %}"
+                        <img onclick='toggleImageF(this, "amazon_prime_off.webp", "amazon_prime.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'amazon_prime_off.webp' %}"
                             alt="Amazon Prime Video">
-                        {{ prompt_form.amazon_prime }}
+                        {{ prompt_form.amazon_prime|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'disney_plus.webp' %}" alt="Disney Plus">
-                        {{ prompt_form.disney_plus }}
+                        <img onclick='toggleImageF(this, "disney_plus_off.webp", "disney_plus.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'disney_plus_off.webp' %}" alt="Disney Plus">
+                        {{ prompt_form.disney_plus|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'hulu.webp' %}" alt="Hulu">
-                        {{ prompt_form.hulu }}
+                        <img onclick='toggleImageF(this, "hulu_off.webp", "hulu.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'hulu_off.webp' %}" alt="Hulu">
+                        {{ prompt_form.hulu|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'hbo_max.webp' %}" alt="HBO Max">
-                        {{ prompt_form.hbo_max }}
+                        <img onclick='toggleImageF(this, "hbo_max_off.webp", "hbo_max.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'hbo_max_off.webp' %}" alt="HBO Max">
+                        {{ prompt_form.hbo_max|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'apple_tv.webp' %}" alt="Apple TV">
-                        {{ prompt_form.apple_tv }}
+                        <img onclick='toggleImageF(this, "apple_tv_off.webp", "apple_tv.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'apple_tv_off.webp' %}" alt="Apple TV">
+                        {{ prompt_form.apple_tv|add_class:"searchbar-checkbox" }}
 
-                        <img class="searchbar-platforms" src="{% static 'peacock.webp' %}" alt="Peacock">
-                        {{ prompt_form.peacock }}
+                        <img onclick='toggleImageF(this, "peacock_off.webp", "peacock.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'peacock_off.webp' %}" alt="Peacock">
+                        {{ prompt_form.peacock|add_class:"searchbar-checkbox" }}
                     </div>
                 </div>
             </div>
@@ -114,26 +120,25 @@
 
     }
 
-    var currentImageIndex = 0;
-
     // Variable to keep track of the current image index
 
     function toggleImageF(platform, img_off, img_on) {
 
         var imageElement = platform;
-
-        // Array containing the paths of the two images
+        var checkboxElement = imageElement.nextElementSibling;
+        var currentImageIndex = parseInt(imageElement.getAttribute('clicked'));
         var imagePaths = [
             staticBaseUrl + img_off,
             staticBaseUrl + img_on
         ];
-        // Increment the index or reset to 0 if at the end
-        currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
 
-        // Update the src attribute of the image element
+        currentImageIndex = (currentImageIndex === 0) ? 1 : 0;
         imageElement.src = imagePaths[currentImageIndex];
 
-        console.log(imagePaths);
+        if (checkboxElement && checkboxElement.type === 'checkbox') {
+            checkboxElement.checked = (currentImageIndex === 1);
+        }
+        imageElement.setAttribute('clicked', String(currentImageIndex));
     }
 
 </script>
