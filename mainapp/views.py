@@ -17,7 +17,30 @@ def main_view(request):
         start_time = time.time()
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
+            # Checking searchbar tools settings
             assistant_id = 'asst_uLNsyXn04oFs1mxJkCdbEwVv'
+            tools = []
+            file_ids = []
+
+            if prompt_form.cleaned_data["gpt_4"]:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+
+            if prompt_form.cleaned_data["only_watchlist"]:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                file_id = 'file-6J32Lw7YXCBQyIuYCA1tRAsH'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+
+            elif prompt_form.cleaned_data["without_seen"]:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                file_id = 'file-qWa8QHBYup9GjeskZCHtvlFh'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+
+            # Checking streaming services
+            selected_services = []
+
+            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids)
             thread = client.beta.threads.create()
             prompt = prompt_form.cleaned_data['text'] + "Please remember to not write any additional text in a response, provide just a list."
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
@@ -30,6 +53,7 @@ def main_view(request):
             time.sleep(0.5)
             print(f"Generated {time.time() - start_time}")
             time.sleep(1)
+            print(assistant)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
             string_data = messages.data[0].content[0].text.value
             print(string_data)

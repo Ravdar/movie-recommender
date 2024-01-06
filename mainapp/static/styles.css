@@ -157,3 +157,23 @@ a:hover {
     /* Center the ::after element horizontally */
     transform: translateX(-50%);
 }
+
+.green {
+    border: 1px solid green;
+}
+
+.green::after {
+    border-top-color: green;
+}
+
+.pink {
+    border: 1px solid rgb(234, 3, 251);
+}
+
+.pink::after {
+    border-top-color: rgb(234, 3, 251);
+}
+
+.tool-div {
+    margin-right: 10px;
+}

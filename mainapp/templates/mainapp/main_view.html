@@ -52,21 +52,31 @@
                 <div class="searchbar-tools">{{prompt_form.platforms}}
 
                     <div class="advanced-tools">
-                        <div class="already_seen_div">
-                            <div id="tooltip" class="mytooltip">Don't recommend already seen movies</div>
-                            <img id="toggleImage" clicked="0" onmouseout="hideTooltip()" onmouseover='showTooltip()'
+                        <div class="tool-div">
+                            <div id="alread_seen_tooltip" class="mytooltip">Don't recommend already seen movies</div>
+                            <img clicked="0" onmouseout='hideTooltip("alread_seen_tooltip")'
+                                onmouseover='showTooltip("alread_seen_tooltip")'
                                 onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
                                 class="searchbar-platformsas" src="{% static 'already_seen_button.png' %}"
                                 alt="Already seen">
                             {{ prompt_form.without_seen|add_class:"searchbar-checkbox"}}
                         </div>
-                        <div><img clicked="0"
+                        <div class="tool-div">
+                            <div id="watchlist_tooltip" class="mytooltip green">Recommend only from watchlist</div><img
+                                onmouseout='hideTooltip("watchlist_tooltip")'
+                                onmouseover='showTooltip("watchlist_tooltip")' clicked="0"
                                 onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
                                 class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
-                            {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}</div>
-                        <div><img clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
+                            {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}
+                        </div>
+                        <div>
+                            <div id="gpt_4_tooltip" class="mytooltip pink">More accurate responses (but also slower)
+                            </div>
+                            <img onmouseout='hideTooltip("gpt_4_tooltip")' onmouseover='showTooltip("gpt_4_tooltip")'
+                                clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
                                 class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
-                            {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}</div>
+                            {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}
+                        </div>
                     </div>
 
                     <div>
@@ -145,17 +155,14 @@
         imageElement.setAttribute('clicked', String(currentImageIndex));
     }
 
-    function showTooltip() {
-        var tooltip = document.getElementById("tooltip");
-        var tool = document.getElementById("toggleImage")
-
+    function showTooltip(tooltip) {
+        var tooltip = document.getElementById(tooltip);
         tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(1)";
 
     }
 
-    function hideTooltip() {
-        var tooltip = document.getElementById("tooltip");
-        var tool = document.getElementById("toggleImage")
+    function hideTooltip(tooltip) {
+        var tooltip = document.getElementById(tooltip);
 
         tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
     }
