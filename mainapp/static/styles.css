@@ -75,24 +75,20 @@ a:hover {
     justify-content: space-between;
     margin-right: 50px;
     margin-bottom: 10px;
+
 }
 
 .searchbar-platforms {
     width: 25px;
     height: 25px;
     border-radius: 5px;
-    cursor: pointer
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
 }
 
-.image-butt {
-    background-color: transparent;
-    /* Make the button background transparent */
-    border: none;
-    /* Remove the default button border */
-    padding: 0;
-    /* Remove any default padding */
-    cursor: pointer;
-    /* Add a pointer cursor on hover */
+.searchbar-platforms:hover {
+    transform: scale(1.15);
+    /* Adjust the scale factor as needed */
 }
 
 .random-butt {
@@ -100,14 +96,64 @@ a:hover {
     height: 32px;
     margin-bottom: 4px;
     margin-left: 5px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
 }
 
-.random-butt :hover {
-    height: 50px;
-    width: 50px;
-    transition: 0.5s;
+.random-butt:hover {
+    transform: scale(1.1);
 }
 
 .searchbar-checkbox {
     display: none;
+}
+
+.advanced-tools {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbar-platformsas {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+}
+
+.searchbar-platformsas:hover {
+    transform: scale(1.15);
+    /* Adjust the scale factor as needed */
+}
+
+.searchbar-platformsas:hover::after {
+    content: attr(data-tooltip);
+}
+
+.mytooltip {
+    position: absolute;
+    width: max-content;
+    font-size: 10px;
+    color: white;
+    padding: 5px 5px;
+    border: 1px solid yellow;
+    border-radius: 5px;
+    transform: translateY(-160%) translateX(-43%) scale(0);
+    background-color: black;
+    transition: 100ms transform ease;
+    transform-origin: bottom center;
+    transition-delay: 0s
+}
+
+.mytooltip::after {
+    position: absolute;
+    content: '';
+    border: 10px solid transparent;
+    border-top-color: yellow;
+    bottom: -80%;
+    /* Stick to the bottom of the .mytooltip element */
+    left: 50%;
+    /* Center the ::after element horizontally */
+    transform: translateX(-50%);
 }
