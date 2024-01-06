@@ -51,17 +51,22 @@
             <div class="movies">
                 <div class="searchbar-tools">{{prompt_form.platforms}}
 
-                    <div>
-                        <img id="toggleImage" clicked="0"
-                            onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
-                            class="searchbar-platforms" src="{% static 'already_seen_button.png' %}" alt="Already seen">
-                        {{ prompt_form.without_seen|add_class:"searchbar-checkbox"}}
-                        <img clicked="0" onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
-                            class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
-                        {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}
-                        <img clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
-                            class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
-                        {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}
+                    <div class="advanced-tools">
+                        <div class="already_seen_div">
+                            <div id="tooltip" class="mytooltip">Don't recommend already seen movies</div>
+                            <img id="toggleImage" clicked="0" onmouseout="hideTooltip()" onmouseover='showTooltip()'
+                                onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
+                                class="searchbar-platformsas" src="{% static 'already_seen_button.png' %}"
+                                alt="Already seen">
+                            {{ prompt_form.without_seen|add_class:"searchbar-checkbox"}}
+                        </div>
+                        <div><img clicked="0"
+                                onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
+                                class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
+                            {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}</div>
+                        <div><img clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
+                                class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
+                            {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}</div>
                     </div>
 
                     <div>
@@ -97,8 +102,7 @@
                 </div>
             </div>
             {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
-            <button class="image-butt" type="button" onclick="fillAndSubmitForm()"><img class="random-butt"
-                    src="{% static 'random_button.png' %}" alt="Random"></button>
+            <img class="random-butt" onclick="fillAndSubmitForm()" src="{% static 'random_button.png' %}" alt="Random">
         </form>
     </div>
 </body>
@@ -139,6 +143,21 @@
             checkboxElement.checked = (currentImageIndex === 1);
         }
         imageElement.setAttribute('clicked', String(currentImageIndex));
+    }
+
+    function showTooltip() {
+        var tooltip = document.getElementById("tooltip");
+        var tool = document.getElementById("toggleImage")
+
+        tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(1)";
+
+    }
+
+    function hideTooltip() {
+        var tooltip = document.getElementById("tooltip");
+        var tool = document.getElementById("toggleImage")
+
+        tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
     }
 
 </script>
