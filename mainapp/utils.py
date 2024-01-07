@@ -118,7 +118,7 @@ def check_platforms_for_a_movie(movie_title, year):
     else:
         disney_plus = False
 
-    if "Max" in platforms:
+    if "Max" in platforms or "Max Amazon Channel" in platforms:
         max = True
     else:
         max = False

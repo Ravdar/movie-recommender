@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from .models import Movie
 from datetime import datetime
 from .utils import check_platforms_for_a_movie
+from django import forms
 
 def main_view(request):
     client = OpenAI()   
@@ -21,6 +22,8 @@ def main_view(request):
             assistant_id = 'asst_uLNsyXn04oFs1mxJkCdbEwVv'
             tools = []
             file_ids = []
+            instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
+            prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list."
 
             if prompt_form.cleaned_data["gpt_4"]:
                 assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
@@ -38,11 +41,24 @@ def main_view(request):
                 file_ids = [file_id]
 
             # Checking streaming services
-            selected_services = []
+            selected_platforms = []
+            for field_name, field in prompt_form.fields.items():
+                if isinstance(field, forms.BooleanField) and field_name not in ['without_seen', 'only_watchlist', 'gpt_4']:
+                    if prompt_form.cleaned_data[field_name]:
+                        selected_platforms.append(field.label)
+            selected_platforms_str = ""
 
-            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids)
+            if selected_platforms == [] or len(selected_platforms) == 7:
+                pass
+            else:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                prompt_additional_info = f' available on of these streaming platforms: {selected_platforms} Please remember to not write any additional text in a response, provide just a list.'
+
+
+            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids, instructions=instructions)
             thread = client.beta.threads.create()
-            prompt = prompt_form.cleaned_data['text'] + "Please remember to not write any additional text in a response, provide just a list."
+            prompt = prompt_form.cleaned_data['text'] + prompt_additional_info
+            print(prompt)
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
             run = client.beta.threads.runs.create(thread_id=thread.id, assistant_id=assistant_id)
             while run.status == "queued" or run.status == "in_progress":
@@ -60,15 +76,12 @@ def main_view(request):
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
-            print(movies_list_str)
             response = ast.literal_eval(movies_list_str)
-            print(response)
             print(f"Before imdb data {time.time() - start_time}")
             for movie in response:
                 movie_title = movie["Title"]
                 db_movie = Movie.objects.filter(title=movie_title, year=movie["Year"])
                 if db_movie.exists():
-                    print(db_movie)
                     db_movie = Movie.objects.get(title=movie_title, year=movie["Year"])
                     poster_link = db_movie.poster_url
                     length = db_movie.length
@@ -87,7 +100,6 @@ def main_view(request):
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
-                print(movie_link)
                 movie["Length"] = length
                 movie["Platforms"] = db_movie.get_streaming_platforms()
                 movie["Description"] = movie["Plot short description"]

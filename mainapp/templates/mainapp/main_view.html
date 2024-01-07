@@ -13,6 +13,7 @@
 
 <body>
     <div class="main-div">
+
         <header class="main-header">
             <div class="logotype">
                 <h2>Hello</h2>
@@ -20,12 +21,15 @@
                 {{processing_time}}
             </div>
         </header>
+
         <div class="movies">
             {% for movie in response %}
             <div class="movie-div">
-                <a href="{{ movie.Link }}">
-                    <img class="movie-poster" src="{{ movie.Poster }}">
-                </a>
+                <div class="image-container">
+                    <a href="{{ movie.Link }}">
+                        <img class="movie-poster" src="{{ movie.Poster }}">
+                    </a>
+                </div>
                 <a href="{{movie.Link}}"><span>{{movie.Title}}</span></a>
                 <span>{{movie.Year}}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -45,6 +49,7 @@
             </div>
             {% endfor %}
         </div>
+
         <form id="my-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{prompt_form.media}}
