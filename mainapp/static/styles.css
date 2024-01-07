@@ -46,6 +46,29 @@ a:hover {
     border-radius: 5px;
 }
 
+.image-container {
+    overflow: hidden;
+    position: relative;
+    height: 350px;
+    border-radius: 5px;
+    /* Set the desired width */
+    /* Set the desired height */
+}
+
+/* Set initial styling for the image */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s;
+    /* Add a smooth transition effect */
+}
+
+/* Apply a scaling transformation on hover */
+.image-container:hover img {
+    transform: scale(1.2) rotate(3deg);
+    /* You can adjust the scale factor to control the zoom level */
+}
+
 .main-header {
     border-bottom: 0.1px solid white;
     display: flex;
@@ -141,9 +164,9 @@ a:hover {
     border-radius: 5px;
     transform: translateY(-160%) translateX(-43%) scale(0);
     background-color: black;
-    transition: 100ms transform ease;
+    transition: 0.3s transform ease;
     transform-origin: bottom center;
-    transition-delay: 0s
+    transition-delay: 0.3s
 }
 
 .mytooltip::after {
