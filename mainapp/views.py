@@ -71,7 +71,7 @@ def main_view(request):
             time.sleep(1)
             print(assistant)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
-            string_data = messages.data[0].content[0].text.value
+            string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
             print(string_data)
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
