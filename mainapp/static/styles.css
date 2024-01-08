@@ -8,6 +8,13 @@ a:hover {
     color: grey
 }
 
+.title-div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
 .title_a0 {
     text-decoration: none;
     color: white;
@@ -281,7 +288,13 @@ a:hover {
 
 .platforms {
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
+
+
 
 .mytooltip {
     position: absolute;
