@@ -31,11 +31,13 @@
                     </a>
                 </div>
                 <div class="movie-info">
-                    <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
-                            class="movie-title">{{movie.Title}}</span></a>
+                    <div class="title-div">
+                        <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
+                                class="movie-title">{{movie.Title}}</span></a>
+                    </div>
                     <div class="year-rating-length{{forloop.counter0}}">
                         <span style="font-size: 14px;">{{movie.Year}}</span>
-                        <div style="padding-bottom:4px">
+                        <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24"
                                 fill="currentColor" role="presentation">
@@ -133,6 +135,12 @@
 
 <script>
 
+    // Call the function for '.title-div' elements
+    justifyHeight('.title-div');
+
+    // Call the function for '.other-class' elements
+    justifyHeight('.other-class');
+
     var staticBaseUrl = "{% static '' %}";
     function fillAndSubmitForm() {
         var form = document.getElementById("my-form");
@@ -147,6 +155,7 @@
 
 
     }
+
 
     // Variable to keep track of the current image index
 
@@ -180,6 +189,27 @@
 
         tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
     }
+
+    function justifyHeight(className) {
+
+        var elements = document.querySelectorAll(className);
+
+        // Find the maximum height among all elements
+        var maxElementHeight = 0;
+
+
+        elements.forEach(function (element) {
+            var height = element.clientHeight;
+            console.log(height)
+
+            if (height > maxElementHeight) { maxElementHeight = height; }
+        });
+
+        elements.forEach(function (element) {
+            element.style.height = maxElementHeight + 'px';
+        });
+    }
+
 
 </script>
 
