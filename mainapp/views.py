@@ -26,8 +26,10 @@ def main_view(request):
             prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list."
 
             if prompt_form.cleaned_data["gpt_4"]:
-                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
-
+                assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL' # 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                file_id = 'file-E7IBRtoF7uImZmH9kU36urA1'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
             if prompt_form.cleaned_data["only_watchlist"]:
                 assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
                 file_id = 'file-6J32Lw7YXCBQyIuYCA1tRAsH'
@@ -51,8 +53,11 @@ def main_view(request):
             if selected_platforms == [] or len(selected_platforms) == 7:
                 pass
             else:
-                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
-                prompt_additional_info = f' available on of these streaming platforms: {selected_platforms} Please remember to not write any additional text in a response, provide just a list.'
+                assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL'#'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                file_id = 'file-E7IBRtoF7uImZmH9kU36urA1'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+                prompt_additional_info = f' available on of these streaming platforms: {selected_platforms} .Please remember to not write any additional text in a response, provide just a list.'
 
 
             assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids, instructions=instructions)
@@ -71,8 +76,8 @@ def main_view(request):
             time.sleep(1)
             print(assistant)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
+            print(messages.data[0].content[0].text.value)
             string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
-            print(string_data)
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
@@ -88,6 +93,7 @@ def main_view(request):
                     movie_link = db_movie.imdb_link
                     rating = db_movie.rating
                 else:
+                    print("NOT EXISTS")
                     imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
                     movie_link = imdb_link_and_local_poster[0]
                     poster_rating_length = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
