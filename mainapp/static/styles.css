@@ -153,6 +153,7 @@ a:hover {
     margin-top: 10px;
     width: 200px;
     border: 1px solid rgb(255, 255, 0);
+    box-shadow: 0 0 1em 0 rgb(255, 255, 0);
     border-radius: 99em;
     padding: 2px 15px;
     display: flex;
@@ -165,6 +166,7 @@ a:hover {
     margin-top: 10px;
     width: 200px;
     border: 1px solid rgb(0, 213, 255);
+    box-shadow: 0 0 1em 0 rgb(0, 213, 255);
     border-radius: 99em;
     padding: 2px 15px;
     display: flex;
@@ -177,6 +179,7 @@ a:hover {
     margin-top: 10px;
     width: 200px;
     border: 1px solid rgb(0, 255, 0);
+    box-shadow: 0 0 1em 0 rgb(0, 255, 0);
     border-radius: 99em;
     padding: 2px 15px;
     display: flex;
@@ -189,6 +192,7 @@ a:hover {
     margin-top: 10px;
     width: 200px;
     border: 1px solid rgb(255, 0, 179);
+    box-shadow: 0 0 1em 0 rgb(255, 0, 179);
     border-radius: 99em;
     padding: 2px 15px;
     display: flex;
@@ -200,7 +204,8 @@ a:hover {
     margin-bottom: 10px;
     margin-top: 10px;
     width: 200px;
-    border: 1px solid rgb(8, 0, 255);
+    border: 1px solid rgb(32, 24, 252);
+    box-shadow: 0 0 1em 0 rgb(32, 24, 252);
     border-radius: 99em;
     padding: 2px 15px;
     display: flex;
@@ -303,6 +308,7 @@ a:hover {
     color: white;
     padding: 5px 5px;
     border: 1px solid yellow;
+    box-shadow: 0 0 0.5em 0 yellow;
     border-radius: 5px;
     transform: translateY(-160%) translateX(-43%) scale(0);
     background-color: black;
@@ -325,6 +331,7 @@ a:hover {
 
 .green {
     border: 1px solid green;
+    box-shadow: 0 0 0.5em 0 green;
 }
 
 .green::after {
@@ -333,6 +340,7 @@ a:hover {
 
 .pink {
     border: 1px solid rgb(234, 3, 251);
+    box-shadow: 0 0 0.5em 0 rgb(234, 3, 251);
 }
 
 .pink::after {
@@ -345,4 +353,20 @@ a:hover {
 
 .description {
     font-size: 15px;
+}
+
+.welcome-mess-div {
+    display: flex;
+    justify-content: center;
+}
+
+.welcome-mess-div-2 {
+    background-color: white;
+    width: 800px;
+    height: 500px;
+    border-radius: 10px;
+}
+
+.black-text {
+    color: black
 }

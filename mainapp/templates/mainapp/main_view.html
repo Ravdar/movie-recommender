@@ -22,6 +22,19 @@
             </div>
         </header>
 
+        {% if welcome_message %}
+        <div class="welcome-mess-div">
+            <div class="welcome-mess-div-2">
+                <h1 class="black-text">Hello!</h1>
+                <h4 class="black-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
+                    prompts, and let
+                    MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts
+                    now!</h4>
+            </div>
+        </div>
+        {% else %}
+
+
         <div class="movies">
             {% for movie in response %}
             <div class="movie-div">
@@ -60,6 +73,7 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
 
         <form id="my-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}

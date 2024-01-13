@@ -76,6 +76,8 @@ def main_view(request):
             time.sleep(1)
             print(assistant)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
+            print(thread)
+            print(messages)
             print(messages.data[0].content[0].text.value)
             string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
             start_index = string_data.find('[')
@@ -114,8 +116,8 @@ def main_view(request):
             return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
-        prompt = "No prompt yet"
-    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response})
+        welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
+    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "welcome_message":welcome_message})
 
 
 
