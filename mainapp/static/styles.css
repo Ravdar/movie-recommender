@@ -142,10 +142,14 @@ a:hover {
 }
 
 .main-header {
-    border-bottom: 0.1px solid white;
     display: flex;
-    padding-left: 100px;
+    padding: 0px 10px;
+    justify-content: space-between;
+}
 
+.logotext {
+    font-weight: bold;
+    letter-spacing: 0.3rem;
 }
 
 .year-rating-length0 {
@@ -361,12 +365,12 @@ a:hover {
 }
 
 .welcome-mess-div-2 {
-    background-color: white;
+    background-color: black;
     width: 800px;
     height: 500px;
     border-radius: 10px;
 }
 
-.black-text {
-    color: black
+.white-text {
+    color: white
 }

@@ -16,17 +16,20 @@
 
         <header class="main-header">
             <div class="logotype">
-                <h2>Hello</h2>
-                <img class="logo" src="{% static 'logo.png' %}" alt="Logo">
+                <h1 class="logotext">MoviePick</h1>
+                <!-- <img class="logo" src="{% static 'logo.png' %}" alt="Logo"> -->
                 {{processing_time}}
             </div>
+            <p>About</p>
         </header>
 
         {% if welcome_message %}
         <div class="welcome-mess-div">
             <div class="welcome-mess-div-2">
-                <h1 class="black-text">Hello!</h1>
-                <h4 class="black-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
+                <h1 class="white-text">Meet MoviePick, minimalistic movie recommender fueled with AI.</h1>
+                <br>
+                <br>
+                <h5 class="white-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
                     prompts, and let
                     MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts
                     now!</h4>
