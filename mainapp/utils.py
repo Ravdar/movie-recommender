@@ -1,136 +1,59 @@
-import urllib.request
-from bs4 import BeautifulSoup
+import tmdbsimple as tmdb
+from datetime import timedelta
 import requests
-import re
-from urllib.parse import quote
+import json
 
-# user_id = "ur68322908"
+def convert_movie_length(minutes):
+    """Converts minutes into hours-minutes format (e.g 140 -> 2h20m)."""
+      
+    hours = minutes//60
+    minutes = minutes%60
 
-def sync_imdb_ratings_list(user_id):
-    """Creates .txt file with already seen movies based on an user id"""
+    return f"{hours}h {minutes}m"
 
-    url = f"https://www.imdb.com/user/{user_id}/ratings"
-    headers = {'Accept-Language': 'en-US,en;q=0.9'}
-    request = urllib.request.Request(url, headers=headers)
-
-    db = []
-
-    with urllib.request.urlopen(request) as response:
-        if response.getcode() == 200:
-            html = response.read()
-            soup = BeautifulSoup(html, 'html.parser')
-
-            movies = soup.find_all("h3", class_="lister-item-header")
-            for movie in movies:
-                title = movie.select_one('h3.lister-item-header a').text.strip()
-                year = movie.select_one('h3.lister-item-header span.lister-item-year').text.strip().replace("(", "").replace(")", "")
-                db.append(f"{title} {year}")
-
-    file_name = "C:\\Users\\Tomasz\\Desktop\\movie_recommender\\mainapp\\static\\already_seen_movies.txt"
-
-    with open(file_name, 'w', newline='', encoding='utf-8') as txt_file:
-        txt_file.write("I have already seen below movies, do not recommend these:"+ '\n'+ '\n')
-        for line in db:
-            txt_file.write(line + '\n')
-            
-
-def sync_imdb_watchlist(user_id):
-    """Creates .txt file with imdb watchlist based on an user id"""
-
-    url = f"https://www.imdb.com/user/{user_id}/watchlist"
-    headers = {'Accept-Language': 'en-US,en;q=0.9'}
-
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        html = response.text
-        soup = BeautifulSoup(html, 'lxml')
-        movies = soup.find_all("div", class_="article")
-
-    pattern = r'"year":\["(\d+)"\],"title":"([^"]+)"'
-
-    # Use re.findall to extract matches
-    matches = re.findall(pattern, str(movies))
-
-    # Extracted data
-    result = [match[1]+ " " +match[0] for match in matches]
-
-    file_name = "C:\\Users\\Tomasz\\Desktop\\movie_recommender\\mainapp\\static\\watchlist.txt"
-
-    with open(file_name, 'w', newline='', encoding='utf-8') as txt_file:
-        txt_file.write("Recommend me only movies from below watchlist:"+ '\n'+ '\n')
-        for line in result:
-            print(line)
-            txt_file.write(line + '\n')
-
-
-def check_streaming(movie_title, year):
-    """Returns available streaming platforms list for a particular movie"""
-
-    selected_platforms = []
-    movie_title = movie_title.replace(" ", "%20")
-    movie_title = movie_title.replace("&", "%26")
-    url = f"https://www.justwatch.com/us/search?q={movie_title}%20{year}"
-
-    response = requests.get(url)
-
-    if response.status_code==200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        first_result = soup.find("section", class_="buybox__content inline")
-        if first_result:
-            platforms = first_result.find_all("div", class_="buybox-row__offers")
-            for platform in platforms:
-                for element in platform:
-                    image = element.find('img')
-                    if image:
-                        if type(image) != int:
-                            platform_name = image.get('alt', 'No alt attribute')
-                            selected_platforms.append(platform_name)
-        
-
-    return selected_platforms
-
-
-def check_platforms_for_a_movie(movie_title, year):
-    """Returns list fo boolean values for each streaming platform"""
+def get_tmdb_id(title, year):
+    """Returns TMDB id based on provided movie info."""
     
-    platforms = check_streaming(movie_title, year)
+    slugified_title = f"{title} {str(year)}".replace("-", "").replace(" ", "-").replace(",", "").replace(":","")
+    headers = {'Content-Type':'application/json',
+    'trakt-api-version':'2',
+    'trakt-api-key':'e257c4ec8fc660f3e17f95e5cddd8daf1f178db4cc6ef86ed76bad66d5727c3f'}
+    movie = requests.get(f'https://api.trakt.tv/movies/{slugified_title}', headers=headers).json()
 
-    if "Netflix" in platforms:
-        netflix = True
-    else: 
-        netflix = False
+    return movie["ids"]["tmdb"]
 
-    #Amazonvideo is not subscribe model, only rent or buy
-    if "Amazon Prime Video" in platforms or "Amazon Video" in platforms:
-        prime_video = True
-    else:
-        prime_video = False
+def get_movie_info_tmdb(title, year):
+    """Returns length, description, streaming services, tmdb link, tmdb rating and poster path for a given movie."""
+    
+    tmdb.API_KEY = "fc42d2861e48ecba18363aaa6fc2aaa0"
+    try:
+        tmdb_id = get_tmdb_id(title, year)
+        movie = tmdb.Movies(tmdb_id)
+    except:
+        search = tmdb.Search()
+        search_results = search.movie(query=title)
+        movie = tmdb.Movies(search.results[0]["id"]) 
+        tmdb_id = movie_detailed_info['id']      
+    movie_detailed_info = movie.info()
+    length_in_minutes =int(movie_detailed_info["runtime"])
+    length = convert_movie_length(length_in_minutes)
+    description = movie_detailed_info["overview"]
+    streaming_services = movie.watch_providers()["results"]
+    # imdb_id = movie_detailed_info["imdb_id"]
+    # imdb_link = f"https://www.imdb.com/title/{imdb_id}/"
+    tmdb_link = f"https://www.themoviedb.org/movie/{tmdb_id}"
+    tmdb_rating = movie_detailed_info["vote_average"]
+    poster_path = f"https://image.tmdb.org/t/p/w300_and_h450_bestv2{movie_detailed_info['poster_path']}"
+  
+    movie_info = {"Length":length, "Description":description, "Streaming":streaming_services, "TMDB link":tmdb_link, "Rating":tmdb_rating, "Poster":poster_path}
 
-    if "Hulu" in platforms:
-        hulu = True
-    else:
-        hulu = False
+    return movie_info
 
-    if "Disney Plus" in platforms:
-        disney_plus = True
-    else:
-        disney_plus = False
 
-    if "Max" in platforms or "Max Amazon Channel" in platforms:
-        max = True
-    else:
-        max = False
 
-    if "Apple TV" in platforms or "Apple TV Plus":
-        apple_tv = True
-    else:
-        apple_tv = False
 
-    if "Peacock" in platforms:
-        peacock = True
-    else:
-        peacock = False
 
-    return [netflix, prime_video, hulu, disney_plus, max, apple_tv, peacock]
+
+
+
+
