@@ -34,11 +34,16 @@
                     MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts
                     now!</h4>
             </div>
+            <div class="loading-screen">
+                <h1>Loading...</h1>
+            </div>
         </div>
+
         {% else %}
 
 
         <div class="movies">
+            {% if response %}
             {% for movie in response %}
             <div class="movie-div">
                 <div class="image-container">
@@ -51,7 +56,7 @@
                         <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
                                 class="movie-title">{{movie.Title}}</span></a>
                     </div>
-                    <div class="year-rating-length{{forloop.counter0}}">
+                    <div class="year-rating length{{forloop.counter0}}">
                         <span style="font-size: 14px;">{{movie.Year}}</span>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -67,7 +72,7 @@
                         <span style="font-size: 14px;">{{movie.Length}}</span>
                     </div>
                     <div class="platforms">
-                        {% for platform,url in movie.Platforms.items %}
+                        {% for url in movie.Platforms %}
                         <img class="streaming-icon" src="{{url}}">
                         {% endfor %}
                     </div>
@@ -75,10 +80,15 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="loading-screen">
+                <h1>Loading...</h1>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
 
-        <form id="my-form" method="post" enctype="multipart/form-data">
+        <form id="my-form" method="post" enctype="multipart/form-data" onsubmit="displayLoadingScreen()">
             {% csrf_token %}
             {{prompt_form.media}}
             <div class="movies">
@@ -152,11 +162,8 @@
 
 <script>
 
-    // Call the function for '.title-div' elements
     justifyHeight('.title-div');
-
-    // Call the function for '.other-class' elements
-    justifyHeight('.other-class');
+    justifyHeight('.platforms')
 
     var staticBaseUrl = "{% static '' %}";
     function fillAndSubmitForm() {
@@ -165,12 +172,16 @@
         var value = "Recommend me random movies, each as different from the other as it is possible: one blockbuster, other some niche movie, other from production other tha US, etc..."
 
         textField.value = value;
-
         form.submit();
-
         textField.value = ""
+    }
 
+    function displayLoadingScreen() {
+        var welcomeMessage = document.querySelector('.welcome-mess-div-2')
+        var loadingScreen = document.querySelector('.loading-screen')
 
+        welcomeMessage.style.display = 'none'
+        loadingScreen.style.display = 'flex'
     }
 
 
