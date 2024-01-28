@@ -23,70 +23,68 @@
             <p>About</p>
         </header>
 
-        {% if welcome_message %}
-        <div class="welcome-mess-div">
-            <div class="welcome-mess-div-2">
-                <h1 class="white-text">Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
-                <br>
-                <br>
-                <h5 class="white-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
-                    prompts, and let
-                    MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts
-                    now!</h4>
-            </div>
-            <div class="loading-screen">
-                <h1>Loading...</h1>
-            </div>
-        </div>
-
-        {% else %}
-
-
-        <div class="movies">
-            {% if response %}
-            {% for movie in response %}
-            <div class="movie-div">
-                <div class="image-container">
-                    <a href="{{ movie.Link }}">
-                        <img class="movie-poster" src="{{ movie.Poster }}">
-                    </a>
-                </div>
-                <div class="movie-info">
-                    <div class="title-div">
-                        <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
-                                class="movie-title">{{movie.Title}}</span></a>
-                    </div>
-                    <div class="year-rating length{{forloop.counter0}}">
-                        <span style="font-size: 14px;">{{movie.Year}}</span>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24"
-                                fill="currentColor" role="presentation">
-                                <path
-                                    d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
-                                    fill="rgb(243,206,19)">
-                                </path>
-                            </svg>
-                            <span style="font-size: 14px;">{{movie.Rating}}</span>
-                        </div>
-                        <span style="font-size: 14px;">{{movie.Length}}</span>
-                    </div>
-                    <div class="platforms">
-                        {% for url in movie.Platforms %}
-                        <img class="streaming-icon" src="{{url}}">
-                        {% endfor %}
-                    </div>
-                    <span class="description">{{movie.Description}}</span>
+        <div class="main-cotent">
+            {% if welcome_message %}
+            <div class="welcome-mess-div">
+                <div class="welcome-mess-div-2">
+                    <h1 class="white-text">Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
+                    <br>
+                    <br>
+                    <h5 class="white-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
+                        prompts, and let
+                        MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
+                        prompts
+                        now!</h4>
                 </div>
             </div>
-            {% endfor %}
+
             {% else %}
-            <div class="loading-screen">
-                <h1>Loading...</h1>
+
+
+            <div id="movies" class="movies">
+                {% for movie in response %}
+                <div class="movie-div">
+                    <div class="image-container">
+                        <a href="{{ movie.Link }}">
+                            <img class="movie-poster" src="{{ movie.Poster }}">
+                        </a>
+                    </div>
+                    <div class="movie-info">
+                        <div class="title-div">
+                            <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
+                                    class="movie-title">{{movie.Title}}</span></a>
+                        </div>
+                        <div class="year-rating length{{forloop.counter0}}">
+                            <span style="font-size: 14px;">{{movie.Year}}</span>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24"
+                                    fill="currentColor" role="presentation">
+                                    <path
+                                        d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
+                                        fill="rgb(243,206,19)">
+                                    </path>
+                                </svg>
+                                <span style="font-size: 14px;">{{movie.Rating}}</span>
+                            </div>
+                            <span style="font-size: 14px;">{{movie.Length}}</span>
+                        </div>
+                        <div class="platforms">
+                            {% for url in movie.Platforms %}
+                            <img class="streaming-icon" src="{{url}}">
+                            {% endfor %}
+                        </div>
+                        <span class="description">{{movie.Description}}</span>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
             {% endif %}
         </div>
-        {% endif %}
+
+        <div class="loading-screen">
+            <h1>Loading...</h1>
+        </div>
 
         <form id="my-form" method="post" enctype="multipart/form-data" onsubmit="displayLoadingScreen()">
             {% csrf_token %}
@@ -155,37 +153,84 @@
                 </div>
             </div>
             {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
-            <img class="random-butt" onclick="fillAndSubmitForm()" src="{% static 'random_button.png' %}" alt="Random">
+            <div class="random-butt-div">
+                <div id="random-tooltip" class="mytooltip white">Roll random movies</div>
+                <img clicked="0" class="random-butt" onmouseout='hideTooltip("random-tooltip")'
+                    onmouseover='showTooltip("random-tooltip")' onclick="pickRandomMovies()"
+                    src="{% static 'random_button.png' %}" alt="Random">
+            </div>
         </form>
     </div>
 </body>
 
 <script>
+    var mainContent = document.querySelector('.main-cotent')
+    var loadingScreen = document.querySelector('.loading-screen')
+    var staticBaseUrl = "{% static '' %}";
+
+    function justifyHeight(className) {
+
+        var elements = document.querySelectorAll(className);
+        var maxElementHeight = 0;
+
+        elements.forEach(function (element) {
+            var height = element.clientHeight;
+
+            if (height > maxElementHeight) { maxElementHeight = height; }
+        });
+
+        elements.forEach(function (element) {
+            element.style.height = maxElementHeight + 'px';
+        });
+    }
 
     justifyHeight('.title-div');
     justifyHeight('.platforms')
 
-    var staticBaseUrl = "{% static '' %}";
-    function fillAndSubmitForm() {
+
+    function pickRandomMovies() {
         var form = document.getElementById("my-form");
         var textField = form.elements["text"];
-        var value = "Recommend me random movies, each as different from the other as it is possible: one blockbuster, other some niche movie, other from production other tha US, etc..."
+        const randomPrompts = [
+            "Recommend me random movies, different from each other: blockbuster, non US, older than 2010, nostalgic, action in UK.",
+            "Recommend me random movies, different from each other: critically acclaimed, comedy, science fiction, animated, from the 80s.",
+            "Recommend me random movies, different from each other: classic, thriller, foreign language, post-apocalyptic, based on a true story.",
+            "Recommend me random movies, different from each other: indie, fantasy, documentary, set in a dystopian future, directed by a woman.",
+            "Recommend me random movies, different from each other: cult classic, horror, musical, black and white, non-linear narrative.",
+            "Recommend me random movies, different from each other: mind-bending, romantic, heist, family-friendly, set in a different time period.",
+            "Recommend me random movies, different from each other: psychological thriller, historical, coming-of-age, satirical, with a strong female lead.",
+            "Recommend me random movies, different from each other: underdog sports, animated, non-English language, biographical, set in a war.",
+            "Recommend me random movies, different from each other: suspenseful, neo-noir, Western, directed by a debut filmmaker, based on a book.",
+            "Recommend me random movies, different from each other: time travel, comedy-drama, crime, space exploration, directed by a person of color.",
+            "Recommend me random movies, different from each other: thought-provoking, musical comedy, documentary series, set in a futuristic world, non-linear narrative.",
+            "Recommend me random movies, different from each other: cult classic, teen romance, martial arts, animated, with a strong environmental message.",
+            "Recommend me random movies, different from each other: mystery, classic Hollywood, psychological horror, non-English language, based on mythology.",
+            "Recommend me random movies, different from each other: dark comedy, war film, biographical, futuristic, set in a small town.",
+            "Recommend me random movies, different from each other: courtroom drama, animated fantasy, spy thriller, non-US, based on a graphic novel.",
+            "Recommend me random movies, different from each other: feel-good, dystopian, action comedy, romantic drama, directed by a famous actor-turned-director.",
+            "Recommend me random movies, different from each other: thought-provoking science fiction, fantasy adventure, animated musical, non-English language, based on folklore.",
+            "Recommend me random movies, different from each other: cyberpunk, historical romance, crime thriller, documentary series, set in the future.",
+            "Recommend me random movies, different from each other: superhero, mockumentary, coming-of-age drama, space opera, directed by a female filmmaker.",
+            "Recommend me random movies, different from each other: political satire, animated comedy, horror anthology, biographical drama, set in a post-war era."
+        ]
+        const randomIndex = Math.floor(Math.random() * randomPrompts.length);
+        const pickedPrompt = randomPrompts[randomIndex];
+        console.log(pickedPrompt)
 
-        textField.value = value;
+        textField.value = pickedPrompt;
         form.submit();
         textField.value = ""
-    }
 
-    function displayLoadingScreen() {
-        var welcomeMessage = document.querySelector('.welcome-mess-div-2')
-        var loadingScreen = document.querySelector('.loading-screen')
-
-        welcomeMessage.style.display = 'none'
+        mainContent.style.display = 'none'
         loadingScreen.style.display = 'flex'
     }
 
+    function displayLoadingScreen() {
 
-    // Variable to keep track of the current image index
+        mainContent.style.display = 'none'
+        loadingScreen.style.display = 'flex'
+
+    }
 
     function toggleImageF(platform, img_off, img_on) {
 
@@ -218,27 +263,8 @@
         tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
     }
 
-    function justifyHeight(className) {
-
-        var elements = document.querySelectorAll(className);
-
-        // Find the maximum height among all elements
-        var maxElementHeight = 0;
-
-
-        elements.forEach(function (element) {
-            var height = element.clientHeight;
-            console.log(height)
-
-            if (height > maxElementHeight) { maxElementHeight = height; }
-        });
-
-        elements.forEach(function (element) {
-            element.style.height = maxElementHeight + 'px';
-        });
-    }
-
 
 </script>
+
 
 </html>

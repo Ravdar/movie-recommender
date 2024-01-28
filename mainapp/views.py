@@ -3,19 +3,19 @@ from django import forms
 
 from .forms import UserPrompt
 from .utils import get_movie_info_tmdb
-from .models import Movie
+from .models import Movie, Recommendation
 
 from openai import OpenAI
 import time
 import ast
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def main_view(request):
     client = OpenAI()   
     response = ""
     if request.method =="POST":
-        start_time = time.time()
+        start_time = datetime.now()
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
             # Checking searchbar tools settings
@@ -72,19 +72,14 @@ def main_view(request):
                     run_id=run.id,
                 )
             time.sleep(0.5)
-            print(f"Generated {time.time() - start_time}")
             time.sleep(1)
-            print(assistant)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
-            print(thread)
-            print(messages)
-            print(messages.data[0].content[0].text.value)
             string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
             response = ast.literal_eval(movies_list_str)
-            print(f"Before tmdb data {time.time() - start_time}")
+            recommendation = Recommendation.objects.create(prompt_text=prompt, datetime_of_prompt=datetime.now())
             for movie in response:
                 movie_title = movie["Title"]
                 movie_year = str(movie["Year"])
@@ -124,13 +119,17 @@ def main_view(request):
                 movie["Length"] = length
                 movie["Platforms"] = streaming_services
                 movie["Description"] = movie["Plot short description"]
-            processing_time = time.time() - start_time
+                recommendation.recommended_movies.add(db_movie)
+            processing_time = timedelta(seconds=(datetime.now() - start_time).total_seconds())
+            print(type(processing_time))
+            recommendation.response_time = processing_time
+            recommendation.save()
             prompt_form = UserPrompt()
             return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
         welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
-    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "welcome_message":welcome_message})
+    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
 
 
 
