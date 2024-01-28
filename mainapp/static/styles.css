@@ -235,6 +235,11 @@ a:hover {
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
 }
 
+.random-butt-div {
+    position: relative;
+    display: inline-block;
+}
+
 .random-butt:hover {
     transform: scale(1.1);
 }
@@ -304,6 +309,17 @@ a:hover {
     transform: translateX(-50%);
 }
 
+.white {
+    margin-left: 12px;
+    margin-bottom: 12px;
+    border: 1px solid white;
+}
+
+.white::after {
+    border-top-color: white;
+}
+
+
 .green {
     border: 1px solid green;
     box-shadow: 0 0 0.5em 0 green;
@@ -344,8 +360,9 @@ a:hover {
 }
 
 .loading-screen {
-    position: absolute;
     display: none;
+    justify-content: center;
+    align-items: center;
 
 }
 

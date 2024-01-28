@@ -13,3 +13,12 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title + " "+ self.year
+    
+class Recommendation(models.Model):
+    datetime_of_prompt = models.DateTimeField(null=True, blank=True)
+    # User data? IP \ Geolocation \ Language Pref \ Device (mobile\pc)
+    prompt_text = models.CharField(max_length=2000)
+    # if_random = models.BooleanField()
+    response_time = models.DurationField(null=True, blank=True) # as timedelta seconds
+    recommended_movies = models.ManyToManyField(Movie, related_name='recommendations')
+    # if error
