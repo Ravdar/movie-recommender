@@ -30,11 +30,13 @@
                     <h1 class="white-text">Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
                     <br>
                     <br>
-                    <h5 class="white-text"> MovieNeon, the intelligent movie matchmaker, is at your service. Share your
+                    <h5 class="white-text"> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
                         prompts, and let
                         MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
                         prompts
-                        now!</h4>
+                        now!</h5>
+                    <br>
+                    <h5 class="prompt-idea"></h5>
                 </div>
             </div>
 
@@ -83,7 +85,11 @@
         </div>
 
         <div class="loading-screen">
-            <h1>Loading...</h1>
+            <div class="dot yellow-dot"></div>
+            <div class="dot aqua-dot"></div>
+            <div class="dot green-dot"></div>
+            <div class="dot pink-dot"></div>
+            <div class="dot blue-dot"></div>
         </div>
 
         <form id="my-form" method="post" enctype="multipart/form-data" onsubmit="displayLoadingScreen()">
@@ -211,7 +217,36 @@
             "Recommend me random movies, different from each other: thought-provoking science fiction, fantasy adventure, animated musical, non-English language, based on folklore.",
             "Recommend me random movies, different from each other: cyberpunk, historical romance, crime thriller, documentary series, set in the future.",
             "Recommend me random movies, different from each other: superhero, mockumentary, coming-of-age drama, space opera, directed by a female filmmaker.",
-            "Recommend me random movies, different from each other: political satire, animated comedy, horror anthology, biographical drama, set in a post-war era."
+            "Recommend me random movies, different from each other: political satire, animated comedy, horror anthology, biographical drama, set in a post-war era.", "I like Ryan Gosling",
+            "Some thriller from Sweden",
+            "I enjoy superhero movies, but don't like Marvel",
+            "Horror produced before 1980",
+            "Thriller directed by a woman",
+            "Snowy movie, but not about Christmas",
+            "Give me a romantic comedy with Sandra Bullock",
+            "I'm into historical dramas set in ancient Rome",
+            "Recommend a mind-bending science fiction film similar to Inception",
+            "Looking for a fantasy movie with dragons, but not Game of Thrones",
+            "A family-friendly animated film with talking animals",
+            "Find me a crime thriller set in a futuristic dystopian world",
+            "I want a classic black and white film, preferably a mystery",
+            "Suggest a war movie based on a true story",
+            "I enjoy Quentin Tarantino films, recommend something similar",
+            "Give me a feel-good movie with a strong female lead",
+            "Looking for a documentary about space exploration",
+            "I'm in the mood for a foreign language film with subtitles, any genre",
+            "Recommend a comedy that doesn't rely on slapstick humor",
+            "A psychological horror film that's not too intense",
+            "I love Christopher Nolan's work, suggest a non-Batman film",
+            "Find me a crime documentary that explores unsolved mysteries",
+            "I want a coming-of-age film set in the 80s",
+            "Give me an action-packed movie with a strong ensemble cast",
+            "A lighthearted fantasy film suitable for a family movie night",
+            "Recommend a western movie with a modern twist", "Fantasy adventure with magical creatures", "Biography of a famous scientist or inventor",
+            "Sci-fi comedy with aliens",
+            "Film adaptation of a classic book", "Romantic Victorian-era period piece",
+            "Funny road trip movie with friends",
+            "Thought-provoking political drama", 'Movie worse than "The Room"', "Something where Sean Bean character doesn't die", 'Classical Christmas movie, like "Die Hard"', "Main character is bald and angry"
         ]
         const randomIndex = Math.floor(Math.random() * randomPrompts.length);
         const pickedPrompt = randomPrompts[randomIndex];
@@ -262,6 +297,50 @@
 
         tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
     }
+
+    const promptIdea = document.querySelector(".prompt-idea");
+
+    promptIdeasList = ["I like Ryan Gosling",
+        "Some thriller from Sweden",
+        "I enjoy superhero movies, but don't like Marvel",
+        "Horror produced before 1980",
+        "Thriller directed by a woman",
+        "Snowy movie, but not about Christmas",
+        "Give me a romantic comedy with Sandra Bullock",
+        "I'm into historical dramas set in ancient Rome",
+        "Recommend a mind-bending science fiction film similar to Inception",
+        "Looking for a fantasy movie with dragons, but not Game of Thrones",
+        "A family-friendly animated film with talking animals",
+        "Find me a crime thriller set in a futuristic dystopian world",
+        "I want a classic black and white film, preferably a mystery",
+        "Suggest a war movie based on a true story",
+        "I enjoy Quentin Tarantino films, recommend something similar",
+        "Give me a feel-good movie with a strong female lead",
+        "Looking for a documentary about space exploration",
+        "I'm in the mood for a foreign language film with subtitles, any genre",
+        "Recommend a comedy that doesn't rely on slapstick humor",
+        "A psychological horror film that's not too intense",
+        "I love Christopher Nolan's work, suggest a non-Batman film",
+        "Find me a crime documentary that explores unsolved mysteries",
+        "I want a coming-of-age film set in the 80s",
+        "Give me an action-packed movie with a strong ensemble cast",
+        "A lighthearted fantasy film suitable for a family movie night",
+        "Recommend a western movie with a modern twist", "Fantasy adventure with magical creatures", "Biography of a famous scientist or inventor",
+        "Sci-fi comedy with aliens",
+        "Film adaptation of a classic book", "Romantic Victorian-era period piece",
+        "Funny road trip movie with friends",
+        "Thought-provoking political drama", 'Movie worse than "The Room"', "Something where Sean Bean character doesn't die", 'Classical Christmas movie, like "Die Hard"', "Main character is bald and angry"]
+
+    colorsList = ['rgb(255,255,0)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,0,205)', 'rgb(5,99,244)']
+
+    let currentIndex = 0;
+
+    setInterval(() => {
+        var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
+        promptIdea.textContent = selectedIdea;
+        currentIndex = (currentIndex + 1) % colorsList.length;
+        promptIdea.style.color = colorsList[currentIndex];
+    }, 1000);
 
 
 </script>

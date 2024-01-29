@@ -1,3 +1,74 @@
+@keyframes loadingYellow {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-150%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingAqua {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingPink {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingBlue {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(150%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingGreen {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(100);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
 a {
     text-decoration: none;
     color: white;
@@ -165,27 +236,22 @@ a:hover {
 
 .length0 {
     border: 1px solid rgb(255, 255, 0);
-    box-shadow: 0 0 1em 0 rgb(255, 255, 0);
 }
 
 .length1 {
     border: 1px solid rgb(0, 213, 255);
-    box-shadow: 0 0 1em 0 rgb(0, 213, 255);
 }
 
 .length2 {
     border: 1px solid rgb(0, 255, 0);
-    box-shadow: 0 0 1em 0 rgb(0, 255, 0);
 }
 
 .length3 {
     border: 1px solid rgb(255, 0, 179);
-    box-shadow: 0 0 1em 0 rgb(255, 0, 179);
 }
 
 .length4 {
     border: 1px solid rgb(5, 99, 244);
-    box-shadow: 0 0 1em 0 rgb(5, 99, 244);
 }
 
 .logotype {
@@ -363,9 +429,44 @@ a:hover {
     display: none;
     justify-content: center;
     align-items: center;
-
 }
+
+.dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50px;
+    margin-right: 0px;
+}
+
+.yellow-dot {
+    background-color: yellow;
+    animation: loadingYellow 2s ease-in-out infinite;
+}
+
+.aqua-dot {
+    background-color: aqua;
+    animation: loadingAqua 2s ease-in-out infinite;
+}
+
+.pink-dot {
+    background-color: rgb(255, 0, 234);
+    animation: loadingPink 2s ease-in-out infinite;
+}
+
+.blue-dot {
+    background-color: blue;
+    animation: loadingBlue 2s ease-in-out infinite;
+}
+
+.green-dot {
+    background-color: rgb(9, 255, 0);
+}
+
 
 .white-text {
     color: white
+}
+
+.prompt-idea {
+    text-shadow: 1 1 50px grey;
 }
