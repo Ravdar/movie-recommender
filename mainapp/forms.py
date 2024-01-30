@@ -6,7 +6,7 @@ class UserPrompt(forms.Form):
     only_watchlist = forms.BooleanField(label="Only from watchlist", initial=False, required=False)
     gpt_4= forms.BooleanField(label="GPT-4",initial=False, required=False)
 
-    #I want to pack the attributes below into one, to loop thorugh them in a template
+    # I want to pack the attributes below into one, to loop thorugh them in a template
     netflix = forms.BooleanField(label="Netflix",initial=False, required=False)
     amazon_prime = forms.BooleanField(label="Amazon Prime Video", initial=False, required=False)
     disney_plus = forms.BooleanField(label="Disney Plus", initial=False, required=False)
