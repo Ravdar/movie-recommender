@@ -23,7 +23,7 @@ def main_view(request):
             tools = []
             file_ids = []
             instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
-            prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list."
+            prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list of 5 movies."
 
             if prompt_form.cleaned_data["gpt_4"]:
                 assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL' # 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
@@ -75,6 +75,7 @@ def main_view(request):
             time.sleep(1)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
             string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
+            print(string_data)
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
