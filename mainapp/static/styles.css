@@ -130,6 +130,10 @@
      }
  }
 
+ body {
+     font-family: Roboto;
+ }
+
  a {
      text-decoration: none;
      color: white;
@@ -350,6 +354,7 @@
      padding: 2px 15px;
      display: flex;
      justify-content: space-between;
+     align-items: center;
      max-height: 32px;
  }
 
@@ -529,9 +534,12 @@
 
  .description {
      font-size: 14px;
-     text-align: justify;
+     text-align: left;
      hyphens: auto;
      color: whitesmoke;
+     width: 200px;
+     /* max-height:150px; Also add 'more' or scroll button */
+
  }
 
  .welcome-mess-div {
