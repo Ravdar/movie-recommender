@@ -126,11 +126,11 @@ def main_view(request):
             recommendation.response_time = processing_time
             recommendation.save()
             prompt_form = UserPrompt()
-            return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
+            return render(request, "mainapp/refactored.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
         welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
-    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
+    return render(request, "mainapp/refactored.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
 
 
 
