@@ -1,149 +1,137 @@
 from django.shortcuts import render
+from django import forms
+
 from .forms import UserPrompt
+from .utils import get_movie_info_tmdb
+from .models import Movie, Recommendation
+
 from openai import OpenAI
 import time
 import ast
-import movieposters as mp
-import requests
-from bs4 import BeautifulSoup
-from .models import Movie
-from datetime import datetime
+from datetime import datetime, timedelta
+
 
 def main_view(request):
-    client = OpenAI()
+    client = OpenAI()   
     response = ""
     if request.method =="POST":
-        start_time = time.time()
+        start_time = datetime.now()
         prompt_form = UserPrompt(request.POST)
         if prompt_form.is_valid():
-            assistant = client.beta.assistants.create(name="Movie recommender", instructions='You are a movie expert. Your role is to recommend 5 movies, based on the data provided by an user. The output should be python list of dictionaries with keys: "Title", "Year", "Short description". The list should be named "movies". Do not write anything else, provide just a list.', model="gpt-3.5-turbo-1106")
+            # Checking searchbar tools settings
+            assistant_id = 'asst_uLNsyXn04oFs1mxJkCdbEwVv'
+            tools = []
+            file_ids = []
+            instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
+            prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list of 5 movies."
+
+            if prompt_form.cleaned_data["gpt_4"]:
+                assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL' # 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                # file_id = 'file-E7IBRtoF7uImZmH9kU36urA1'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+            if prompt_form.cleaned_data["only_watchlist"]:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                # file_id = 'file-6J32Lw7YXCBQyIuYCA1tRAsH'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+
+            elif prompt_form.cleaned_data["without_seen"]:
+                assistant_id = 'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                # file_id = 'file-qWa8QHBYup9GjeskZCHtvlFh'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+
+            # Checking streaming services
+            selected_platforms = []
+            for field_name, field in prompt_form.fields.items():
+                if isinstance(field, forms.BooleanField) and field_name not in ['without_seen', 'only_watchlist', 'gpt_4']:
+                    if prompt_form.cleaned_data[field_name]:
+                        selected_platforms.append(field.label)
+            selected_platforms_str = ""
+
+            if selected_platforms == [] or len(selected_platforms) == 7:
+                pass
+            else:
+                assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL'#'asst_sKuRYRpYQWM6VigUHTnFzUhk'
+                # file_id = 'file-E7IBRtoF7uImZmH9kU36urA1'
+                tools = [{"type": "retrieval"}]
+                file_ids = [file_id]
+                prompt_additional_info = f' available on of these streaming platforms: {selected_platforms} .Please remember to not write any additional text in a response, provide just a list.'
+
+
+            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids, instructions=instructions)
             thread = client.beta.threads.create()
-            prompt = prompt_form.cleaned_data["text"]
+            prompt = prompt_form.cleaned_data['text'] + prompt_additional_info
+            print(prompt)
             message = client.beta.threads.messages.create(thread_id=thread.id, role="user", content=prompt)
-            run = client.beta.threads.runs.create(thread_id=thread.id, assistant_id=assistant.id)
+            run = client.beta.threads.runs.create(thread_id=thread.id, assistant_id=assistant_id)
             while run.status == "queued" or run.status == "in_progress":
                 run = client.beta.threads.runs.retrieve(
                     thread_id=thread.id,
                     run_id=run.id,
                 )
             time.sleep(0.5)
-            print(f"Generated {time.time() - start_time}")
             time.sleep(1)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
-            string_data = messages.data[0].content[0].text.value
+            string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
+            print(string_data)
             start_index = string_data.find('[')
             end_index = string_data.rfind(']') + 1
             movies_list_str = string_data[start_index:end_index]
             response = ast.literal_eval(movies_list_str)
-            print(response)
-            print(f"Before imdb data {time.time() - start_time}")
+            recommendation = Recommendation.objects.create(prompt_text=prompt, datetime_of_prompt=datetime.now())
             for movie in response:
                 movie_title = movie["Title"]
-                db_movie = Movie.objects.filter(title=movie_title, year=movie["Year"])
+                movie_year = str(movie["Year"])
+                db_movie = Movie.objects.filter(title=movie_title, year=movie_year)
                 if db_movie.exists():
-                    print(db_movie)
-                    db_movie = Movie.objects.get(title=movie_title, year=movie["Year"])
+                    db_movie = Movie.objects.get(title=movie_title, year=movie_year)
                     poster_link = db_movie.poster_url
                     length = db_movie.length
-                    movie_link = db_movie.imdb_link
+                    movie_link = db_movie.tmdb_link
                     rating = db_movie.rating
+                    try:
+                        streaming = db_movie.streaming_services["US"]["flatrate"]
+                        print(streaming)
+                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in streaming]
+                        print(streaming_services)
+                    except:
+                        streaming_services = []
                 else:
-                    imdb_link_and_local_poster = mp.get_imdb_link_from_title(movie_title)
-                    movie_link = imdb_link_and_local_poster
-                    poster_rating_length = mp.get_poster_from_imdb_link(imdb_link_and_local_poster[0])
-                    poster_link = poster_rating_length[0]
-                    rating = poster_rating_length[1]
-                    length = poster_rating_length[2]
-                    streaming_platforms = check_platforms_for_a_movie(movie_title, movie["Year"])
-                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, imdb_link=imdb_link_and_local_poster[0], rating=rating, netflix = streaming_platforms[0], amazon_prime= streaming_platforms[1], hulu= streaming_platforms[2], disney_plus= streaming_platforms[3], hbo_max= streaming_platforms[4], apple_tv= streaming_platforms[5], peacock= streaming_platforms[6], last_update=datetime.today().date())
+                    print(movie)
+                    print("NOT EXISTS")
+                    movie_info = get_movie_info_tmdb(movie_title, movie_year)
+                    movie_link = movie_info["TMDB link"]
+                    poster_link = movie_info["Poster"]
+                    rating = movie_info["Rating"]
+                    length = movie_info["Length"]
+                    try:
+                        print(movie_info["Streaming"]["US"]["flatrate"])
+                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in movie_info["Streaming"]["US"]["flatrate"]]
+                        print(streaming_services)
+                    except:
+                        streaming_services = []
+                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = movie_info["Streaming"], rating=rating, last_update=datetime.today().date())
                     db_movie.save()
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
                 movie["Length"] = length
-                movie["Platforms"] = db_movie.get_streaming_platforms()
-                movie["Description"] = movie["Short description"]
-            processing_time = time.time() - start_time
-            return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
+                movie["Platforms"] = streaming_services
+                movie["Description"] = movie["Plot short description"]
+                recommendation.recommended_movies.add(db_movie)
+            processing_time = timedelta(seconds=(datetime.now() - start_time).total_seconds())
+            print(type(processing_time))
+            recommendation.response_time = processing_time
+            recommendation.save()
+            prompt_form = UserPrompt()
+            return render(request, "mainapp/refactored.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
-        prompt = "No prompt yet"
-    return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response})
+        welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
+    return render(request, "mainapp/refactored.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
 
-def check_streaming(movie_title, year):
 
-    selected_platforms = []
-    url = f"https://www.justwatch.com/us/search?q={movie_title}%20{year}"
-
-    response = requests.get(url)
-
-    if response.status_code==200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        platforms = soup.find_all("div", class_="buybox-row__offers")
-        for element in platforms[0]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[1]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-
-        for element in platforms[2]:
-            image = element.find('img')
-            if image:
-                if type(image) != int:
-                    platform_name = image.get('alt', 'No alt attribute')
-                    selected_platforms.append(platform_name)
-    
-    return selected_platforms
-
-def check_platforms_for_a_movie(movie_title, year):
-    
-    platforms = check_streaming(movie_title, year)
-
-    if "Netflix" in platforms:
-        netflix = True
-    else: 
-        netflix = False
-
-    #Amazonvideo is not subscribe model, only rent or buy
-    if "Amazon Prime Video" in platforms or "Amazon Video" in platforms:
-        prime_video = True
-    else:
-        prime_video = False
-
-    if "Hulu" in platforms:
-        hulu = True
-    else:
-        hulu = False
-
-    if "Disney Plus" in platforms:
-        disney_plus = True
-    else:
-        disney_plus = False
-
-    if "Max" in platforms:
-        max = True
-    else:
-        max = False
-
-    if "Apple TV" in platforms:
-        apple_tv = True
-    else:
-        apple_tv = False
-
-    if "Peacock" in platforms:
-        peacock = True
-    else:
-        peacock = False
-
-    return [netflix, prime_video, hulu, disney_plus, max, apple_tv, peacock]
 
 
