@@ -127,7 +127,7 @@ function hideTooltip(tooltip) {
     tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
 }
 
-const promptIdea = document.querySelector(".prompt-idea");
+const promptIdea = document.getElementById("prompt-examples");
 
 promptIdeasList = ["I like Ryan Gosling",
     "Some thriller from Sweden",
