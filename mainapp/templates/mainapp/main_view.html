@@ -4,8 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>WhatToWatch.tv</title>
-
+    <title>MovieBreak.tv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
@@ -13,45 +17,337 @@
 
 <body>
     <div class="main-div">
+
         <header class="main-header">
             <div class="logotype">
-                <h2>Hello</h2>
-                <img class="logo" src="{% static 'logo.png' %}" alt="Logo">
+                <h1 class="logotext">MovieBreak</h1>
+                <!-- <img class="logo" src="{% static 'logo.png' %}" alt="Logo"> -->
                 {{processing_time}}
             </div>
+            <p>About</p>
         </header>
-        <div class="movies">
-            {% for movie in response %}
-            <div class="movie-div">
-                <a href="{{ movie.Link }}">
-                    <img class="movie-poster" src="{{ movie.Poster }}">
-                </a>
-                <a href="{{movie.Link}}"><span>{{movie.Title}}</span></a>
-                <span>{{movie.Year}}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24" fill="currentColor"
-                    role="presentation">
-                    <path
-                        d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
-                        fill="rgb(243,206,19)">
-                    </path>
-                </svg>
-                <span>{{movie.Rating}}</span>
-                <span>{{movie.Length}}</span>
-                <span>{{movie.Description}}</span>
-                {% for platform,url in movie.Platforms.items %}
-                <img class="streaming-icon" src="{{url}}">
+
+        <div class="main-content">
+            {% if welcome_message %}
+            <div class="welcome-mess-div">
+                <div class="welcome-mess-div-2">
+                    <h1 class="white-text">Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
+                    <br>
+                    <br>
+                    <p class="white-text"> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
+                        prompts, and let
+                        MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
+                        prompts
+                        now!</p>
+                    <br>
+                    <p class="prompt-idea"></p>
+                </div>
+            </div>
+
+            {% else %}
+
+
+            <div id="movies" class="movies">
+                {% for movie in response %}
+                <div class="movie-div">
+                    <div class="image-container">
+                        <a href="{{ movie.Link }}">
+                            <img class="movie-poster" src="{{ movie.Poster }}">
+                        </a>
+                    </div>
+                    <div class="movie-info">
+                        <div class="title-div">
+                            <a class="title_a{{forloop.counter0}}" href="{{movie.Link}}"><span
+                                    class="movie-title">{{movie.Title}}</span></a>
+                        </div>
+                        <div class="year-rating length{{forloop.counter0}}">
+                            <span style="font-size: 14px;">{{movie.Year}}</span>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    class="ipc-icon ipc-icon--star sc-bde20123-4 frBGmx" viewBox="0 0 24 24"
+                                    fill="currentColor" role="presentation">
+                                    <path
+                                        d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"
+                                        fill="rgb(243,206,19)">
+                                    </path>
+                                </svg>
+                                <span style="font-size: 14px;">{{movie.Rating}}</span>
+                            </div>
+                            <span style="font-size: 14px;">{{movie.Length}}</span>
+                        </div>
+                        <div class="platforms">
+                            {% for url in movie.Platforms %}
+                            <img class="streaming-icon" src="{{url}}">
+                            {% endfor %}
+                        </div>
+                        <span class="description">{{movie.Description}}</span>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
-            {% endfor %}
+            {% endif %}
         </div>
-        <form method="post" enctype="multipart/form-data">
+
+        <div class="loading-screen">
+            <div class="dot yellow-dot"></div>
+            <div class="dot aqua-dot"></div>
+            <div class="dot green-dot"></div>
+            <div class="dot pink-dot"></div>
+            <div class="dot blue-dot"></div>
+        </div>
+
+        <form id="my-form" method="post" enctype="multipart/form-data" onsubmit="displayLoadingScreen()">
             {% csrf_token %}
             {{prompt_form.media}}
-            {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
+            <div class="movies">
+                <div class="searchbar-tools">{{prompt_form.platforms}}
 
+                    <div class="advanced-tools">
+                        <div class="tool-div">
+                            <div id="alread_seen_tooltip" class="mytooltip">Don't recommend already seen movies</div>
+                            <img clicked="0" onmouseout='hideTooltip("alread_seen_tooltip")'
+                                onmouseover='showTooltip("alread_seen_tooltip")'
+                                onclick='toggleImageF(this, "already_seen_button.png", "already_seen_button_on.png")'
+                                class="searchbar-platformsas" src="{% static 'already_seen_button.png' %}"
+                                alt="Already seen">
+                            {{ prompt_form.without_seen|add_class:"searchbar-checkbox"}}
+                        </div>
+                        <div class="tool-div">
+                            <div id="watchlist_tooltip" class="mytooltip green">Recommend only from watchlist</div><img
+                                onmouseout='hideTooltip("watchlist_tooltip")'
+                                onmouseover='showTooltip("watchlist_tooltip")' clicked="0"
+                                onclick='toggleImageF(this, "watchlist_button.png", "watchlist_button_on.png")'
+                                class="searchbar-platforms" src="{% static 'watchlist_button.png' %}" alt="Watchlist">
+                            {{prompt_form.only_watchlist|add_class:"searchbar-checkbox"}}
+                        </div>
+                        <div>
+                            <div id="gpt_4_tooltip" class="mytooltip pink">More accurate responses (but also slower)
+                            </div>
+                            <img onmouseout='hideTooltip("gpt_4_tooltip")' onmouseover='showTooltip("gpt_4_tooltip")'
+                                clicked="0" onclick='toggleImageF(this, "gpt4_button.png", "gpt4_button_on.png")'
+                                class="searchbar-platforms" src="{% static 'gpt4_button.png' %}" alt="Advanced AI">
+                            {{prompt_form.gpt_4|add_class:"searchbar-checkbox"}}
+                        </div>
+                    </div>
+
+                    <div>
+                        <img onclick='toggleImageF(this, "netflix_off.webp", "netflix.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'netflix_off.webp' %}" alt="Netflix">
+                        {{ prompt_form.netflix|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "amazon_prime_off.webp", "amazon_prime.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'amazon_prime_off.webp' %}"
+                            alt="Amazon Prime Video">
+                        {{ prompt_form.amazon_prime|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "disney_plus_off.webp", "disney_plus.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'disney_plus_off.webp' %}" alt="Disney Plus">
+                        {{ prompt_form.disney_plus|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "hulu_off.webp", "hulu.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'hulu_off.webp' %}" alt="Hulu">
+                        {{ prompt_form.hulu|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "hbo_max_off.webp", "hbo_max.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'hbo_max_off.webp' %}" alt="HBO Max">
+                        {{ prompt_form.hbo_max|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "apple_tv_off.webp", "apple_tv.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'apple_tv_off.webp' %}" alt="Apple TV">
+                        {{ prompt_form.apple_tv|add_class:"searchbar-checkbox" }}
+
+                        <img onclick='toggleImageF(this, "peacock_off.webp", "peacock.webp")' clicked="0"
+                            class="searchbar-platforms" src="{% static 'peacock_off.webp' %}" alt="Peacock">
+                        {{ prompt_form.peacock|add_class:"searchbar-checkbox" }}
+                    </div>
+                </div>
+            </div>
+            {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
+            <div class="random-butt-div">
+                <div id="random-tooltip" class="mytooltip white">Roll random movies</div>
+                <img clicked="0" class="random-butt" onmouseout='hideTooltip("random-tooltip")'
+                    onmouseover='showTooltip("random-tooltip")' onclick="pickRandomMovies()"
+                    src="{% static 'random_button.png' %}" alt="Random">
+            </div>
         </form>
     </div>
 </body>
+
+<script>
+    var mainContent = document.querySelector('.main-content')
+    var loadingScreen = document.querySelector('.loading-screen')
+    var staticBaseUrl = "{% static '' %}";
+
+    function justifyHeight(className) {
+
+        var elements = document.querySelectorAll(className);
+        var maxElementHeight = 0;
+
+        elements.forEach(function (element) {
+            var height = element.clientHeight;
+
+            if (height > maxElementHeight) { maxElementHeight = height; }
+        });
+
+        elements.forEach(function (element) {
+            element.style.height = maxElementHeight + 'px';
+        });
+    }
+
+    justifyHeight('.title-div');
+    justifyHeight('.platforms')
+
+
+    function pickRandomMovies() {
+        var form = document.getElementById("my-form");
+        var textField = form.elements["text"];
+        const randomPrompts = [
+            "Recommend me random movies, different from each other: blockbuster, non US, older than 2010, nostalgic, action in UK.",
+            "Recommend me random movies, different from each other: critically acclaimed, comedy, science fiction, animated, from the 80s.",
+            "Recommend me random movies, different from each other: classic, thriller, foreign language, post-apocalyptic, based on a true story.",
+            "Recommend me random movies, different from each other: indie, fantasy, documentary, set in a dystopian future, directed by a woman.",
+            "Recommend me random movies, different from each other: cult classic, horror, musical, black and white, non-linear narrative.",
+            "Recommend me random movies, different from each other: mind-bending, romantic, heist, family-friendly, set in a different time period.",
+            "Recommend me random movies, different from each other: psychological thriller, historical, coming-of-age, satirical, with a strong female lead.",
+            "Recommend me random movies, different from each other: underdog sports, animated, non-English language, biographical, set in a war.",
+            "Recommend me random movies, different from each other: suspenseful, neo-noir, Western, directed by a debut filmmaker, based on a book.",
+            "Recommend me random movies, different from each other: time travel, comedy-drama, crime, space exploration, directed by a person of color.",
+            "Recommend me random movies, different from each other: thought-provoking, musical comedy, documentary series, set in a futuristic world, non-linear narrative.",
+            "Recommend me random movies, different from each other: cult classic, teen romance, martial arts, animated, with a strong environmental message.",
+            "Recommend me random movies, different from each other: mystery, classic Hollywood, psychological horror, non-English language, based on mythology.",
+            "Recommend me random movies, different from each other: dark comedy, war film, biographical, futuristic, set in a small town.",
+            "Recommend me random movies, different from each other: courtroom drama, animated fantasy, spy thriller, non-US, based on a graphic novel.",
+            "Recommend me random movies, different from each other: feel-good, dystopian, action comedy, romantic drama, directed by a famous actor-turned-director.",
+            "Recommend me random movies, different from each other: thought-provoking science fiction, fantasy adventure, animated musical, non-English language, based on folklore.",
+            "Recommend me random movies, different from each other: cyberpunk, historical romance, crime thriller, documentary series, set in the future.",
+            "Recommend me random movies, different from each other: superhero, mockumentary, coming-of-age drama, space opera, directed by a female filmmaker.",
+            "Recommend me random movies, different from each other: political satire, animated comedy, horror anthology, biographical drama, set in a post-war era.", "I like Ryan Gosling",
+            "Some thriller from Sweden",
+            "I enjoy superhero movies, but don't like Marvel",
+            "Horror produced before 1980",
+            "Thriller directed by a woman",
+            "Snowy movie, but not about Christmas",
+            "Give me a romantic comedy with Sandra Bullock",
+            "I'm into historical dramas set in ancient Rome",
+            "Recommend a mind-bending science fiction film similar to Inception",
+            "Looking for a fantasy movie with dragons, but not Game of Thrones",
+            "A family-friendly animated film with talking animals",
+            "Find me a crime thriller set in a futuristic dystopian world",
+            "I want a classic black and white film, preferably a mystery",
+            "Suggest a war movie based on a true story",
+            "I enjoy Quentin Tarantino films, recommend something similar",
+            "Give me a feel-good movie with a strong female lead",
+            "Looking for a documentary about space exploration",
+            "I'm in the mood for a foreign language film with subtitles, any genre",
+            "Recommend a comedy that doesn't rely on slapstick humor",
+            "A psychological horror film that's not too intense",
+            "I love Christopher Nolan's work, suggest a non-Batman film",
+            "Find me a crime documentary that explores unsolved mysteries",
+            "I want a coming-of-age film set in the 80s",
+            "Give me an action-packed movie with a strong ensemble cast",
+            "A lighthearted fantasy film suitable for a family movie night",
+            "Recommend a western movie with a modern twist", "Fantasy adventure with magical creatures", "Biography of a famous scientist or inventor",
+            "Sci-fi comedy with aliens",
+            "Film adaptation of a classic book", "Romantic Victorian-era period piece",
+            "Funny road trip movie with friends",
+            "Thought-provoking political drama", 'Movie worse than "The Room"', "Something where Sean Bean character doesn't die", 'Classical Christmas movie, like "Die Hard"', "Main character is bald and angry"
+        ]
+        const randomIndex = Math.floor(Math.random() * randomPrompts.length);
+        const pickedPrompt = randomPrompts[randomIndex];
+        console.log(pickedPrompt)
+
+        textField.value = pickedPrompt;
+        form.submit();
+        textField.value = ""
+
+        mainContent.style.display = 'none'
+        loadingScreen.style.display = 'flex'
+    }
+
+    function displayLoadingScreen() {
+
+        mainContent.style.display = 'none'
+        loadingScreen.style.display = 'flex'
+
+    }
+
+    function toggleImageF(platform, img_off, img_on) {
+
+        var imageElement = platform;
+        var checkboxElement = imageElement.nextElementSibling;
+        var currentImageIndex = parseInt(imageElement.getAttribute('clicked'));
+        var imagePaths = [
+            staticBaseUrl + img_off,
+            staticBaseUrl + img_on
+        ];
+
+        currentImageIndex = (currentImageIndex === 0) ? 1 : 0;
+        imageElement.src = imagePaths[currentImageIndex];
+
+        if (checkboxElement && checkboxElement.type === 'checkbox') {
+            checkboxElement.checked = (currentImageIndex === 1);
+        }
+        imageElement.setAttribute('clicked', String(currentImageIndex));
+    }
+
+    function showTooltip(tooltip) {
+        var tooltip = document.getElementById(tooltip);
+        tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(1)";
+
+    }
+
+    function hideTooltip(tooltip) {
+        var tooltip = document.getElementById(tooltip);
+
+        tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
+    }
+
+    const promptIdea = document.querySelector(".prompt-idea");
+
+    promptIdeasList = ["I like Ryan Gosling",
+        "Some thriller from Sweden",
+        "I enjoy superhero movies, but don't like Marvel",
+        "Horror produced before 1980",
+        "Thriller directed by a woman",
+        "Snowy movie, but not about Christmas",
+        "Give me a romantic comedy with Sandra Bullock",
+        "I'm into historical dramas set in ancient Rome",
+        "Recommend a mind-bending science fiction film similar to Inception",
+        "Looking for a fantasy movie with dragons, but not Game of Thrones",
+        "A family-friendly animated film with talking animals",
+        "Find me a crime thriller set in a futuristic dystopian world",
+        "I want a classic black and white film, preferably a mystery",
+        "Suggest a war movie based on a true story",
+        "I enjoy Quentin Tarantino films, recommend something similar",
+        "Give me a feel-good movie with a strong female lead",
+        "Looking for a documentary about space exploration",
+        "I'm in the mood for a foreign language film with subtitles, any genre",
+        "Recommend a comedy that doesn't rely on slapstick humor",
+        "A psychological horror film that's not too intense",
+        "I love Christopher Nolan's work, suggest a non-Batman film",
+        "Find me a crime documentary that explores unsolved mysteries",
+        "I want a coming-of-age film set in the 80s",
+        "Give me an action-packed movie with a strong ensemble cast",
+        "A lighthearted fantasy film suitable for a family movie night",
+        "Recommend a western movie with a modern twist", "Fantasy adventure with magical creatures", "Biography of a famous scientist or inventor",
+        "Sci-fi comedy with aliens",
+        "Film adaptation of a classic book", "Romantic Victorian-era period piece",
+        "Funny road trip movie with friends",
+        "Thought-provoking political drama", 'Movie worse than "The Room"', "Something where Sean Bean character doesn't die", 'Classical Christmas movie, like "Die Hard"', "Main character is bald and angry"]
+
+    colorsList = ['rgb(255,255,0)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,0,205)', 'rgb(5,99,244)']
+
+    let currentIndex = 0;
+
+    setInterval(() => {
+        var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
+        promptIdea.textContent = selectedIdea;
+        currentIndex = (currentIndex + 1) % colorsList.length;
+        promptIdea.style.color = colorsList[currentIndex];
+    }, 1000);
+
+
+</script>
+
 
 </html>
