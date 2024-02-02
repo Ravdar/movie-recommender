@@ -11,15 +11,17 @@
         content="The main view for movvie. It consists navbar, hero section, inputbox, loading screen and results screen">
     <title>moovie</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles_refactored.css' %}">
-    <script defer src="{% static 'main_view.js' %}"></script>
+    <script src="{% static 'main_view.js' %}"></script>
 </head>
 
 <body>
     <header>
         <h1 class="logotext">movvie</h1> <!-- Later switch to img element -->
         {{processing_time}}
-        <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
-        <p>About</p>
+        <div>
+            <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
+            <p>About</p>
+        </div>
     </header>
 
     <main>

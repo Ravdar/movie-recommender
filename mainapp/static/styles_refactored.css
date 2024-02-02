@@ -21,6 +21,11 @@ header {
 
 }
 
+header div {
+    display: flex;
+    align-items: center;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -28,4 +33,8 @@ main {
     align-items: center;
     margin: 0px 15px;
     text-align: left;
+}
+
+form {
+    display: flex;
 }
