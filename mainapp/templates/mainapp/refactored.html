@@ -10,13 +10,20 @@
     <meta name="description"
         content="The main view for movvie. It consists navbar, hero section, inputbox, loading screen and results screen">
     <title>moovie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'styles_refactored.css' %}">
-    <script src="{% static 'main_view.js' %}"></script>
+    <script defer src="{% static 'main_view.js' %}"></script>
 </head>
 
 <body>
     <header>
-        <h1 class="logotext">movvie</h1> <!-- Later switch to img element -->
+        <a href="{% url 'mainapp:main_view_url' %}">
+            <h1 class="logotext">movvie</h1>
+        </a> <!-- Later switch to img element -->
         {{processing_time}}
         <div>
             <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
@@ -37,12 +44,12 @@
             prompts
             now!</p>
         <br>
-        <p id="prompt-examples"></p>
+        <p class="prompt-examples"></p>
 
         {% else %}
 
         <!-- Displaying results of prompt-->
-        {% for movies in response %}
+        {% for movie in response %}
         <div class="movie-container">
             <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"></a>
             <div class="movie-info">
@@ -57,7 +64,7 @@
                 </div>
                 <div class="platforms-container">
                     {% for platform in movie.Platforms %}
-                    <img src="{{url}}" alt="{{url}}" class="streaming-icon">
+                    <img src="{{platform}}" alt="{{platform}}" class="streaming-icon">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
                 </div>
@@ -69,25 +76,26 @@
     </main>
 
     <div class="loading-screen">
-        <div class="dot yellow-dot"></div>
-        <div class="dot aqua-dot"></div>
-        <div class="dot green-dot"></div>
-        <div class="dot pink-dot"></div>
-        <div class="dot blue-dot"></div>
+        <div class="yellow-dot"></div>
+        <div class="aqua-dot"></div>
+        <div class="green-dot"></div>
+        <div class="pink-dot"></div>
+        <div class="blue-dot"></div>
     </div>
 
 
-    <form method="post" onsubmit="displayLoadingScreen()">
+    <form id="prompt-form" enctype="multipart/form-data" method="post" onsubmit="displayLoadingScreen()">
         {% csrf_token %}
         <!--{{prompt_form.media}}?-->
-        {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
+        {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you think will help."}}
         <div class="random-button-container">
             <div id="random-tooltip" class="random-tooltip">Draw random movies</div>
-            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="30"
-                    height="30" clicked="0" onmouseover="showTooltip('random-tooltip')"
+            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="25"
+                    height="25" clicked="0" onmouseover="showTooltip('random-tooltip')"
                     onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"></button>
         </div>
     </form>
+
 
 </body>
 

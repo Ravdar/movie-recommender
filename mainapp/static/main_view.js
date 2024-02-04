@@ -1,5 +1,5 @@
 
-var mainContent = document.querySelector('.main-content')
+var mainContent = document.querySelector('main')
 var loadingScreen = document.querySelector('.loading-screen')
 var staticBaseUrl = "{% static '' %}";
 
@@ -24,7 +24,7 @@ justifyHeight('.platforms')
 
 
 function pickRandomMovies() {
-    var form = document.getElementById("my-form");
+    var form = document.getElementById("prompt-form");
     var textField = form.elements["text"];
     const randomPrompts = [
         "Recommend me random movies, different from each other: blockbuster, non US, older than 2010, nostalgic, action in UK.",
@@ -79,7 +79,6 @@ function pickRandomMovies() {
     ]
     const randomIndex = Math.floor(Math.random() * randomPrompts.length);
     const pickedPrompt = randomPrompts[randomIndex];
-    console.log(pickedPrompt)
 
     textField.value = pickedPrompt;
     form.submit();
@@ -127,7 +126,9 @@ function hideTooltip(tooltip) {
     tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
 }
 
-const promptIdea = document.getElementById("prompt-examples");
+const promptIdea = document.querySelector(".prompt-examples");
+
+console.log(promptIdea)
 
 promptIdeasList = ["I like Ryan Gosling",
     "Some thriller from Sweden",
