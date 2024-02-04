@@ -1,7 +1,87 @@
+/* LOADING SCREEN ANIMATIONS */
+
+@keyframes loadingYellow {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-150%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingAqua {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingPink {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingBlue {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(150%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loadingGreen {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(100);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* ELEMENTS STYLING */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+a {
+    color: white;
+    text-decoration: none;
 }
 
 body {
@@ -12,12 +92,13 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    font-family: Roboto;
 }
 
 header {
     display: flex;
     justify-content: space-between;
-    width: 100vw;
+    width: calc(100vw - 10px);
 
 }
 
@@ -27,6 +108,7 @@ header div {
 }
 
 main {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,4 +119,97 @@ main {
 
 form {
     display: flex;
+    width: calc(100% - 30px);
+    margin-bottom: 5px;
+    position: relative;
 }
+
+form div {
+    position: absolute;
+    right: 5px;
+    /* transform: translateY(25%); */
+}
+
+form button {
+    border: 0px;
+    background-color: transparent;
+}
+
+.prompt-examples {
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.prompt-inputbox {
+    text-align: left;
+    border-radius: 10px;
+    padding: 5px;
+    border: 0.25px solid white;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 2.5em;
+}
+
+.random-tooltip {
+    position: absolute;
+    transform: scale(0);
+}
+
+/* Loading screen elements */
+
+.loading-screen {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-screen div {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 0px;
+}
+
+.yellow-dot {
+    background-color: yellow;
+    animation: loadingYellow 2s ease-in-out infinite;
+}
+
+.aqua-dot {
+    background-color: aqua;
+    animation: loadingAqua 2s ease-in-out infinite;
+}
+
+.pink-dot {
+    background-color: rgb(255, 0, 234);
+    animation: loadingPink 2s ease-in-out infinite;
+}
+
+.blue-dot {
+    background-color: blue;
+    animation: loadingBlue 2s ease-in-out infinite;
+}
+
+.green-dot {
+    background-color: rgb(9, 255, 0);
+}
+
+/* Results elements */
+
+.results-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.results-container div {
+    width: calc(100%-30px);
+    justify-content: center;
+    align-items: center;
+
+}
+
+;
