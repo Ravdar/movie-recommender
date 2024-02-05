@@ -70,6 +70,18 @@
     }
 }
 
+/* VARIABLES */
+
+:root {
+    /*COLORS*/
+    --BLACK: rgb(20, 20, 20);
+    --YELLOW: rgb(255, 255, 51);
+    --AQUA: rgb(10, 255, 255);
+    --GREEN: rgb(22, 245, 41);
+    --PINK: rgb(245, 53, 170);
+    --BLUE: rgb(9, 9, 255);
+}
+
 
 /* ELEMENTS STYLING */
 
@@ -82,10 +94,11 @@
 a {
     color: white;
     text-decoration: none;
+    cursor: pointer;
 }
 
 body {
-    background-color: black;
+    background-color: var(--BLACK);
     color: white;
     height: 100vh;
     display: flex;
@@ -135,6 +148,11 @@ form button {
     background-color: transparent;
 }
 
+.center {
+    justify-content: center;
+    text-align: center;
+}
+
 .prompt-examples {
     position: absolute;
     top: 100%;
@@ -161,8 +179,6 @@ form button {
 
 .loading-screen {
     display: none;
-    justify-content: center;
-    align-items: center;
 }
 
 .loading-screen div {
@@ -173,43 +189,97 @@ form button {
 }
 
 .yellow-dot {
-    background-color: yellow;
+    background-color: var(--YELLOW);
     animation: loadingYellow 2s ease-in-out infinite;
 }
 
 .aqua-dot {
-    background-color: aqua;
+    background-color: var(--AQUA);
     animation: loadingAqua 2s ease-in-out infinite;
 }
 
+.green-dot {
+    background-color: var(--GREEN);
+}
+
 .pink-dot {
-    background-color: rgb(255, 0, 234);
+    background-color: var(--PINK);
     animation: loadingPink 2s ease-in-out infinite;
 }
 
 .blue-dot {
-    background-color: blue;
+    background-color: var(--BLUE);
     animation: loadingBlue 2s ease-in-out infinite;
-}
-
-.green-dot {
-    background-color: rgb(9, 255, 0);
 }
 
 /* Results elements */
 
 .results-container {
+    margin-top: 50px;
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
 }
 
-.results-container div {
+.movie-container {
+    display: flex;
+    max-width: 280px;
+    flex-direction: column;
     width: calc(100%-30px);
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 30px;
 
 }
 
-;
+.movie-poster {
+    border-radius: 1em;
+    width: 280px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.movie-title {
+    font-size: 2em;
+}
+
+/* .movie-title:hover{} */
+
+.year-rating-length {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7em 0.7em;
+    border-radius: 2em;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 0.75em;
+}
+
+.movie-rating-container {
+    display: flex;
+}
+
+/* border colors */
+
+.border0 {
+    border: 1px solid var(--YELLOW)
+}
+
+.border1 {
+    border: 1px solid var(--AQUA)
+}
+
+.border2 {
+    border: 1px solid var(--GREEN)
+}
+
+.border3 {
+    border: 1px solid var(--PINK)
+}
+
+.border4 {
+    border: 1px solid var(--BLUE)
+}
+
+.description {
+    text-align: left;
+}

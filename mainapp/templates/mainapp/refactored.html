@@ -49,29 +49,32 @@
         {% else %}
 
         <!-- Displaying results of prompt-->
-        {% for movie in response %}
-        <div class="movie-container">
-            <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"></a>
-            <div class="movie-info">
-                <a href="{{movie.Link}}" class="movie-title {{forloop.counter0}}">{{movie.Title}}</a>
-                <div class="year-rating-length {{forloop.counter0}}">
-                    <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
-                    <div class="movie-rating-container">
-                        <div>TMDB logo</div>
-                        <div>{{movie.Rating}}</div>
+        <div class="results-container center">
+            {% for movie in response %}
+            <div class="movie-container center">
+                <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"
+                        width="350" height="450"></a>
+                <div class="movie-info">
+                    <a href="{{movie.Link}}" class="movie-title {{forloop.counter0}}">{{movie.Title}}</a>
+                    <div class="year-rating-length border{{forloop.counter0}}">
+                        <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
+                        <div class="movie-rating-container center">
+                            <div>TMDB</div>
+                            <div>{{movie.Rating}}</div>
+                        </div>
+                        <div>{{movie.Length}}</div>
                     </div>
-                    <div>{{movie.Length}}</div>
+                    <div class="platforms-container">
+                        {% for platform in movie.Platforms %}
+                        <img src="{{platform}}" alt="{{platform}}" class="streaming-icon">
+                        <!-- Add streaming name as alt and links of course-->
+                        {% endfor %}
+                    </div>
+                    <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
                 </div>
-                <div class="platforms-container">
-                    {% for platform in movie.Platforms %}
-                    <img src="{{platform}}" alt="{{platform}}" class="streaming-icon">
-                    <!-- Add streaming name as alt and links of course-->
-                    {% endfor %}
-                </div>
-                <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
         {% endif %}
     </main>
 
