@@ -107,7 +107,7 @@ def main_view(request):
                     rating = movie_info["Rating"]
                     length = movie_info["Length"]
                     try:
-                        print(movie_info["Streaming"]["US"]["flatrate"])
+                        print(f'Streaming: {movie_info["Streaming"]["US"]["flatrate"]}')
                         streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in movie_info["Streaming"]["US"]["flatrate"]]
                         print(streaming_services)
                     except:
