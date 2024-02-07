@@ -34,29 +34,30 @@
     <main>
         <!-- Hero section -->
         {%if welcome_message %}
-
-        <h1>Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
-        <br>
-        <br>
-        <p> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
-            prompts, and let
-            MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
-            prompts
-            now!</p>
-        <br>
-        <p class="prompt-examples"></p>
+        <div class="hero-section">
+            <h1>Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
+            <br>
+            <br>
+            <p> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
+                prompts, and let
+                MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
+                prompts
+                now!</p>
+            <br>
+            <p class="prompt-examples"></p>
+        </div>
 
         {% else %}
 
         <!-- Displaying results of prompt-->
         <div class="results-container center">
             {% for movie in response %}
-            <div class="movie-container center">
+            <div id="movie{{forloop.counter}}" class="movie-container center">
                 <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"
-                        width="350" height="450"></a>
+                        width="350" height="450" loading="lazy"></a>
                 <div class="movie-info">
-                    <a href="{{movie.Link}}" class="movie-title {{forloop.counter0}}">{{movie.Title}}</a>
-                    <div class="year-rating-length border{{forloop.counter0}}">
+                    <a href="{{movie.Link}}" class="movie-title {{forloop.counter}}">{{movie.Title}}</a>
+                    <div class="year-rating-length border{{forloop.counter}}">
                         <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
                         <div class="movie-rating-container center">
                             <div>TMDB</div>
@@ -66,7 +67,8 @@
                     </div>
                     <div class="platforms-container">
                         {% for platform in movie.Platforms %}
-                        <img src="{{platform}}" alt="{{platform}}" class="streaming-icon">
+                        <img src="{{platform}}" alt="{{platform}}" class="streaming-icon" loading="lazy" width="35"
+                            height="35">
                         <!-- Add streaming name as alt and links of course-->
                         {% endfor %}
                     </div>
