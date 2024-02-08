@@ -60,8 +60,8 @@
                     <div class="year-rating-length border{{forloop.counter}}">
                         <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
                         <div class="movie-rating-container center">
-                            <div>TMDB</div>
-                            <div>{{movie.Rating}}</div>
+                            <img src="{% static 'rating_star.svg' %}" width="25" height="25" loading="lazy">
+                            <div class="movie-rating-container center">{{movie.Rating}}</div>
                         </div>
                         <div>{{movie.Length}}</div>
                     </div>
@@ -95,8 +95,8 @@
         {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you think will help."}}
         <div class="random-button-container">
             <div id="random-tooltip" class="random-tooltip">Draw random movies</div>
-            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="25"
-                    height="25" clicked="0" onmouseover="showTooltip('random-tooltip')"
+            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="20"
+                    height="20" clicked="0" onmouseover="showTooltip('random-tooltip')"
                     onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"></button>
         </div>
     </form>
