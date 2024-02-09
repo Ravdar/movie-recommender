@@ -32,8 +32,8 @@
     </header>
 
     <main>
-        <!-- Hero section -->
         {%if welcome_message %}
+        <!-- Hero section -->
         <div class="hero-section">
             <h1>Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
             <br>
@@ -76,6 +76,8 @@
                 </div>
             </div>
             {% endfor %}
+            <script>justifyHeight('.movie-title');
+                justifyHeight('.platforms-container')</script>
         </div>
         {% endif %}
     </main>

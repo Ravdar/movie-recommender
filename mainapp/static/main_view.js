@@ -19,10 +19,6 @@ function justifyHeight(className) {
     });
 }
 
-justifyHeight('.title-div');
-justifyHeight('.platforms')
-
-
 function pickRandomMovies() {
     var form = document.getElementById("prompt-form");
     var textField = form.elements["text"];
@@ -89,7 +85,6 @@ function pickRandomMovies() {
 }
 
 function displayLoadingScreen() {
-
     mainContent.style.display = 'none'
     loadingScreen.style.display = 'flex'
 
