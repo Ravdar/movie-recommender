@@ -87,6 +87,7 @@
 :root {
     /*COLORS*/
     --BLACK: rgb(20, 20, 20);
+    --BRIGHT-BLACK: rgb(40, 40, 40);
     --YELLOW: rgb(255, 255, 51);
     --AQUA: rgb(10, 255, 255);
     --GREEN: rgb(22, 245, 41);
@@ -180,8 +181,10 @@ form button {
 }
 
 .center {
+    display: flex;
     justify-content: center;
     text-align: center;
+    align-items: center;
 }
 
 .hero-section {
@@ -260,7 +263,6 @@ form button {
 }
 
 .movie-container {
-    display: flex;
     max-width: 280px;
     flex-direction: column;
     width: calc(100% - 30px);
@@ -287,13 +289,25 @@ form button {
 
 .movie-poster {
     border-radius: 1em;
-    width: 280px;
+    width: 250px;
     height: auto;
-    margin-bottom: 20px;
+    border: 0.5px solid var(--BRIGHT-BLACK)
+}
+
+.movie-info {
+    height: fit-content;
+    flex-direction: column;
+
+}
+
+.title-container {
+    text-align: center;
+    margin: 15px 0px;
 }
 
 .movie-title {
-    font-size: 2em;
+    font-size: 1.7em;
+    font-weight: bold;
 }
 
 /* .movie-title:hover{} */
@@ -301,20 +315,19 @@ form button {
 .year-rating-length {
     display: flex;
     justify-content: space-between;
-    padding: 0.5em 1.1em;
-    border-radius: 2em;
+    padding: 2px 15px;
+    border-radius: 99em;
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 10px 0px;
+    max-height: 32px;
     font-size: 0.75em;
-    color: gainsboro
+    color: gainsboro;
+    width: 200px;
 }
 
 .movie-rating-container {
     font-size: 1rem;
-    display: flex;
     text-align: center;
-    align-items: center;
     font-weight: bold;
 }
 
@@ -346,18 +359,22 @@ form button {
 }
 
 .platforms-container {
+    margin-top: 5px;
     margin-bottom: 15px;
 }
 
 .platforms-container img {
-    border-radius: 2px;
-    border: 0.5px solid grey;
+    border-radius: 5px;
+    border: 0.5px solid var(--BRIGHT-BLACK);
     margin-right: 1px;
 }
 
 .description {
     text-align: left;
     color: whitesmoke;
+    hyphens: auto;
+    font-size: 14px;
+    width: 200px;
 }
 
 /* WIDE SCREENS */
@@ -366,24 +383,37 @@ form button {
 
     main {
         width: calc(100vw - 60px);
+        justify-content: center;
+    }
+
+    form {
+        width: min(80%, 1000px)
     }
 
     .results-container {
         justify-content: center;
         width: calc(100%);
-        display: flex;
         flex-direction: row;
         align-items: start;
+        margin-top: 0px;
     }
 
     .movie-container {
-        margin-right: 25px;
+        margin-right: 20px;
         top: 0;
         width: calc(100vw / 7);
-        overflow: auto;
+        max-width: 237px;
+        margin-bottom: 0px;
     }
 
     .movie-poster {
         width: 100%;
     }
+
+    .description {
+        max-height: 160px;
+        overflow: auto;
+    }
+
+
 }
