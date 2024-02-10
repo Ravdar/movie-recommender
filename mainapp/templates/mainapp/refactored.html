@@ -24,7 +24,6 @@
         <a href="{% url 'mainapp:main_view_url' %}">
             <h1 class="logotext">movvie</h1>
         </a> <!-- Later switch to img element -->
-        {{processing_time}}
         <div>
             <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
             <p>About</p>
@@ -55,17 +54,19 @@
             <div id="movie{{forloop.counter}}" class="movie-container center">
                 <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"
                         width="350" height="450" loading="lazy"></a>
-                <div class="movie-info">
-                    <a href="{{movie.Link}}" class="movie-title {{forloop.counter}}">{{movie.Title}}</a>
+                <div class="movie-info center">
+                    <div class="title-container center">
+                        <a href="{{movie.Link}}" class="movie-title {{forloop.counter}}">{{movie.Title}}</a>
+                    </div>
                     <div class="year-rating-length border{{forloop.counter}}">
                         <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
                         <div class="movie-rating-container center">
                             <img src="{% static 'rating_star.svg' %}" width="25" height="25" loading="lazy">
-                            <div class="movie-rating-container center">{{movie.Rating}}</div>
+                            <div class="center">{{movie.Rating}}</div>
                         </div>
                         <div>{{movie.Length}}</div>
                     </div>
-                    <div class="platforms-container">
+                    <div class="platforms-container center">
                         {% for platform in movie.Platforms %}
                         <img src="{{platform}}" alt="{{platform}}" class="streaming-icon" loading="lazy" width="35"
                             height="35">
@@ -76,8 +77,6 @@
                 </div>
             </div>
             {% endfor %}
-            <script>justifyHeight('.movie-title');
-                justifyHeight('.platforms-container')</script>
         </div>
         {% endif %}
     </main>
@@ -97,9 +96,9 @@
         {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you think will help."}}
         <div class="random-button-container">
             <div id="random-tooltip" class="random-tooltip">Draw random movies</div>
-            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="20"
-                    height="20" clicked="0" onmouseover="showTooltip('random-tooltip')"
-                    onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"></button>
+            <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip')"
+                onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"><img
+                    src="{% static 'random_button.png' %}" alt="Random button" wdith="20" height="20"></button>
         </div>
     </form>
 

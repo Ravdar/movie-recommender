@@ -5,7 +5,9 @@ var staticBaseUrl = "{% static '' %}";
 
 function justifyHeight(className) {
 
+    console.log("function ran")
     var elements = document.querySelectorAll(className);
+    console.log(elements)
     var maxElementHeight = 0;
 
     elements.forEach(function (element) {
@@ -18,6 +20,20 @@ function justifyHeight(className) {
         element.style.height = maxElementHeight + 'px';
     });
 }
+
+
+function handleResize() {
+    if (window.innerWidth >= 1450) {
+        justifyHeight('.title-container');
+        justifyHeight('.platforms-container');
+    }
+}
+
+// Initial call
+handleResize();
+
+// Real time resizing
+window.addEventListener('resize', handleResize)
 
 function pickRandomMovies() {
     var form = document.getElementById("prompt-form");
@@ -80,6 +96,7 @@ function pickRandomMovies() {
     form.submit();
     textField.value = ""
 
+
     mainContent.style.display = 'none'
     loadingScreen.style.display = 'flex'
 }
@@ -123,8 +140,6 @@ function hideTooltip(tooltip) {
 
 const promptIdea = document.querySelector(".prompt-examples");
 
-console.log(promptIdea)
-
 promptIdeasList = ["I like Ryan Gosling",
     "Some thriller from Sweden",
     "I enjoy superhero movies, but don't like Marvel",
@@ -161,8 +176,10 @@ colorsList = ['rgb(255,255,0)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,0,205
 let currentIndex = 0;
 
 setInterval(() => {
-    var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
-    promptIdea.textContent = selectedIdea;
-    currentIndex = (currentIndex + 1) % colorsList.length;
-    promptIdea.style.color = colorsList[currentIndex];
+    if (promptIdea !== null) {
+        var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
+        promptIdea.textContent = selectedIdea;
+        currentIndex = (currentIndex + 1) % colorsList.length;
+        promptIdea.style.color = colorsList[currentIndex];
+    }
 }, 1000);
