@@ -1,6 +1,7 @@
 
-var mainContent = document.querySelector('main')
-var loadingScreen = document.querySelector('.loading-screen')
+var mainContent = document.querySelector('main');
+var loadingScreen = document.querySelector('.loading-screen');
+var promptInputbox = document.getElementById('prompt-form');
 var staticBaseUrl = "{% static '' %}";
 
 function justifyHeight(className) {
@@ -98,11 +99,14 @@ function pickRandomMovies() {
 
 
     mainContent.style.display = 'none'
+    promptInputbox.style.display = 'none'
     loadingScreen.style.display = 'flex'
+
 }
 
 function displayLoadingScreen() {
     mainContent.style.display = 'none'
+    promptInputbox.style.display = 'none'
     loadingScreen.style.display = 'flex'
 
 }
@@ -126,16 +130,16 @@ function toggleImageF(platform, img_off, img_on) {
     imageElement.setAttribute('clicked', String(currentImageIndex));
 }
 
-function showTooltip(tooltip) {
+function showTooltip(tooltip, translateX) {
     var tooltip = document.getElementById(tooltip);
-    tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(1)";
+    tooltip.style.transform = "translateY(-195%) translateX(" + translateX + ") scale(1)";
 
 }
 
-function hideTooltip(tooltip) {
+function hideTooltip(tooltip, translateX) {
     var tooltip = document.getElementById(tooltip);
 
-    tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
+    tooltip.style.transform = "translateY(-195%) translateX(" + translateX + ") scale(0)";
 }
 
 const promptIdea = document.querySelector(".prompt-examples");

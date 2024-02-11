@@ -160,7 +160,12 @@ main {
 form {
     display: flex;
     width: calc(100% - 30px);
-    padding-bottom: 10px;
+    /* fill the bottom of the page with black */
+    box-shadow: 0 10px 0 0 black;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding-left: 6px;
+    border: 0.25px solid white;
     position: fixed;
     bottom: 0;
     z-index: 1;
@@ -169,15 +174,19 @@ form {
 
 form div {
     position: absolute;
-    right: 7px;
     top: 50%;
-    transform: translateY(-60%);
+    transform: translateY(-40%);
 
 }
 
 form button {
     border: 0px;
     background-color: transparent;
+    transition: 0.3s ease-in-out;
+}
+
+form button:hover {
+    transform: scale(1.1);
 }
 
 .center {
@@ -198,19 +207,43 @@ form button {
 
 .prompt-inputbox {
     text-align: left;
-    border-radius: 10px;
     padding: 5px;
-    border: 0.25px solid white;
     background-color: var(--BLACK);
     color: white;
-    width: 100%;
+    width: calc(100% - 60px);
     height: 2.5em;
     position: relative;
+    border: none;
 }
 
-.random-tooltip {
+.prompt-inputbox:focus {
+    border: none;
+    outline: none;
+}
+
+.tooltip {
     position: absolute;
     transform: scale(0);
+    width: max-content;
+    font-size: 12px;
+    color: white;
+    padding: 5px 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: black;
+    transition: 0.3s transform ease;
+    transform-origin: bottom center;
+    transition-delay: 0.3s
+}
+
+.tooltip::after {
+    position: absolute;
+    content: '';
+    border: 10px solid transparent;
+    border-top-color: white;
+    bottom: -80%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Loading screen elements */
@@ -268,6 +301,7 @@ form button {
     width: calc(100% - 30px);
     margin-bottom: 60px;
     opacity: 0%;
+    transform-origin: top;
     animation: opacity0To100 1s ease-in-out 1 forwards;
 }
 
@@ -375,6 +409,15 @@ form button {
     hyphens: auto;
     font-size: 14px;
     width: 200px;
+}
+
+/* form styles */
+.random-button-container {
+    right: 7px;
+}
+
+.submit-button-container {
+    right: 34px;
 }
 
 /* WIDE SCREENS */
