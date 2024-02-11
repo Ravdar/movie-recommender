@@ -187,3 +187,9 @@ setInterval(() => {
         promptIdea.style.color = colorsList[currentIndex];
     }
 }, 1000);
+
+function showFullStreaming(movieNumber) {
+    var streamingInfoContainer = document.getElementById("full-streaming" + movieNumber);
+
+    streamingInfoContainer.style.transform = "scale(1)";
+}
