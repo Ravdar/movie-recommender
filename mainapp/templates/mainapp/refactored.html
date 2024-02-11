@@ -89,18 +89,24 @@
         <div class="blue-dot"></div>
     </div>
 
-
     <form id="prompt-form" enctype="multipart/form-data" method="post" onsubmit="displayLoadingScreen()">
         {% csrf_token %}
         <!--{{prompt_form.media}}?-->
         {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you think will help."}}
+        <div class="submit-button-container">
+            <div id="submit-tooltip" class="tooltip">Submit</div>
+            <button class="submit-button" clicked="0" onmouseover="showTooltip('submit-tooltip','-30%')"
+                onmouseout="hideTooltip('submit-tooltip','-30%')" type="submit"><img
+                    src="{% static 'submit_button.png' %}" alt="Submit" wdith="20" height="20"></button>
+        </div>
         <div class="random-button-container">
-            <div id="random-tooltip" class="random-tooltip">Draw random movies</div>
-            <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip')"
-                onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"><img
-                    src="{% static 'random_button.png' %}" alt="Random button" wdith="20" height="20"></button>
+            <div id="random-tooltip" class="tooltip">Draw random movies</div>
+            <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip','-42%')"
+                onmouseout="hideTooltip('random-tooltip','-42%')" onclick="pickRandomMovies()"><img
+                    src="{% static 'random_button.png' %}" alt="Random movies" wdith="20" height="20"></button>
         </div>
     </form>
+    <div class="form-container"></div>
 
 
 </body>
