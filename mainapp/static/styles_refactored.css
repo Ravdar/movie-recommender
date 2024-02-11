@@ -116,6 +116,13 @@ a {
 
 button {
     cursor: pointer;
+    border: 0px;
+    background-color: transparent;
+    transition: 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.15);
 }
 
 
@@ -177,16 +184,6 @@ form div {
     top: 50%;
     transform: translateY(-40%);
 
-}
-
-form button {
-    border: 0px;
-    background-color: transparent;
-    transition: 0.3s ease-in-out;
-}
-
-form button:hover {
-    transform: scale(1.1);
 }
 
 .center {
@@ -401,6 +398,21 @@ form button:hover {
     border-radius: 5px;
     border: 0.5px solid var(--BRIGHT-BLACK);
     margin-right: 1px;
+}
+
+.show-streaming {
+    padding: 8px;
+}
+
+.full-streaming-info {
+    position: absolute;
+    transform: translateY(-30%) scale(0);
+    width: 130%;
+    height: 80%;
+    border-radius: 1em;
+    border: 1.5px solid var(--BRIGHT-BLACK);
+    background-color: var(--BLACK);
+    color: whitesmoke;
 }
 
 .description {
