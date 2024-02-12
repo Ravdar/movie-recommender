@@ -71,17 +71,28 @@
                         <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                         <!-- Add streaming name as alt and links of course-->
                         {% endfor %}
-                        <button onclick="showFullStreaming({{ forloop.counter}})"><img
-                                src="{% static 'show_streaming_button.png' %}" class="show-streaming" alt="Show more"
-                                loading="lazy" width="35" height="35"></button>
+                        <button><img src="{% static 'show_streaming_button.png' %}" class="show-streaming"
+                                onclick="showFullStreaming()" alt="Show more" loading="lazy" width="30"
+                                height="30"></button>
                     </div>
-                    <div id="full-streaming{{forloop.counter}}" class="full-streaming-info"><button>Close</button></div>
                     <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
                 </div>
             </div>
             {% endfor %}
         </div>
         {% endif %}
+        <!-- Another loop to create dial modals for full streaming info. Here beacuse of natural stacking order. -->
+        {% for movie in response %}
+        <div class="full-streaming-info">
+            <div class="select-country">Select country</div><button><img class="close-dial"
+                    src="{% static 'close_dial.png' %}" alt="Close" loading="lazy" width="35" height="35"></button>
+            <div class="stream">Stream</div>
+            <div class="rent">Rent</div>
+            <div class="buy">Buy</div>
+            <div class="just-watch">Powered by JustWatch</div>
+        </div>
+        {% endfor %}
+
     </main>
 
     <div class="loading-screen">

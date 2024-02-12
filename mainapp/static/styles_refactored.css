@@ -129,7 +129,7 @@ button:hover {
 body {
     background-color: var(--BLACK);
     color: white;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -161,7 +161,7 @@ main {
     align-items: center;
     margin: 0px 15px;
     text-align: left;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 form {
@@ -303,19 +303,19 @@ form div {
 }
 
 .movie-container:nth-child(2) {
-    animation-delay: 1s;
+    animation-delay: 0.5s;
 }
 
 .movie-container:nth-child(3) {
-    animation-delay: 2s;
+    animation-delay: 1s;
 }
 
 .movie-container:nth-child(4) {
-    animation-delay: 3s;
+    animation-delay: 1.5s;
 }
 
 .movie-container:nth-child(5) {
-    animation-delay: 4s;
+    animation-delay: 2s;
 }
 
 .movie-poster {
@@ -405,14 +405,24 @@ form div {
 }
 
 .full-streaming-info {
-    position: absolute;
-    transform: translateY(-30%) scale(0);
-    width: 130%;
+    position: fixed;
+    transform: translateY(10%) scale(0);
+    width: 80%;
     height: 80%;
     border-radius: 1em;
     border: 1.5px solid var(--BRIGHT-BLACK);
-    background-color: var(--BLACK);
+    background-color: pink;
     color: whitesmoke;
+    z-index: 1;
+    transition: 0.3s ease-in-out;
+    transform-origin: center;
+    padding: 15px;
+}
+
+.close-dial {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 .description {

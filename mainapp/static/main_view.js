@@ -188,8 +188,13 @@ setInterval(() => {
     }
 }, 1000);
 
-function showFullStreaming(movieNumber) {
-    var streamingInfoContainer = document.getElementById("full-streaming" + movieNumber);
+function showFullStreaming() {
+    const streamingInfoContainer = document.querySelectorAll(".full-streaming-info");
+    const buttons = document.querySelectorAll(".show-streaming")
 
-    streamingInfoContainer.style.transform = "scale(1)";
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            streamingInfoContainer[index].style.transform = "translateY(10%) scale(1)";
+        });
+    });
 }
