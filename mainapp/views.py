@@ -91,13 +91,28 @@ def main_view(request):
                     length = db_movie.length
                     movie_link = db_movie.tmdb_link
                     rating = db_movie.rating
+                    full_streaming = db_movie.streaming_services
                     try:
-                        streaming = db_movie.streaming_services["US"]["flatrate"]
+                        streaming = full_streaming["US"]["flatrate"]
                         print(streaming)
                         streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in streaming]
                         print(streaming_services)
                     except:
                         streaming_services = []
+                    try:
+                        renting = full_streaming["US"]["rent"]
+                        print(renting)
+                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in renting]
+                        print(renting_services)
+                    except:
+                        renting_services = []
+                    try:
+                        buying = full_streaming["US"]["buy"]
+                        print(buying)
+                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in buying]
+                        print(buying_services)
+                    except:
+                        buying_services = []
                 else:
                     print(movie)
                     print("NOT EXISTS")
@@ -106,19 +121,34 @@ def main_view(request):
                     poster_link = movie_info["Poster"]
                     rating = movie_info["Rating"]
                     length = movie_info["Length"]
+                    full_streaming = movie_info["Streaming"]
                     try:
-                        print(f'Streaming: {movie_info["Streaming"]["US"]["flatrate"]}')
-                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in movie_info["Streaming"]["US"]["flatrate"]]
+                        print(f'Streaming: {full_streaming["US"]["flatrate"]}')
+                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["flatrate"]]
                         print(streaming_services)
                     except:
                         streaming_services = []
-                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = movie_info["Streaming"], rating=rating, last_update=datetime.today().date())
+                    try:
+                        print(f'Renting: {full_streaming["US"]["rent"]}')
+                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["rent"]]
+                        print(renting_services)
+                    except:
+                        renting_services = []
+                    try:
+                        print(f'Buying: {full_streaming["US"]["buy"]}')
+                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["buy"]]
+                        print(buying_services)
+                    except:
+                        buying_services = []                                                
+                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = full_streaming, rating=rating, last_update=datetime.today().date())
                     db_movie.save()
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
                 movie["Length"] = length
-                movie["Platforms"] = streaming_services
+                movie["Streaming"] = streaming_services
+                movie["Renting"] = renting_services
+                movie["Buying"] = buying_services
                 movie["Description"] = movie["Plot short description"]
                 recommendation.recommended_movies.add(db_movie)
             processing_time = timedelta(seconds=(datetime.now() - start_time).total_seconds())
