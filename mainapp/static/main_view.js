@@ -194,7 +194,23 @@ function showFullStreaming() {
 
     buttons.forEach((button, index) => {
         button.addEventListener("click", () => {
+            console.log("clicked");
             streamingInfoContainer[index].style.transform = "translateY(10%) scale(1)";
         });
     });
 }
+
+function hideFullStreaming() {
+    const streamingInfoContainer = document.querySelectorAll(".full-streaming-info");
+    const buttons = document.querySelectorAll(".close-dial")
+
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            console.log("clicked");
+            streamingInfoContainer[index].style.transform = "translateY(10%) scale(0)";
+        });
+    });
+}
+
+showFullStreaming();
+hideFullStreaming();

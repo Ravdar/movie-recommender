@@ -420,9 +420,9 @@ form div {
 }
 
 .close-dial {
-    position: absolute;
+    /* position: absolute;
     top: 20px;
-    right: 20px;
+    right: 20px; */
 }
 
 .description {
