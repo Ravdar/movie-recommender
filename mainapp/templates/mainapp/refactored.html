@@ -26,7 +26,7 @@
         </a> <!-- Later switch to img element -->
         <div>
             <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
-            <p>About</p>
+            <a href="{% url 'mainapp:about_view_url' %}">About</a>
         </div>
     </header>
 
@@ -90,7 +90,7 @@
                     <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
-                </div>
+                </div>d
             </div>
             <div class="rent">Rent<div class="platforms-container center">
                     {% for platform in movie.Renting %}
@@ -106,7 +106,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="just-watch">Powered by JustWatch</div>
+            <div class="just-watch"><img src="{% static 'justwatch_logo.svg' %}" alt="JustWatch logo" height="30"></div>
         </div>
         {% endfor %}
 

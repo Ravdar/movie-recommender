@@ -1,3 +1,5 @@
+/* MAIN VIEW STYLES */
+
 /* LOADING SCREEN ANIMATIONS */
 
 @keyframes loadingYellow {
@@ -480,5 +482,71 @@ form div {
         overflow: auto;
     }
 
+
+}
+
+/* ABOUT PAGE STYLES */
+
+/* ANIMATIONS */
+
+section {
+    margin: 0px 40px;
+}
+
+.faq-section {
+    margin-top: 150px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.faqs {
+    margin-top: 30px;
+    padding: 50px 30px;
+    border: 1px solid rgb(100, 100, 100);
+    background-color: var(--BRIGHT-BLACK);
+    border-radius: 1rem;
+}
+
+.faqs button {
+    font-size: 2rem;
+    color: whitesmoke;
+    display: flex;
+    align-items: start;
+}
+
+.question {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.question h3 {
+    padding-right: 30px;
+}
+
+.answer {
+    padding-right: 30px;
+    max-height: 0;
+    overflow: hidden;
+    text-align: left;
+    transition: 1s ease-in-out;
+    animation-delay: 0ms;
+    opacity: 0%
+}
+
+.faq.active .answer {
+    max-height: 1000px;
+    opacity: 100%
+}
+
+.feedback-section {}
+
+.feedback-form-container {
+    display: grid;
+    grid-template-rows: repeat(2, auto) 1fr;
+    grid-gap: 10px;
 
 }

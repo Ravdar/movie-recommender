@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django import forms
 
-from .forms import UserPrompt
+from .forms import UserPrompt, FeedbackForm
 from .utils import get_movie_info_tmdb
 from .models import Movie, Recommendation
 
@@ -161,6 +161,18 @@ def main_view(request):
         prompt_form = UserPrompt()
         welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
     return render(request, "mainapp/refactored.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
+
+def about_view(request):
+    if request.method == "POST":
+        feedback_form = FeedbackForm(request.POST)
+        if feedback_form.is_valid():
+            feedback_form.save()
+            # Here I want to display box with thanks for feedback or just redirect to succes_url
+            return render(request, "about_view.html", {"feedback_form":feedback_form})
+    else:
+        feedback_form = FeedbackForm()
+    return render(request, "about_view.html", {"feedback_form":feedback_form})
+            
 
 
 

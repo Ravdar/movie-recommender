@@ -1,4 +1,5 @@
 from django import forms
+from .models import Feedback
 
 class UserPrompt(forms.Form):
     text = forms.CharField(max_length=2000)
@@ -14,3 +15,10 @@ class UserPrompt(forms.Form):
     hbo_max = forms.BooleanField(label="HBO Max", initial=False, required=False)
     apple_tv = forms.BooleanField(label="Apple TV", initial=False, required=False)
     peacock = forms.BooleanField(label="Peacock", initial=False, required=False)
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ["category", "mail", "content"]
+    
+

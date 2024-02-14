@@ -1,6 +1,11 @@
 from django.db import models
 
-FEEDBACK_CATEGORIES = {"Error/bug":"Error/bug", "Feedback":"Feedback", "Question":"Question", "Other":"Other"}
+FEEDBACK_CATEGORIES = (
+    ("error", "Error/bug"),
+    ("feedback", "Feedback"),
+    ("question", "Question"),
+    ("other", "Other"),
+)
 
 class Movie(models.Model):
     title = models.CharField(max_length=500)
@@ -27,5 +32,5 @@ class Recommendation(models.Model):
 
 class Feedback(models.Model):
     category = models.CharField(max_length = 40, choices=FEEDBACK_CATEGORIES)
-    nickname = models.CharField(max_length = 20)
+    mail = models.CharField(max_length = 20)
     content = models.TextField()
