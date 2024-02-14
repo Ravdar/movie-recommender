@@ -39,8 +39,6 @@ def get_movie_info_tmdb(title, year):
     length = convert_movie_length(length_in_minutes)
     description = movie_detailed_info["overview"]
     streaming_services = movie.watch_providers()["results"]
-    # imdb_id = movie_detailed_info["imdb_id"]
-    # imdb_link = f"https://www.imdb.com/title/{imdb_id}/"
     tmdb_link = f"https://www.themoviedb.org/movie/{tmdb_id}"
     tmdb_rating = round(movie_detailed_info["vote_average"],1)
     poster_path = f"https://image.tmdb.org/t/p/w300_and_h450_bestv2{movie_detailed_info['poster_path']}"
