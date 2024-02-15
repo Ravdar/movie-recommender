@@ -457,6 +457,12 @@ form div {
         width: min(80%, 1000px)
     }
 
+    .hero-section {
+        font-size: 2rem;
+        width: min(80%, 1000px);
+        transform: translateY(-30%)
+    }
+
     .results-container {
         justify-content: center;
         width: calc(100%);
@@ -493,20 +499,20 @@ section {
     margin: 0px 40px;
 }
 
+hr {
+    border: 1px solid var(--BRIGHT-BLACK);
+}
+
 .faq-section {
     margin-top: 150px;
-    justify-content: center;
-    display: flex;
     flex-direction: column;
-    align-items: center;
     margin-bottom: 40px;
 }
 
 .faqs {
     margin-top: 30px;
     padding: 50px 30px;
-    border: 1px solid rgb(100, 100, 100);
-    background-color: var(--BRIGHT-BLACK);
+    border: 1px solid var(--BRIGHT-BLACK);
     border-radius: 1rem;
 }
 
@@ -542,11 +548,43 @@ section {
     opacity: 100%
 }
 
-.feedback-section {}
+.feedback-section {
+    flex-direction: column;
+}
 
-.feedback-form-container {
+.feedback-section h1 {
+    margin-bottom: 5px;
+}
+
+.feedback-form {
     display: grid;
-    grid-template-rows: repeat(2, auto) 1fr;
     grid-gap: 10px;
+    width: 100%;
+    margin-top: 30px;
+    border: none;
+    position: inherit;
+    border-radius: 1rem;
+    padding: 6px;
+}
 
+.feedback-form button {
+    color: white;
+    background-color: red;
+    width: 60px;
+    height: 2.5em;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px whitesmoke;
+    font-weight: bold;
+}
+
+.feedback-form-elements {
+    border: 1px solid var(--BRIGHT-BLACK);
+    border-radius: 10px;
+    background-color: var(--BLACK);
+    color: whitesmoke;
+    padding: 8px;
+}
+
+.feedback-form-elements:active {
+    border: 1px solid whitesmoke;
 }

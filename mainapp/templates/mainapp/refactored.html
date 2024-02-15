@@ -34,14 +34,10 @@
         {%if welcome_message %}
         <!-- Hero section -->
         <div class="hero-section">
-            <h1>Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
+            <h1>Meet movvie, minimalistic movie recommender fueled with AI.</h1>
             <br>
             <br>
-            <p> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
-                prompts, and let
-                MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
-                prompts
-                now!</p>
+            <p> Just type what is on your mind and let the magic happen!</p>
             <br>
             <p class="prompt-examples"></p>
         </div>
@@ -123,7 +119,7 @@
     <form id="prompt-form" enctype="multipart/form-data" method="post" onsubmit="displayLoadingScreen()">
         {% csrf_token %}
         <!--{{prompt_form.media}}?-->
-        {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you think will help."}}
+        {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you want."}}
         <div class="submit-button-container">
             <div id="submit-tooltip" class="tooltip">Submit</div>
             <button class="submit-button" clicked="0" onmouseover="showTooltip('submit-tooltip','-30%')"
