@@ -26,7 +26,7 @@
         </a> <!-- Later switch to img element -->
     </header>
     <main>
-        <section class="faq-section">
+        <section class="faq-section center">
             <h1>Frequently asked questions</h1>
             <div class="faqs">
                 <div class="faq">
@@ -73,14 +73,17 @@
             </div>
         </section>
 
-        <section class="feedback-section">
-            <h4>Have any other questions? Maybe you spot an error on the page? Or you just want to give us feedback
-                or idea how to improve movvie? You can do this below:</h4>
-            <div class="feedback-form-container">
-                {{feedback_form.category}}
-                {{feedback_form.mail}}
-                {{feedback_form.content}}
-            </div>
+        <section class="feedback-section center">
+            <h1>Have any other questions?</h1>
+            <p>Maybe you spot an error on the page? Or you just want to give us feedback
+                or idea how to improve movvie? You can do this below:</p>
+            <form class="feedback-form" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {{feedback_form.category|add_class:"feedback-form-elements"|attr:"placeholder:Category"}}
+                {{feedback_form.mail|add_class:"feedback-form-elements"|attr:"placeholder:Email adress"}}
+                {{feedback_form.content|add_class:"feedback-form-elements"|attr:"placeholder:Give us feedback!"}}
+                <button>Submit</button>
+            </form>
         </section>
     </main>
 
