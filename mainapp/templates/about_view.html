@@ -31,15 +31,8 @@
             <div class="faqs">
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><button class="show-answer"><svg width="12" height="12"
-                                viewBox="0 0 32 32">
-                                <circle cx="16" cy="16" r="14" fill="#F00" />
-
-                                <circle cx="16" cy="16" r="12" fill="none" stroke="#F55" stroke-width="2" />
-                                <circle cx="16" cy="16" r="8" fill="none" stroke="#F00" stroke-width="2" />
-
-                                <ellipse cx="16.5" cy="18" rx="1.5" ry="1" fill="#D55" />
-                            </svg></button>
+                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
+                            width="12" height="12">
                     </div><br>
                     <div class="answer">
                         <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
@@ -50,7 +43,8 @@
                 </div>
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><button class="show-answer"></button>
+                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
+                            width="12" height="12">
                     </div><br>
                     <div class="answer">
                         <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
@@ -61,7 +55,8 @@
                 </div>
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><button class="show-answer"></button>
+                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
+                            width="12" height="12">
                     </div><br>
                     <div class="answer">
                         <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
@@ -76,16 +71,26 @@
         <section class="feedback-section center">
             <h1>Have any other questions?</h1>
             <p>Maybe you spot an error on the page? Or you just want to give us feedback
-                or idea how to improve movvie? You can do this below:</p>
+                or idea how to improve movvie? You can do this below or just sent us email to :
+            <address><a href="mailto:moovie@gmail.com">movvie@gmail.com</a></address>
+            </adress>
+            </p>
             <form class="feedback-form" enctype="multipart/form-data" method="post">
                 {% csrf_token %}
-                {{feedback_form.category|add_class:"feedback-form-elements"|attr:"placeholder:Category"}}
-                {{feedback_form.mail|add_class:"feedback-form-elements"|attr:"placeholder:Email adress"}}
-                {{feedback_form.content|add_class:"feedback-form-elements"|attr:"placeholder:Give us feedback!"}}
-                <button>Submit</button>
+                {{form.category|add_class:"feedback-form-elements"|attr:"placeholder:Category"}}
+                {{form.mail|add_class:"feedback-form-elements"|attr:"placeholder:Email adress"}}
+                {{form.content|add_class:"feedback-form-elements"|attr:"placeholder:Give us feedback!"}}
+                <button type="submit">Submit</button>
             </form>
         </section>
     </main>
+
+    <footer>
+        moovie is powered by:<div><img src="{% static 'openai-white-lockup.svg' %}" alt="OpenAI" height="25"
+                loading="lazy"><img src="{% static 'tmdb_long_logo.svg' %}" alt="TMDB" height="15" loading="lazy"><img
+                src="{% static 'powered_by_justwatch.svg' %}" alt="JustWatch" height="15" loading="lazy"></div>Copyright
+        &copy 2024 | ravdar | All rights reserved
+    </footer>
 
     <script>
         const faqs = document.querySelectorAll(".faq");

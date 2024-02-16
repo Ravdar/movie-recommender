@@ -170,7 +170,7 @@ form {
     display: flex;
     width: calc(100% - 30px);
     /* fill the bottom of the page with black */
-    box-shadow: 0 10px 0 0 black;
+    box-shadow: 0 10px 0 0 var(--BLACK);
     margin-bottom: 10px;
     border-radius: 10px;
     padding-left: 6px;
@@ -497,10 +497,34 @@ form div {
 
 section {
     margin: 0px 40px;
+    max-width: 750px;
 }
 
 hr {
     border: 1px solid var(--BRIGHT-BLACK);
+}
+
+footer {
+    border-top: 1px solid var(--BRIGHT-BLACK);
+    width: 100%;
+    flex-direction: column;
+    height: 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: grey;
+    font-size: 12px;
+    padding: 30px 0px;
+}
+
+footer div {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    max-width: 700px;
+    align-items: center;
+    height: 100px;
+    flex-direction: column;
 }
 
 .faq-section {
@@ -552,12 +576,14 @@ hr {
     flex-direction: column;
 }
 
-.feedback-section h1 {
-    margin-bottom: 5px;
+.feedback-section p {
+    margin-top: 5px;
+    color: grey;
 }
 
 .feedback-form {
     display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
     width: 100%;
     margin-top: 30px;
@@ -565,6 +591,7 @@ hr {
     position: inherit;
     border-radius: 1rem;
     padding: 6px;
+    box-shadow: none;
 }
 
 .feedback-form button {
@@ -575,6 +602,8 @@ hr {
     border-radius: 10px;
     box-shadow: 0 0 0 1px whitesmoke;
     font-weight: bold;
+    grid-column: 2/2;
+    justify-self: center;
 }
 
 .feedback-form-elements {
@@ -583,8 +612,33 @@ hr {
     background-color: var(--BLACK);
     color: whitesmoke;
     padding: 8px;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.feedback-form-elements:nth-child(2) {
+    grid-column: 1;
+}
+
+.feedback-form-elements:nth-child(3) {
+    grid-column: 2 /4;
+}
+
+.feedback-form-elements:nth-child(4) {
+    grid-column: 1 /4;
 }
 
 .feedback-form-elements:active {
     border: 1px solid whitesmoke;
+}
+
+@media screen and (min-width:1450px) {
+
+    footer {
+        height: 200px;
+        padding: 40px 0px;
+    }
+
+    footer div {
+        flex-direction: row;
+    }
 }
