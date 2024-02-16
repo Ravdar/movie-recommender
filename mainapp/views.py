@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django import forms
+from django.utils import timezone
 
 from .forms import UserPrompt, FeedbackForm
 from .utils import get_movie_info_tmdb
@@ -164,14 +165,16 @@ def main_view(request):
 
 def about_view(request):
     if request.method == "POST":
-        feedback_form = FeedbackForm(request.POST)
-        if feedback_form.is_valid():
-            feedback_form.save()
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback_form = form.save(commit=False)
+            feedback_form.sending_time = timezone.now()
+            feedback_form = form.save()
             # Here I want to display box with thanks for feedback or just redirect to succes_url
-            return render(request, "about_view.html", {"feedback_form":feedback_form})
+            return render(request, "about_view.html", {"form":form})
     else:
-        feedback_form = FeedbackForm()
-    return render(request, "about_view.html", {"feedback_form":feedback_form})
+        form = FeedbackForm()
+    return render(request, "about_view.html", {"form":form})
             
 
 

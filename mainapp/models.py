@@ -32,5 +32,6 @@ class Recommendation(models.Model):
 
 class Feedback(models.Model):
     category = models.CharField(max_length = 40, choices=FEEDBACK_CATEGORIES, default='feedback')
-    mail = models.CharField(max_length = 20)
+    mail = models.EmailField(max_length = 30)
     content = models.TextField()
+    sending_time = models.DateField(null=True, blank=True)
