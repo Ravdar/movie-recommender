@@ -31,40 +31,49 @@
             <div class="faqs">
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
-                            width="12" height="12">
+                        <h3>What is movvie?</h3><button class="red-light"></button>
                     </div><br>
                     <div class="answer">
-                        <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
-                            five
-                            movies together with watch providers.</p><br>
+                        <p>movvie is minimalistic movie recommender fueled with AI. You just have to write prompt in the inputbox at the bottom of a page and movvie will recommend you five movies based on your prompt. It provides poster, title, info about year of production, TMDB rating, length, available streaming platforms and short desciption.</p><br>
                     </div>
                     <hr><br>
                 </div>
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
-                            width="12" height="12">
+                        <h3>How does it work?</h3><button class="red-light"></button>
                     </div><br>
                     <div class="answer">
-                        <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
-                            five
-                            movies together with watch providers.</p><br>
+                        <p>movvie is an AI tool and it uses OpenAI gpt-3.5-turbo-1106 model. Movies data comes from TMDB API and streaming services info is provided by JustWatch.com</p><br>
                     </div>
                     <hr><br>
                 </div>
                 <div class="faq">
                     <div class="question">
-                        <h3>What is movvie?</h3><img src="{% static 'red_led.svg' %}" alt="Red LED" class="show-answer"
-                            width="12" height="12">
+                        <h3>Is it free?</h3><button class="red-light"></button>
                     </div><br>
                     <div class="answer">
-                        <p>movvie is minimalistic movie recommender fueled with AI. Based on given prompt it returns
-                            five
-                            movies together with watch providers.</p><br>
+                        <p>Yes, movvie is fully free for now. It generates costs tought: OpenAI API is paid, so every movvie recommendation is new cost. There are also other costs like hosting a website. For the best user experience our platform is ad free, so we do not make any money on it. Due to that fact, if you enjoy it, please consider buying us a coffee. </p><br>
                     </div>
                     <hr><br>
                 </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>Does moovie recommend latest movies?</h3><button class="red-light"></button>
+                    </div><br>
+                    <div class="answer">
+                        <p>movvie is running og OpenAI gpt-3.5-turbo-1106 model which is trained on a data up to September 2021. Despite that it has acces to movies released after the date. It might not recommend postions from latest two or three moinths, but it will easily recommend movies from the last year.</p><br>
+                    </div>
+                    <hr><br>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>Does moovie also work for TV series?</h3><button class="red-light"></button>
+                    </div><br>
+                    <div class="answer">
+                        <p>Our tool is designed to recommend movies, so results of asking it about TV Series might be a little bit messy. But go ahead and give it a try!</p><br>
+                    </div>
+                    <hr><br>
+                </div>                                                  
             </div>
         </section>
 
@@ -86,9 +95,9 @@
     </main>
 
     <footer>
-        moovie is powered by:<div><img src="{% static 'openai-white-lockup.svg' %}" alt="OpenAI" height="25"
-                loading="lazy"><img src="{% static 'tmdb_long_logo.svg' %}" alt="TMDB" height="15" loading="lazy"><img
-                src="{% static 'powered_by_justwatch.svg' %}" alt="JustWatch" height="15" loading="lazy"></div>Copyright
+        movvie is powered by:<div><a href="https://openai.com/"><img src="{% static 'openai-white-lockup.svg' %}" alt="OpenAI" height="25"
+                loading="lazy"></a><a href="https://www.themoviedb.org/"><img src="{% static 'tmdb_long_logo.svg' %}" alt="TMDB" height="15" loading="lazy"></a><a href="https://www.justwatch.com/"><img
+                src="{% static 'powered_by_justwatch.svg' %}" alt="JustWatch" height="15" loading="lazy"></a></div>Copyright
         &copy 2024 | ravdar | All rights reserved
     </footer>
 
