@@ -495,6 +495,34 @@ form div {
 
 /* ANIMATIONS */
 
+@keyframes flashingRedLight {
+    0% {
+        box-shadow: 0 0 5px 2px red
+    }
+
+    50% {
+        box-shadow: 0 0 5px 3px red;
+    }
+
+    100% {
+        box-shadow: 0 0 5px 2px red;
+    }
+}
+
+@keyframes flashingWhiteLight {
+    0% {
+        box-shadow: 0 0 5px 2px white
+    }
+
+    50% {
+        box-shadow: 0 0 5px 3px white;
+    }
+
+    100% {
+        box-shadow: 0 0 5px 2px white;
+    }
+}
+
 section {
     margin: 0px 40px;
     max-width: 750px;
@@ -515,6 +543,7 @@ footer {
     color: grey;
     font-size: 12px;
     padding: 30px 0px;
+    margin-top: 100px;
 }
 
 footer div {
@@ -557,6 +586,20 @@ footer div {
     padding-right: 30px;
 }
 
+.led-light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: red;
+    animation: flashingRedLight 2s ease-in-out infinite;
+    transition: 0.3s ease-in-out;
+}
+
+.faq.active .led-light {
+    background-color: white;
+    animation: flashingWhiteLight 2s ease-in-out infinite;
+}
+
 .answer {
     padding-right: 30px;
     max-height: 0;
@@ -574,6 +617,7 @@ footer div {
 
 .feedback-section {
     flex-direction: column;
+    margin-top: 100px;
 }
 
 .feedback-section p {
@@ -600,11 +644,21 @@ footer div {
     width: 60px;
     height: 2.5em;
     border-radius: 10px;
-    box-shadow: 0 0 0 1px whitesmoke;
     font-weight: bold;
     grid-column: 2/2;
     justify-self: center;
 }
+
+.feedback-form button:hover {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.75);
+    transform: scale(1);
+}
+
+.feedback-form button:active {
+    color: red;
+    background-color: white;
+}
+
 
 .feedback-form-elements {
     border: 1px solid var(--BRIGHT-BLACK);
