@@ -1,0 +1,49 @@
+/* ABOUT PAGE STYLES */
+
+.faq-section {
+    margin-top: 200px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.faqs {
+    padding: 50px 30px;
+    border: 1px solid rgb(100, 100, 100);
+    background-color: var(--BRIGHT-BLACK);
+    border-radius: 1rem;
+    margin: 40px
+}
+
+.faqs button {
+    font-size: 2rem;
+    color: whitesmoke;
+}
+
+.question {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.question h3 {
+    padding-right: 30px;
+}
+
+.answer {
+    padding-right: 30px;
+    max-height: 0;
+    overflow: hidden;
+    text-align: left;
+    transition: 1s ease-in-out;
+    animation-delay: 0ms;
+    opacity: 0%
+}
+
+.faq.active .answer {
+    max-height: 1000px;
+    opacity: 100%
+}
+
+.feedback-section {}

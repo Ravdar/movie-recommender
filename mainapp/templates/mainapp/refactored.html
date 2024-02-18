@@ -10,82 +10,134 @@
     <meta name="description"
         content="The main view for movvie. It consists navbar, hero section, inputbox, loading screen and results screen">
     <title>moovie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'styles_refactored.css' %}">
     <script defer src="{% static 'main_view.js' %}"></script>
 </head>
 
 <body>
     <header>
-        <h1 class="logotext">movvie</h1> <!-- Later switch to img element -->
-        {{processing_time}}
-        <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
-        <p>About</p>
+        <a href="{% url 'mainapp:main_view_url' %}">
+            <h1 class="logotext">movvie</h1>
+        </a> <!-- Later switch to img element -->
+        <div>
+            <p>Support</p>
+            <a href="{% url 'mainapp:about_view_url' %}">About</a>
+        </div>
     </header>
 
     <main>
-        <!-- Hero section -->
         {%if welcome_message %}
+        <!-- Hero section -->
+        <div class="hero-section">
+            <h1>Meet movvie, minimalistic movie recommender fueled with AI.</h1>
+            <br>
 
-        <h1>Meet MovieBreak, minimalistic movie recommender fueled with AI.</h1>
-        <br>
-        <br>
-        <p> MovieBreak, the intelligent movie matchmaker, is at your service. Share your
-            prompts, and let
-            MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your
-            prompts
-            now!</p>
-        <br>
-        <p id="prompt-examples"></p>
+            <p>Just type what is on your mind and let the magic happen!</p>
+            <br>
+            <br>
+            <p class="prompt-examples"><span class='cursor'>|</span>
+            </p>
+        </div>
 
         {% else %}
 
         <!-- Displaying results of prompt-->
-        {% for movies in response %}
-        <div class="movie-container">
-            <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"></a>
-            <div class="movie-info">
-                <a href="{{movie.Link}}" class="movie-title {{forloop.counter0}}">{{movie.Title}}</a>
-                <div class="year-rating-length {{forloop.counter0}}">
-                    <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
-                    <div class="movie-rating-container">
-                        <div>TMDB logo</div>
-                        <div>{{movie.Rating}}</div>
+        <div class="results-container center">
+            {% for movie in response %}
+            <div id="movie{{forloop.counter}}" class="movie-container center">
+                <a href="{{movie.Link}}"><img class="movie-poster" src="{{movie.Poster}}" alt="{{movie.Title}}"
+                        width="350" height="450" loading="lazy"></a>
+                <div class="movie-info center">
+                    <div class="title-container center">
+                        <a href="{{movie.Link}}" class="movie-title {{forloop.counter}}">{{movie.Title}}</a>
                     </div>
-                    <div>{{movie.Length}}</div>
+                    <div class="year-rating-length border{{forloop.counter}}">
+                        <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
+                        <div class="movie-rating-container center">
+                            <img src="{% static 'rating_star.svg' %}" width="25" height="25" loading="lazy">
+                            <div class="center">{{movie.Rating}}</div>
+                        </div>
+                        <div>{{movie.Length}}</div>
+                    </div>
+                    <div class="platforms-container center">
+                        {% for platform in movie.Streaming %}
+                        <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
+                        <!-- Add streaming name as alt and links of course-->
+                        {% endfor %}
+                        <button><img src="{% static 'show_streaming_button.png' %}" class="show-streaming"
+                                alt="Show more" loading="lazy" width="30" height="30"></button>
+                    </div>
+                    <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
                 </div>
-                <div class="platforms-container">
-                    {% for platform in movie.Platforms %}
-                    <img src="{{url}}" alt="{{url}}" class="streaming-icon">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Another loop to create dial modals for full streaming info. Here beacuse of natural stacking order. -->
+        {% for movie in response %}
+        <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'close_dial.png' %}"
+                    alt="Close" loading="lazy" width="25" height="25"></button>
+            <div class="stream">Stream<div class="platforms-container center">
+                    {% for platform in movie.Streaming %}
+                    <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
                 </div>
-                <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
             </div>
+            <div class="rent">Rent<div class="platforms-container center">
+                    {% for platform in movie.Renting %}
+                    <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
+                    <!-- Add streaming name as alt and links of course-->
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="buy">Buy<div class="platforms-container center">
+                    {% for platform in movie.Buying %}
+                    <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
+                    <!-- Add streaming name as alt and links of course-->
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="just-watch center">Powered by: <a href="https://www.justwatch.com"><img
+                        src="{% static 'justwatch_logo.svg' %}" alt="JustWatch logo" height="20"></a></div>
         </div>
         {% endfor %}
-        {% endif %}
+
     </main>
 
     <div class="loading-screen">
-        <div class="dot yellow-dot"></div>
-        <div class="dot aqua-dot"></div>
-        <div class="dot green-dot"></div>
-        <div class="dot pink-dot"></div>
-        <div class="dot blue-dot"></div>
+        <div class="yellow-dot"></div>
+        <div class="aqua-dot"></div>
+        <div class="green-dot"></div>
+        <div class="pink-dot"></div>
+        <div class="blue-dot"></div>
     </div>
 
-
-    <form method="post" onsubmit="displayLoadingScreen()">
+    <form id="prompt-form" enctype="multipart/form-data" method="post" onsubmit="displayLoadingScreen()">
         {% csrf_token %}
         <!--{{prompt_form.media}}?-->
-        {{prompt_form.text|add_class:"prompt-form"|attr:"placeholder:Type here. Whatever you think will help."}}
+        {{prompt_form.text|add_class:"prompt-inputbox"|attr:"placeholder:Type here. Whatever you want."}}
+        <div class="submit-button-container">
+            <div id="submit-tooltip" class="tooltip">Submit</div>
+            <button class="submit-button" clicked="0" onmouseover="showTooltip('submit-tooltip','-30%')"
+                onmouseout="hideTooltip('submit-tooltip','-30%')" type="submit"><img
+                    src="{% static 'submit_button.png' %}" alt="Submit" wdith="20" height="20"></button>
+        </div>
         <div class="random-button-container">
-            <div id="random-tooltip" class="random-tooltip">Draw random movies</div>
-            <button class="random-button"><img src="{% static 'random_button.png' %}" alt="Random button" wdith="30"
-                    height="30" clicked="0" onmouseover="showTooltip('random-tooltip')"
-                    onmouseout="hideTooltip('random-tooltip')" onclick="pickRandomMovies()"></button>
+            <div id="random-tooltip" class="tooltip">Draw random movies</div>
+            <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip','-42%')"
+                onmouseout="hideTooltip('random-tooltip','-42%')" onclick="pickRandomMovies()"><img
+                    src="{% static 'random_button.png' %}" alt="Random movies" wdith="20" height="20"></button>
         </div>
     </form>
+    <div class="form-container"></div>
+
 
 </body>
 
