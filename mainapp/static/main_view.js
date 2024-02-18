@@ -1,6 +1,6 @@
-
-var mainContent = document.querySelector('.main-content')
-var loadingScreen = document.querySelector('.loading-screen')
+var mainContent = document.querySelector('main');
+var loadingScreen = document.querySelector('.loading-screen');
+var promptInputbox = document.getElementById('prompt-form');
 var staticBaseUrl = "{% static '' %}";
 
 function justifyHeight(className) {
@@ -19,12 +19,22 @@ function justifyHeight(className) {
     });
 }
 
-justifyHeight('.title-div');
-justifyHeight('.platforms')
 
+function handleResize() {
+    if (window.innerWidth >= 1450) {
+        justifyHeight('.title-container');
+        justifyHeight('.platforms-container');
+    }
+}
+
+// Initial call
+handleResize();
+
+// Real time resizing
+window.addEventListener('resize', handleResize)
 
 function pickRandomMovies() {
-    var form = document.getElementById("my-form");
+    var form = document.getElementById("prompt-form");
     var textField = form.elements["text"];
     const randomPrompts = [
         "Recommend me random movies, different from each other: blockbuster, non US, older than 2010, nostalgic, action in UK.",
@@ -79,19 +89,21 @@ function pickRandomMovies() {
     ]
     const randomIndex = Math.floor(Math.random() * randomPrompts.length);
     const pickedPrompt = randomPrompts[randomIndex];
-    console.log(pickedPrompt)
 
     textField.value = pickedPrompt;
     form.submit();
     textField.value = ""
 
+
     mainContent.style.display = 'none'
+    promptInputbox.style.display = 'none'
     loadingScreen.style.display = 'flex'
+
 }
 
 function displayLoadingScreen() {
-
     mainContent.style.display = 'none'
+    promptInputbox.style.display = 'none'
     loadingScreen.style.display = 'flex'
 
 }
@@ -115,19 +127,19 @@ function toggleImageF(platform, img_off, img_on) {
     imageElement.setAttribute('clicked', String(currentImageIndex));
 }
 
-function showTooltip(tooltip) {
+function showTooltip(tooltip, translateX) {
     var tooltip = document.getElementById(tooltip);
-    tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(1)";
+    tooltip.style.transform = "translateY(-195%) translateX(" + translateX + ") scale(1)";
 
 }
 
-function hideTooltip(tooltip) {
+function hideTooltip(tooltip, translateX) {
     var tooltip = document.getElementById(tooltip);
 
-    tooltip.style.transform = "translateY(-160%) translateX(-43%) scale(0)";
+    tooltip.style.transform = "translateY(-195%) translateX(" + translateX + ") scale(0)";
 }
 
-const promptIdea = document.querySelector(".prompt-idea");
+const promptIdea = document.querySelector(".prompt-examples");
 
 promptIdeasList = ["I like Ryan Gosling",
     "Some thriller from Sweden",
@@ -162,11 +174,72 @@ promptIdeasList = ["I like Ryan Gosling",
 
 colorsList = ['rgb(255,255,0)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,0,205)', 'rgb(5,99,244)']
 
-let currentIndex = 0;
+let currentIndex = -1;
 
-setInterval(() => {
-    var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
-    promptIdea.textContent = selectedIdea;
-    currentIndex = (currentIndex + 1) % colorsList.length;
-    promptIdea.style.color = colorsList[currentIndex];
-}, 1000);
+function typingAnimation(index) {
+    if (index < 100) {
+        if (promptIdea !== null) {
+            var selectedIdea = promptIdeasList[Math.floor(Math.random() * promptIdeasList.length)];
+            currentIndex = (currentIndex + 1) % colorsList.length;
+            promptIdea.style.color = colorsList[currentIndex];
+            promptIdea.style.textShadow = " 0 0 1px 3px" + colorsList[currentIndex];
+            let word = "";
+            for (let i = 0; i < selectedIdea.length; i++) {
+                setTimeout(() => {
+                    word += selectedIdea[i];
+                    promptIdea.innerHTML = word + "<span class='cursor'>|</span>";
+
+                    // Check if it's the last iteration of the first loop
+                    if (i === selectedIdea.length - 1) {
+                        // Pause for 1 second before starting the second loop
+                        setTimeout(() => {
+                            // Second loop: Delete the text
+                            for (let j = selectedIdea.length - 1; j >= 0; j--) {
+                                setTimeout(() => {
+                                    word = word.substring(0, j);
+                                    promptIdea.innerHTML = word + "<span class='cursor'>|</span>";
+                                }, 20 * (selectedIdea.length - j));
+                            }
+                            // Run the next iteration after the second loop is completed
+                            setTimeout(() => {
+                                typingAnimation(index + 1);
+                            }, 30 * i + 500);
+                        }, 1000); // Pause for 1 second
+                    }
+                }, 30 * i);
+            }
+        }
+    }
+}
+
+// Start the animation
+typingAnimation(0);
+
+function showFullStreaming() {
+    const buttons = document.querySelectorAll(".show-streaming")
+    const streamingInfoContainer = document.querySelectorAll(".full-streaming-info");
+    const resultsContainer = document.querySelector(".results-container")
+
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            streamingInfoContainer[index].style.transform = "translateY(10%) scale(1)";
+            resultsContainer.style.opacity = "50%";
+        });
+    });
+}
+
+function hideFullStreaming() {
+    const buttons = document.querySelectorAll(".close-dial")
+    const streamingInfoContainer = document.querySelectorAll(".full-streaming-info");
+    const resultsContainer = document.querySelector(".results-container")
+
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            streamingInfoContainer[index].style.transform = "translateY(10%) scale(0)";
+            resultsContainer.style.opacity = "100%";
+        });
+    });
+}
+
+showFullStreaming();
+hideFullStreaming();

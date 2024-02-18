@@ -1,5 +1,12 @@
 from django.db import models
 
+FEEDBACK_CATEGORIES = (
+    ("error", "Error/bug"),
+    ("feedback", "Feedback"),
+    ("question", "Question"),
+    ("other", "Other"),
+)
+
 class Movie(models.Model):
     title = models.CharField(max_length=500)
     year = models.CharField(max_length=10)
@@ -22,3 +29,9 @@ class Recommendation(models.Model):
     response_time = models.DurationField(null=True, blank=True) # as timedelta seconds
     recommended_movies = models.ManyToManyField(Movie, related_name='recommendations')
     # if error
+
+class Feedback(models.Model):
+    category = models.CharField(max_length = 40, choices=FEEDBACK_CATEGORIES, default='feedback')
+    mail = models.EmailField(max_length = 30)
+    content = models.TextField()
+    sending_time = models.DateField(null=True, blank=True)
