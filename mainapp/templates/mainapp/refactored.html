@@ -25,7 +25,7 @@
             <h1 class="logotext">movvie</h1>
         </a> <!-- Later switch to img element -->
         <div>
-            <img src="{% static 'coffee.png' %}" alt="Support me" width="30" height="30">
+            <p>Support</p>
             <a href="{% url 'mainapp:about_view_url' %}">About</a>
         </div>
     </header>
@@ -36,10 +36,12 @@
         <div class="hero-section">
             <h1>Meet movvie, minimalistic movie recommender fueled with AI.</h1>
             <br>
+
+            <p>Just type what is on your mind and let the magic happen!</p>
             <br>
-            <p> Just type what is on your mind and let the magic happen!</p>
             <br>
-            <p class="prompt-examples"></p>
+            <p class="prompt-examples"><span class='cursor'>|</span>
+            </p>
         </div>
 
         {% else %}
@@ -76,17 +78,17 @@
             {% endfor %}
         </div>
         {% endif %}
+
         <!-- Another loop to create dial modals for full streaming info. Here beacuse of natural stacking order. -->
         {% for movie in response %}
-        <div class="full-streaming-info">
-            <div class="select-country">Select country</div><button><img class="close-dial"
-                    src="{% static 'close_dial.png' %}" alt="Close" loading="lazy" width="35" height="35"></button>
+        <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'close_dial.png' %}"
+                    alt="Close" loading="lazy" width="25" height="25"></button>
             <div class="stream">Stream<div class="platforms-container center">
                     {% for platform in movie.Streaming %}
                     <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
-                </div>d
+                </div>
             </div>
             <div class="rent">Rent<div class="platforms-container center">
                     {% for platform in movie.Renting %}
@@ -102,7 +104,8 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="just-watch"><img src="{% static 'justwatch_logo.svg' %}" alt="JustWatch logo" height="30"></div>
+            <div class="just-watch center">Powered by: <a href="https://www.justwatch.com"><img
+                        src="{% static 'justwatch_logo.svg' %}" alt="JustWatch logo" height="20"></a></div>
         </div>
         {% endfor %}
 
