@@ -1,5 +1,21 @@
 /* MAIN VIEW STYLES */
 
+/* HERO SECTION ANIMATIONS */
+
+@keyframes blink {
+    0% {
+        opacity: 0%
+    }
+
+    50% {
+        opacity: 100%
+    }
+
+    100% {
+        opacity: 0%
+    }
+}
+
 /* LOADING SCREEN ANIMATIONS */
 
 @keyframes loadingYellow {
@@ -95,6 +111,7 @@
     --GREEN: rgb(22, 245, 41);
     --PINK: rgb(245, 53, 170);
     --BLUE: rgb(9, 9, 255);
+    --DARK-WHITE: rgb(200, 200, 200);
 }
 
 
@@ -123,11 +140,6 @@ button {
     transition: 0.3s ease-in-out;
 }
 
-button:hover {
-    transform: scale(1.15);
-}
-
-
 body {
     background-color: var(--BLACK);
     color: white;
@@ -154,6 +166,11 @@ header {
 header div {
     display: flex;
     align-items: center;
+    font-size: 12px;
+}
+
+header p {
+    margin-right: 30px;
 }
 
 main {
@@ -188,6 +205,10 @@ form div {
 
 }
 
+form button:hover {
+    transform: scale(1.15);
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -201,7 +222,23 @@ form div {
     position: absolute;
     width: 90vw;
     transform: translateY(50%);
+}
 
+.hero-section p {
+    color: grey;
+}
+
+.prompt-examples {
+    font-weight: bold;
+}
+
+
+.cursor {
+    background-color: white;
+    color: white;
+    height: auto;
+    width: 4px;
+    animation: blink 1s linear infinite;
 }
 
 .prompt-inputbox {
@@ -330,6 +367,7 @@ form div {
 .movie-info {
     height: fit-content;
     flex-direction: column;
+    max-width: 100%;
 
 }
 
@@ -342,8 +380,6 @@ form div {
     font-size: 1.7em;
     font-weight: bold;
 }
-
-/* .movie-title:hover{} */
 
 .year-rating-length {
     display: flex;
@@ -394,6 +430,7 @@ form div {
 .platforms-container {
     margin-top: 5px;
     margin-bottom: 15px;
+    overflow: auto;
 }
 
 .platforms-container img {
@@ -412,19 +449,32 @@ form div {
     width: 80%;
     height: 80%;
     border-radius: 1em;
-    border: 1.5px solid var(--BRIGHT-BLACK);
-    background-color: pink;
+    border: 2px solid var(--BRIGHT-BLACK);
+    background-color: var(--BLACK);
     color: whitesmoke;
     z-index: 1;
     transition: 0.3s ease-in-out;
     transform-origin: center;
     padding: 15px;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.full-streaming-info div {
+    margin-bottom: 10px;
+    max-width: 100%;
 }
 
 .close-dial {
-    /* position: absolute;
+    position: absolute;
     top: 20px;
-    right: 20px; */
+    right: 20px;
+}
+
+.just-watch {
+    position: absolute;
+    bottom: 20px;
+    flex-direction: column;
 }
 
 .description {
@@ -465,7 +515,6 @@ form div {
 
     .results-container {
         justify-content: center;
-        width: calc(100%);
         flex-direction: row;
         align-items: start;
         margin-top: 0px;
@@ -488,8 +537,30 @@ form div {
         overflow: auto;
     }
 
+    .full-streaming-info {
+        position: absolute;
+        top: 50px;
+        height: 75%;
+        width: 40%
+    }
+
+    .full-streaming-info.platforms-container {
+        height: fit-content;
+    }
+
+    .full-streaming-info.platforms-container img {
+        width: 50px;
+        height: 50px
+    }
 
 }
+
+
+
+
+
+
+
 
 /* ABOUT PAGE STYLES */
 
@@ -607,7 +678,8 @@ footer div {
     text-align: left;
     transition: 1s ease-in-out;
     animation-delay: 0ms;
-    opacity: 0%
+    opacity: 0%;
+    color: var(--DARK-WHITE)
 }
 
 .faq.active .answer {
