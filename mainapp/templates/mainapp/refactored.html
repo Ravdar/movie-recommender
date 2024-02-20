@@ -22,8 +22,8 @@
 <body>
     <header>
         <a href="{% url 'mainapp:main_view_url' %}">
-            <h1 class="logotext">movvie</h1>
-        </a> <!-- Later switch to img element -->
+            <img src="{% static 'movvie_logo.png' %}" alt="logo" width="155"></h1>
+        </a>
         <div>
             <p>Support</p>
             <a href="{% url 'mainapp:about_view_url' %}">About</a>
