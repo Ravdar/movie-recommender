@@ -23,7 +23,7 @@ def main_view(request):
             assistant_id = 'asst_uLNsyXn04oFs1mxJkCdbEwVv'
             tools = []
             file_ids = []
-            instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", and "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
+            instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
             prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list of 5 movies."
 
             if prompt_form.cleaned_data["gpt_4"]:
@@ -171,10 +171,10 @@ def about_view(request):
             feedback_form.sending_time = timezone.now()
             feedback_form = form.save()
             # Here I want to display box with thanks for feedback or just redirect to succes_url
-            return render(request, "about_view.html", {"form":form})
+            return render(request, "mainapp/about_view.html", {"form":form})
     else:
         form = FeedbackForm()
-    return render(request, "about_view.html", {"form":form})
+    return render(request, "mainapp/about_view.html", {"form":form})
 
 def error_404(request, exception):
     return render(request, 'error.html', status=404)
