@@ -171,10 +171,16 @@ def about_view(request):
             feedback_form.sending_time = timezone.now()
             feedback_form = form.save()
             # Here I want to display box with thanks for feedback or just redirect to succes_url
-            return render(request, "about_view.html", {"form":form})
+            return render(request, "mainapp/about_view.html", {"form":form})
     else:
         form = FeedbackForm()
-    return render(request, "about_view.html", {"form":form})
+    return render(request, "mainapp/about_view.html", {"form":form})
+
+def error_404(request, exception):
+    return render(request, 'error.html', status=404)
+
+def error_500(request):
+    return render(request, 'error.html', status=500)
             
 
 
