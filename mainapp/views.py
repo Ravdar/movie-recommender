@@ -10,10 +10,15 @@ from openai import OpenAI
 import time
 import ast
 from datetime import datetime, timedelta
+import os
 
 
 def main_view(request):
-    client = OpenAI()   
+    api_key = os.environ.get("API_KEY")
+    print(api_key)
+#     client = OpenAI(
+#   api_key=("sk-proj-KQnRMn5E3IW6Huzxvs2lT3BlbkFJenAWXP7GCyshYh2D6IFY"))
+    client = OpenAI(api_key=api_key)
     response = ""
     if request.method =="POST":
         start_time = datetime.now()
@@ -57,11 +62,11 @@ def main_view(request):
                 assistant_id = 'asst_6bqZAqHpKP48jTaxrCSlbbxL'#'asst_sKuRYRpYQWM6VigUHTnFzUhk'
                 # file_id = 'file-E7IBRtoF7uImZmH9kU36urA1'
                 tools = [{"type": "retrieval"}]
-                file_ids = [file_id]
+                file_id = [file_id]
                 prompt_additional_info = f' available on of these streaming platforms: {selected_platforms} .Please remember to not write any additional text in a response, provide just a list.'
 
 
-            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, file_ids=file_ids, instructions=instructions)
+            assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, instructions=instructions)
             thread = client.beta.threads.create()
             prompt = prompt_form.cleaned_data['text'] + prompt_additional_info
             print(prompt)
