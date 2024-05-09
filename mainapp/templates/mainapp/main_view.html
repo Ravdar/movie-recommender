@@ -78,29 +78,41 @@
         </div>
         {% endif %}
 
-        <!-- Another loop to create dial modals for full streaming info. Here beacuse of natural stacking order. -->
+        <!-- Another loop to create dial modals for full streaming info. -->
         {% for movie in response %}
         <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'close_dial.png' %}"
                     alt="Close" loading="lazy" width="25" height="25"></button>
             <div class="stream">Stream<div class="platforms-container center">
+                    {% if movie.Streaming %}
                     {% for platform in movie.Streaming %}
                     <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
+                    {% else %}
+                    <p>Movie is not available for streaming currently.</p>
+                    {% endif %}
                 </div>
             </div>
             <div class="rent">Rent<div class="platforms-container center">
+                    {% if movie.Renting %}
                     {% for platform in movie.Renting %}
                     <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
+                    {% else %}
+                    <p>Movie is not available for renting currently.</p>
+                    {% endif %}
                 </div>
             </div>
             <div class="buy">Buy<div class="platforms-container center">
+                    {% if movie.Buying %}
                     {% for platform in movie.Buying %}
                     <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                     <!-- Add streaming name as alt and links of course-->
                     {% endfor %}
+                    {% else %}
+                    <p>Movie purchase is not available currently.</p>
+                    {% endif %}
                 </div>
             </div>
             <div class="just-watch center">Powered by: <a href="https://www.justwatch.com"><img
@@ -110,6 +122,7 @@
 
     </main>
 
+    <!-- Loading screen -->
     <div class="loading-screen">
         <div class="yellow-dot"></div>
         <div class="aqua-dot"></div>

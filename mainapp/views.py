@@ -122,8 +122,9 @@ def about_view(request):
             feedback_form = form.save(commit=False)
             feedback_form.sending_time = timezone.now()
             feedback_form = form.save()
+            form=FeedbackForm()
             # Here I want to display box with thanks for feedback or just redirect to succes_url
-            return render(request, "mainapp/about_view.html", {"form":form})
+            return render(request, "mainapp/about_view.html", {"form":form, "submit_succes":True})
     else:
         form = FeedbackForm()
     return render(request, "mainapp/about_view.html", {"form":form})
