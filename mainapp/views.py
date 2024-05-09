@@ -11,10 +11,13 @@ import time
 import ast
 from datetime import datetime, timedelta
 import os
+from dotenv import load_dotenv
 
 
 def main_view(request):
-    api_key = os.environ.get("API_KEY")
+    load_dotenv()
+    api_key=os.environ.get("OPENAI_API_KEY")
+    print(api_key)
     client = OpenAI(api_key=api_key)
     response = ""
     if request.method =="POST":
