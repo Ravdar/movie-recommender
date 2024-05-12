@@ -1,3 +1,4 @@
 mainapp/.env
 mainapp/.DS_Store
 .DS_Store
+mv_venv/
