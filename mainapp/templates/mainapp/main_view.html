@@ -22,7 +22,7 @@
 <body>
     <header>
         <a href="{% url 'mainapp:main_view_url' %}">
-            <img src="{% static 'movvie_logo.png' %}" alt="logo" width="130">
+            <img src="{% static  'images/movvie_logo.png' %}" alt="logo" width="130">
         </a>
         <div>
             <a class="about-link" href="{% url 'mainapp:about_view_url' %}">About</a>
@@ -58,7 +58,7 @@
                     <div class="year-rating-length border{{forloop.counter}}">
                         <div>{{movie.Year}}</div> <!-- Should I use div here? Or rather span on p? -->
                         <div class="movie-rating-container center">
-                            <img src="{% static 'rating_star.svg' %}" width="25" height="25" loading="lazy">
+                            <img src="{% static 'images/rating_star.svg' %}" width="25" height="25" loading="lazy">
                             <div class="center">{{movie.Rating}}</div>
                         </div>
                         <div>{{movie.Length}}</div>
@@ -68,7 +68,7 @@
                         <img src="{{platform}}" alt="{{platform}}" loading="lazy" width="35" height="35">
                         <!-- Add streaming name as alt and links of course-->
                         {% endfor %}
-                        <button><img src="{% static 'show_streaming_button.png' %}" class="show-streaming"
+                        <button><img src="{% static 'images/show_streaming_button.png' %}" class="show-streaming"
                                 alt="Show more" loading="lazy" width="30" height="30"></button>
                     </div>
                     <div class="description">{{movie.Description}}</div> <!-- Again - should I use div for this?-->
@@ -80,7 +80,7 @@
 
         <!-- Another loop to create dial modals for full streaming info. -->
         {% for movie in response %}
-        <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'close_dial.png' %}"
+        <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'images/close_dial.png' %}"
                     alt="Close" loading="lazy" width="25" height="25"></button>
             <div class="stream">Stream<div class="platforms-container center">
                     {% if movie.Streaming %}
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="just-watch center">Powered by: <a href="https://www.justwatch.com"><img
-                        src="{% static 'justwatch_logo.svg' %}" alt="JustWatch logo" height="20"></a></div>
+                        src="{% static 'images/justwatch_logo.svg' %}" alt="JustWatch logo" height="20"></a></div>
         </div>
         {% endfor %}
 
@@ -139,13 +139,13 @@
             <div id="submit-tooltip" class="tooltip">Submit</div>
             <button class="submit-button" clicked="0" onmouseover="showTooltip('submit-tooltip','-30%')"
                 onmouseout="hideTooltip('submit-tooltip','-30%')" type="submit"><img
-                    src="{% static 'submit_button.png' %}" alt="Submit" wdith="20" height="20"></button>
+                    src="{% static 'images/submit_button.png' %}" alt="Submit" wdith="20" height="20"></button>
         </div>
         <div class="random-button-container">
             <div id="random-tooltip" class="tooltip">Draw random movies</div>
             <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip','-42%')"
                 onmouseout="hideTooltip('random-tooltip','-42%')" onclick="pickRandomMovies()"><img
-                    src="{% static 'random_button.png' %}" alt="Random movies" wdith="20" height="20"></button>
+                    src="{% static 'images/random_button.png' %}" alt="Random movies" wdith="20" height="20"></button>
         </div>
     </form>
     <div class="form-container"></div>

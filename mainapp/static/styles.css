@@ -768,6 +768,8 @@ footer div {
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.feedback-form-elements:focus {outline:none;box-shadow: 0 0 5px 2px white;}
+
 .feedback-form-elements:nth-child(2) {
     grid-column: 1;
 }
