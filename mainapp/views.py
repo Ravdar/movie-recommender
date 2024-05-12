@@ -17,7 +17,6 @@ from dotenv import load_dotenv
 def main_view(request):
     load_dotenv()
     api_key=os.environ.get("OPENAI_API_KEY")
-    print(api_key)
     client = OpenAI(api_key=api_key)
     response = ""
     if request.method =="POST":
@@ -27,7 +26,6 @@ def main_view(request):
             # Checking searchbar tools settings
             assistant_id = 'asst_uLNsyXn04oFs1mxJkCdbEwVv'
             tools = []
-            file_ids = []
             instructions = 'You are a movie expert. Your role is to recommend 5 (five) movies, based on the data provided by an user.Please response with python list of dictionaries named "movies" with keys: "Title", "Year", "Plot short description".  No salutes, no explanations, no thank you, nothing other than the specified python list.'
             prompt_additional_info = " Please remember to not write any additional text in a response, provide just a list of 5 movies."
             assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, instructions=instructions)
@@ -40,8 +38,7 @@ def main_view(request):
                     thread_id=thread.id,
                     run_id=run.id,
                 )
-            time.sleep(0.5)
-            time.sleep(1)
+            time.sleep(1.5)
             messages = client.beta.threads.messages.list(thread_id=thread.id)
             string_data = messages.data[0].content[0].text.value.replace("```python", "").replace("```","")
             start_index = string_data.find('[')
@@ -61,17 +58,17 @@ def main_view(request):
                     rating = db_movie.rating
                     full_streaming = db_movie.streaming_services
                     try:
-                        streaming = full_streaming["US"]["flatrate"]        
+                        streaming = full_streaming["PL"]["flatrate"]        
                         streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in streaming]
                     except:
                         streaming_services = []
                     try:
-                        renting = full_streaming["US"]["rent"]
+                        renting = full_streaming["PL"]["rent"]
                         renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in renting]
                     except:
                         renting_services = []
                     try:
-                        buying = full_streaming["US"]["buy"]
+                        buying = full_streaming["PL"]["buy"]
                         buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in buying]
                     except:
                         buying_services = []
@@ -83,15 +80,15 @@ def main_view(request):
                     length = movie_info["Length"]
                     full_streaming = movie_info["Streaming"]
                     try:
-                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["flatrate"]]
+                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["flatrate"]]
                     except:
                         streaming_services = []
                     try:
-                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["rent"]]
+                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["rent"]]
                     except:
                         renting_services = []
                     try:
-                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["US"]["buy"]]
+                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["buy"]]
                     except:
                         buying_services = []                                                
                     db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = full_streaming, rating=rating, last_update=datetime.today().date())
