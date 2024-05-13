@@ -17,7 +17,6 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(f"Base dir {BASE_DIR}")
 
 
 # Quick-start development settings - unsuitable for production
@@ -126,7 +125,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-#Load API key at the start
+# Load API keys settings at the start
 
 dotenv_path = os.path.join(BASE_DIR, '.env')
 load_dotenv(dotenv_path)
+
+OPENAI_API_KEY=os.getenv('OPENAI_API_KEY')
+ASSISTANT_ID=os.getenv('ASSISTANT_ID')
+INSTRUCTIONS=os.getenv('INSTRUCTIONS')
+PROMPT_ADDITIONAL_INFO=os.getenv('PROMPT_ADDITIONAL_INFO')
