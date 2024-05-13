@@ -1,4 +1,3 @@
-mainapp/.env
-mainapp/.DS_Store
+.env
 .DS_Store
 mv_venv/

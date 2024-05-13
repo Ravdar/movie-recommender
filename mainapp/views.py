@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django import forms
 from django.utils import timezone
 
 from .forms import UserPrompt, FeedbackForm
@@ -15,7 +14,6 @@ from dotenv import load_dotenv
 
 
 def main_view(request):
-    load_dotenv()
     api_key=os.environ.get("OPENAI_API_KEY")
     client = OpenAI(api_key=api_key)
     response = ""
@@ -59,17 +57,17 @@ def main_view(request):
                     full_streaming = db_movie.streaming_services
                     try:
                         streaming = full_streaming["PL"]["flatrate"]        
-                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in streaming]
+                        streaming_services = get_streaming_services(streaming)
                     except:
                         streaming_services = []
                     try:
                         renting = full_streaming["PL"]["rent"]
-                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in renting]
+                        renting_services = get_streaming_services(renting)
                     except:
                         renting_services = []
                     try:
                         buying = full_streaming["PL"]["buy"]
-                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in buying]
+                        buying_services = get_streaming_services(buying)
                     except:
                         buying_services = []
                 else:
@@ -80,15 +78,15 @@ def main_view(request):
                     length = movie_info["Length"]
                     full_streaming = movie_info["Streaming"]
                     try:
-                        streaming_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["flatrate"]]
+                        streaming_services = get_streaming_services(full_streaming["PL"]["flatrate"])
                     except:
                         streaming_services = []
                     try:
-                        renting_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["rent"]]
+                        renting_services = get_streaming_services(full_streaming["PL"]["rent"])
                     except:
                         renting_services = []
                     try:
-                        buying_services = [f"https://image.tmdb.org/t/p/original{platform['logo_path']}" for platform in full_streaming["PL"]["buy"]]
+                        buying_services = get_streaming_services(full_streaming["PL"]["buy"])
                     except:
                         buying_services = []                                                
                     db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = full_streaming, rating=rating, last_update=datetime.today().date())
@@ -109,7 +107,7 @@ def main_view(request):
             return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form, "prompt":prompt, "response":response, "processing_time":processing_time})
     else:
         prompt_form = UserPrompt()
-        welcome_message = "Hello! MovieNeon, the intelligent movie matchmaker, is at your service. Share your prompts, and let MovieNeon craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
+        welcome_message = "Hello! movvie, the intelligent movie matchmaker, is at your service. Share your prompts, and let movvie craft a personalized movie playlist based on your preferences. Begin typing your prompts now!"
     return render(request, "mainapp/main_view.html", {"prompt_form":prompt_form,"welcome_message":welcome_message})
 
 def about_view(request):
@@ -120,18 +118,28 @@ def about_view(request):
             feedback_form.sending_time = timezone.now()
             feedback_form = form.save()
             form=FeedbackForm()
-            # Here I want to display box with thanks for feedback or just redirect to succes_url
             return render(request, "mainapp/about_view.html", {"form":form, "submit_succes":True})
     else:
         form = FeedbackForm()
     return render(request, "mainapp/about_view.html", {"form":form})
+
+
+def get_streaming_services(streaming_data, service_type, country_code="PL"):
+    try:
+        return [
+            f"https://image.tmdb.org/t/p/original{platform['logo_path']}"
+            for platform in streaming_data[country_code][service_type]
+        ]
+    except KeyError:
+        return []
+            
 
 def error_404(request, exception):
     return render(request, 'error.html', status=404)
 
 def error_500(request):
     return render(request, 'error.html', status=500)
-            
+
 
 
 

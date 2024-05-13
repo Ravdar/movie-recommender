@@ -678,6 +678,7 @@ footer div {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    text-align: left;
 }
 
 .question h3 {
