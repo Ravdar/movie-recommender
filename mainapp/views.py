@@ -83,21 +83,21 @@ def main_view(request):
                     movie_link = db_movie.tmdb_link
                     rating = db_movie.rating
                     full_streaming = db_movie.streaming_services
-                try:
-                    streaming = full_streaming["PL"]["flatrate"]        
-                    streaming_services = get_streaming_services(streaming)
-                except:
-                    streaming_services = []
-                try:
-                    renting = full_streaming["PL"]["rent"]
-                    renting_services = get_streaming_services(renting)
-                except:
-                    renting_services = []
-                try:
-                    buying = full_streaming["PL"]["buy"]
-                    buying_services = get_streaming_services(buying)
-                except:
-                    buying_services = []
+                    try:
+                        streaming = full_streaming["PL"]["flatrate"]        
+                        streaming_services = get_streaming_services(streaming)
+                    except:
+                        streaming_services = []
+                    try:
+                        renting = full_streaming["PL"]["rent"]
+                        renting_services = get_streaming_services(renting)
+                    except:
+                        renting_services = []
+                    try:
+                        buying = full_streaming["PL"]["buy"]
+                        buying_services = get_streaming_services(buying)
+                    except:
+                        buying_services = []
                 else:
                     # Fetch movie info from external source if not found in DB
                     movie_info = get_movie_info_tmdb(movie_title, movie_year)

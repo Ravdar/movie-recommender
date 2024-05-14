@@ -35,7 +35,7 @@
         <div class="hero-section">
             <h1>Meet movvie, minimalistic movie recommender fueled with AI.</h1>
             <br>
-
+            
             <p>Just type what is on your mind and let the magic happen!</p>
             <br>
             <br>
@@ -78,7 +78,7 @@
         </div>
         {% endif %}
 
-        <!-- Another loop to create dial modals for full streaming info. -->
+        <!-- Another loop to create dial modals for full streaming info-->
         {% for movie in response %}
         <div class="full-streaming-info center"><button><img class="close-dial" src="{% static 'images/close_dial.png' %}"
                     alt="Close" loading="lazy" width="25" height="25"></button>
@@ -122,15 +122,6 @@
 
     </main>
 
-    <!-- Loading screen -->
-    <div class="loading-screen">
-        <div class="yellow-dot"></div>
-        <div class="aqua-dot"></div>
-        <div class="green-dot"></div>
-        <div class="pink-dot"></div>
-        <div class="blue-dot"></div>
-    </div>
-
     <form id="prompt-form" enctype="multipart/form-data" method="post" onsubmit="displayLoadingScreen()">
         {% csrf_token %}
         <!--{{prompt_form.media}}?-->
@@ -139,16 +130,24 @@
             <div id="submit-tooltip" class="tooltip">Submit</div>
             <button class="submit-button" clicked="0" onmouseover="showTooltip('submit-tooltip','-30%')"
                 onmouseout="hideTooltip('submit-tooltip','-30%')" type="submit"><img
-                    src="{% static 'images/submit_button.png' %}" alt="Submit" wdith="20" height="20"></button>
+                    src="{% static 'images/submit_button.png' %}" alt="Submit" width="20" height="20"></button>
         </div>
         <div class="random-button-container">
             <div id="random-tooltip" class="tooltip">Draw random movies</div>
             <button class="random-button" clicked="0" onmouseover="showTooltip('random-tooltip','-42%')"
                 onmouseout="hideTooltip('random-tooltip','-42%')" onclick="pickRandomMovies()"><img
-                    src="{% static 'images/random_button.png' %}" alt="Random movies" wdith="20" height="20"></button>
+                    src="{% static 'images/random_button.png' %}" alt="Random movies" width="20" height="20"></button>
         </div>
     </form>
-    <div class="form-container"></div>
+
+        <!-- Loading screen -->
+        <div class="loading-screen">
+            <div class="yellow-dot"></div>
+            <div class="aqua-dot"></div>
+            <div class="green-dot"></div>
+            <div class="pink-dot"></div>
+            <div class="blue-dot"></div>
+        </div>
 
 
 </body>
