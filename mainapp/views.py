@@ -23,7 +23,7 @@ def main_view(request):
     
     response = ""
     
-    # Handle POST requests, typically when a user submits a form
+    # Handle POST requests when a user submits a form
     if request.method == "POST":
         start_time = datetime.now()
         
@@ -38,7 +38,7 @@ def main_view(request):
             instructions = settings.INSTRUCTIONS
             prompt_additional_info = settings.PROMPT_ADDITIONAL_INFO
             
-            # Update the assistant with the necessary configuration
+            # Update the assistant with the configuration
             assistant = client.beta.assistants.update(assistant_id=assistant_id, tools=tools, instructions=instructions)
             
             # Create a new thread for conversation
@@ -83,6 +83,21 @@ def main_view(request):
                     movie_link = db_movie.tmdb_link
                     rating = db_movie.rating
                     full_streaming = db_movie.streaming_services
+                try:
+                    streaming = full_streaming["PL"]["flatrate"]        
+                    streaming_services = get_streaming_services(streaming)
+                except:
+                    streaming_services = []
+                try:
+                    renting = full_streaming["PL"]["rent"]
+                    renting_services = get_streaming_services(renting)
+                except:
+                    renting_services = []
+                try:
+                    buying = full_streaming["PL"]["buy"]
+                    buying_services = get_streaming_services(buying)
+                except:
+                    buying_services = []
                 else:
                     # Fetch movie info from external source if not found in DB
                     movie_info = get_movie_info_tmdb(movie_title, movie_year)
@@ -91,20 +106,32 @@ def main_view(request):
                     rating = movie_info["Rating"]
                     length = movie_info["Length"]
                     full_streaming = movie_info["Streaming"]
+                    try:
+                        streaming_services = get_streaming_services(full_streaming["PL"]["flatrate"])
+                    except:
+                        streaming_services = []
+                    try:
+                        renting_services = get_streaming_services(full_streaming["PL"]["rent"])
+                    except:
+                        renting_services = []
+                    try:
+                        buying_services = get_streaming_services(full_streaming["PL"]["buy"])
+                    except:
+                        buying_services = []                                    
                     
                     # Create a new movie record and save it to the database
-                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url=poster_link, tmdb_link=movie_link, streaming_services=full_streaming, rating=rating, last_update=datetime.today().date())
+                    db_movie = Movie(title=movie_title, year=movie["Year"], length=length, poster_url = poster_link, tmdb_link=movie_link, streaming_services = full_streaming, rating=rating, last_update=datetime.today().date())
                     db_movie.save()
                 
-                # Update movie object with additional details for the front-end
+                # Update movie object with additional details
                 movie["Rating"] = rating
                 movie["Poster"] = poster_link
                 movie["Link"] = movie_link
                 movie["Length"] = length
-                movie["Streaming"] = get_streaming_services(full_streaming.get("PL", {}).get("flatrate", []))
-                movie["Renting"] = get_streaming_services(full_streaming.get("PL", {}).get("rent", []))
-                movie["Buying"] = get_streaming_services(full_streaming.get("PL", {}).get("buy", []))
-                movie["Description"] = movie.get("Plot short description", "")
+                movie["Streaming"] = streaming_services
+                movie["Renting"] = renting_services
+                movie["Buying"] = buying_services
+                movie["Description"] = movie["Plot short description"]
                 
                 # Add movie to the recommendation
                 recommendation.recommended_movies.add(db_movie)
@@ -129,6 +156,7 @@ def main_view(request):
     return render(request, "mainapp/main_view.html", {"prompt_form": prompt_form, "welcome_message": welcome_message})
 
 def about_view(request):
+    """Aboot page view, handles FeedbackForm submit."""
     if request.method == "POST":
         form = FeedbackForm(request.POST)
         if form.is_valid():
@@ -143,6 +171,7 @@ def about_view(request):
 
 
 def get_streaming_services(streaming_data):
+    """Get  specific streaming services and their logo for a given streaming data."""
     try:
         return [
             f"https://image.tmdb.org/t/p/original{platform['logo_path']}"
@@ -153,9 +182,11 @@ def get_streaming_services(streaming_data):
             
 
 def error_404(request, exception):
+    """Handles error 404."""
     return render(request, 'error.html', status=404)
 
 def error_500(request):
+    """Handles error 500."""
     return render(request, 'error.html', status=500)
 
 
