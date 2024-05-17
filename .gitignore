@@ -1,3 +1,4 @@
 .env
 .DS_Store
 mv_venv/
+mainapp/test.ipynb
