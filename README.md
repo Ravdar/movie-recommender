@@ -34,13 +34,6 @@ After clicking dice button, application will suggest five random movies
 ### 5. Feedback
 There is feedback form on a website, where users can give their feedback about page, report a bug or question.
 
-# Screenshots
-![movvie-homepage](https://github.com/Ravdar/movie-recommender/assets/97836782/2264e4c2-d050-4dca-a079-2723e47a6c01)
-![movvie-results](https://github.com/Ravdar/movie-recommender/assets/97836782/43752a78-751d-47d6-b712-35648f8cd136)
-![movvie-atch-providers](https://github.com/Ravdar/movie-recommender/assets/97836782/fb0dea28-7671-4732-905f-e3c0922d44a9)
-![movvie-about-page](https://github.com/Ravdar/movie-recommender/assets/97836782/f894ef98-2b14-46da-87a4-e158d9ae43db)
-![movvie-loading-screen](https://github.com/Ravdar/movie-recommender/assets/97836782/df6af2f4-1c06-4953-97db-e28c6b50fa89)
-
 # Techstack
 
 * Django
@@ -48,6 +41,14 @@ There is feedback form on a website, where users can give their feedback about p
 * TMDB API
 * django models
 * django forms
+
+# Screenshots
+![movvie-homepage](https://github.com/Ravdar/movie-recommender/assets/97836782/2264e4c2-d050-4dca-a079-2723e47a6c01)
+![movvie-results](https://github.com/Ravdar/movie-recommender/assets/97836782/43752a78-751d-47d6-b712-35648f8cd136)
+![movvie-atch-providers](https://github.com/Ravdar/movie-recommender/assets/97836782/fb0dea28-7671-4732-905f-e3c0922d44a9)
+![movvie-about-page](https://github.com/Ravdar/movie-recommender/assets/97836782/f894ef98-2b14-46da-87a4-e158d9ae43db)
+![movvie-loading-screen](https://github.com/Ravdar/movie-recommender/assets/97836782/df6af2f4-1c06-4953-97db-e28c6b50fa89)
+
 
 # Installation
 1. Clone the repository:
