@@ -11,7 +11,7 @@ movvie is web application developed using Django and integrated with the OpenAI 
 
 
 
-For a more detailed video with my commentary, click (video no added yet) [here.](https://www.youtube.com/watch?v=VewCNybNQKE)
+For a more detailed video with my commentary, click [here.](https://www.youtube.com/watch?v=iPoaw0x15Wo)
 
 # Features
 
