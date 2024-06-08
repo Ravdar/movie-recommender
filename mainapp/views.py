@@ -183,11 +183,11 @@ def get_streaming_services(streaming_data):
 
 def error_404(request, exception):
     """Handles error 404."""
-    return render(request, 'error.html', status=404)
+    return render(request, '404.html', status=404)
 
 def error_500(request):
     """Handles error 500."""
-    return render(request, 'error.html', status=500)
+    return render(request, '500.html', status=500)
 
 
 

@@ -1,4 +1,7 @@
 .env
-.DS_Store
 mv_venv/
 mainapp/test.ipynb
+**/.DS_Store
+__pycache__/
+*.pyc
+db.sqlite3
